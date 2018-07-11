@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="../lib/zeux.js"></script>
+
+</head>
+<body>
+  <canvas id="c1" width="200" height="200"></canvas>
+  <button id="speed">speed</button>
+  <script type= text/javascript>
+  document.addEventListener("DOMContentLoaded", function(event) { 
+    //var b = new test.Rect(document.getElementById('c1'));
+    //b.update();
+    var a = new zeux.Circle(document.getElementById('c1'));
+    a.draw();
+    
+    var b = 3;
+
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    document.getElementById("speed").addEventListener ("click", d2, false);
+
+    function d2() {
+      a.speed = getRandomInt(10, 50);
+      console.log('speed: ' + a.speed);
+    }
+  });
+ 
+  </script>
+</body>
+</html>
