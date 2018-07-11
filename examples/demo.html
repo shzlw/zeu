@@ -3,32 +3,66 @@
 <head>
 
 <script src="../lib/zeux.js"></script>
+<style>
+html,
+body {
+  font-family: Consolas, monaco, monospace;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #181818;
+}
 
+.box {
+  float: left;
+  width: 200px;
+  height: 200px;
+  background-color: #F8F8FF;
+  margin: 10px;
+  border: 5px solid #00d7af;
+}
+</style>
 </head>
 <body>
-  <canvas id="c1" width="200" height="200"></canvas>
-  <button id="speed">speed</button>
-  <script type= text/javascript>
-  document.addEventListener("DOMContentLoaded", function(event) { 
-    //var b = new test.Rect(document.getElementById('c1'));
-    //b.update();
-    var a = new zeux.Circle(document.getElementById('c1'));
-    a.draw();
-    
-    var b = 3;
+  <div class="box">
+    <canvas id="c1" width="200" height="200"></canvas>
+    <button id="speed">speed</button>
+  </div>
 
-    function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+  <div class="box">
+    <canvas id="c2" width="200" height="200"></canvas>
+  </div>
 
-    document.getElementById("speed").addEventListener ("click", d2, false);
+  <div class="box">
+    <canvas id="c3" width="200" height="200"></canvas>
+  </div>
 
-    function d2() {
-      a.speed = getRandomInt(10, 50);
-      console.log('speed: ' + a.speed);
-    }
-  });
- 
-  </script>
+
+<script type= text/javascript>
+document.addEventListener("DOMContentLoaded", function(event) { 
+  
+  var a = new zeux.Circle(document.getElementById('c1'));
+  a.draw();
+
+  var b = new zeux.Rect(document.getElementById('c2'));
+  b.update();
+  
+  var c = new zeux.VerticalGauge(document.getElementById('c3'));
+  c.draw();
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  document.getElementById("speed").addEventListener ("click", d2, false);
+
+  function d2() {
+    a.speed = getRandomInt(10, 50);
+    console.log('speed: ' + a.speed);
+  }
+});
+
+</script>
 </body>
 </html>
