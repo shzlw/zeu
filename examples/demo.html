@@ -38,6 +38,10 @@ body {
     <canvas id="c3" width="200" height="200"></canvas>
   </div>
 
+  <div class="box">
+    <canvas id="c4" width="200" height="200"></canvas>
+  </div>
+
 
 <script type= text/javascript>
 document.addEventListener("DOMContentLoaded", function(event) { 
@@ -51,6 +55,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var c = new zeux.VerticalGauge(document.getElementById('c3'));
   c.draw();
 
+  var c4 = new zeux.DigitalClcok(document.getElementById('c4'));
+  c4.draw();
+
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -61,6 +68,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     a.speed = getRandomInt(10, 50);
     console.log('speed: ' + a.speed);
   }
+
+  var now = new Date();
+  console.log(now.getHours());
+  console.log(now.getMinutes());
+  console.log(now.getSeconds());
 });
 
 </script>

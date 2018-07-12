@@ -1,4 +1,5 @@
 import BaseCanvas from './base-canvas';
+import Color from './color';
 
 export default class VerticalGauge extends BaseCanvas {
 
@@ -11,7 +12,7 @@ export default class VerticalGauge extends BaseCanvas {
     const x = 10;
     let y = i * 15 + 10;
 
-    this._ctx.fillStyle = 'green';
+    this._ctx.fillStyle = new Color().fill;
     this._ctx.fillRect(x, y, 100, 10);
   }
 
