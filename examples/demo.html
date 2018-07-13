@@ -22,6 +22,10 @@ body {
   margin: 10px;
   border: 5px solid #00d7af;
 }
+
+.pull-left {
+  float: left;
+}
 </style>
 </head>
 <body>
@@ -42,6 +46,13 @@ body {
     <canvas id="c4" width="200" height="200"></canvas>
   </div>
 
+  <div class="box" style="background-color: #181818;">
+    <canvas id="c51" width="100" height="100" class="pull-left"></canvas>
+    <canvas id="c52" width="100" height="100" class="pull-left"></canvas>
+    <canvas id="c53" width="100" height="100" class="pull-left"></canvas>
+    <canvas id="c54" width="100" height="100" class="pull-left"></canvas>
+  </div>
+
 
 <script type= text/javascript>
 document.addEventListener("DOMContentLoaded", function(event) { 
@@ -58,6 +69,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var c4 = new zeux.DigitalClcok(document.getElementById('c4'));
   c4.draw();
 
+  var c51 = new zeux.Fan(document.getElementById('c51'), {centerColor: '#181818', speed: 2});
+  c51.start();
+
+  var c52 = new zeux.Fan(document.getElementById('c52'), {centerColor: '#181818', speed: 3});
+  c52.start();
+
+  var c53 = new zeux.Fan(document.getElementById('c53'), {speed: 3});
+  c53.start();
+
+  var c54 = new zeux.Fan(document.getElementById('c54'), {speed: 4});
+  c54.start();
+
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -69,10 +92,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     console.log('speed: ' + a.speed);
   }
 
-  var now = new Date();
-  console.log(now.getHours());
-  console.log(now.getMinutes());
-  console.log(now.getSeconds());
 });
 
 </script>

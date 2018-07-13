@@ -40,8 +40,6 @@ export default class DigitalClock extends BaseCanvas {
       let d = Math.floor(t / 10);
       let r = t % 10;
 
-      console.log(d + ' ' + r);
-
       this.drawNumber(d);
       this._ctx.translate(this._bw * 2 + this._bh + this._space, 0);
       this.drawNumber(r);
