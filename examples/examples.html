@@ -31,7 +31,7 @@ h3 {
 
   <div class="panel">
     <h3>Fan</h3>
-    <canvas id="fan-1" width="150" height="150"></canvas>
+    <canvas id="round-fan-1" width="150" height="150"></canvas>
     <button id="toggle-fan">ON/OFF</button>
   </div>
 
@@ -50,22 +50,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
   );
   digitalClock1.draw();
 
-  var fan1 = new zeu.Fan(document.getElementById('fan-1'));
-  fan1.start();
+  var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'));
+  roundFan1.on();
 
   setInterval(function() {
     digitalClock1.numberColor = getRandomColor();
 
-    fan1.speed = getRandomInt(1, 5);
-    fan1.fanColor = getRandomColor();
-    fan1.centerColor = getRandomColor();
+    roundFan1.speed = getRandomInt(1, 5);
+    roundFan1.fanColor = getRandomColor();
+    roundFan1.centerColor = getRandomColor();
   }, 3000);
 
   document.getElementById("toggle-fan").addEventListener ("click", function() {
-    if (fan1.isAnimationOn) {
-      fan1.stop();
+    if (roundFan1.isAnimationOn) {
+      roundFan1.off();
     } else {
-      fan1.start();
+      roundFan1.on();
     }
   }, false);
 

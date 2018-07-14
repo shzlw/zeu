@@ -3,6 +3,13 @@ import Rect from './Rect.js';
 import Color from './color.js';
 import VerticalGauge from './veritical-gauge';
 import DigitalClcok from './digital-clock';
-import Fan from './fan';
+import RoundFan from './round-fan';
 
-export { Circle, Rect, Color, VerticalGauge, DigitalClcok, Fan };
+export {
+  Circle,
+  Rect,
+  Color,
+  VerticalGauge,
+  DigitalClcok,
+  RoundFan
+};

@@ -76,17 +76,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
   );
   c4.draw();
 
-  var c51 = new zeu.Fan(document.getElementById('c51'), {centerColor: '#181818', speed: 2});
-  c51.start();
+  var c51 = new zeu.RoundFan(document.getElementById('c51'), {centerColor: '#181818', speed: 2});
+  c51.on();
 
-  var c52 = new zeu.Fan(document.getElementById('c52'), {centerColor: '#181818', speed: 3});
-  c52.start();
+  var c52 = new zeu.RoundFan(document.getElementById('c52'), {centerColor: '#181818', speed: 3});
+  c52.on();
 
-  var c53 = new zeu.Fan(document.getElementById('c53'), {speed: 3});
-  c53.start();
+  var c53 = new zeu.RoundFan(document.getElementById('c53'), {speed: 3});
+  c53.on();
 
-  var c54 = new zeu.Fan(document.getElementById('c54'), {speed: 4});
-  c54.start();
+  var c54 = new zeu.RoundFan(document.getElementById('c54'), {speed: 4});
+  c54.on();
 
   setInterval(function() {
     c54.speed = getRandomInt(1, 5);
@@ -105,9 +105,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   document.getElementById("speed").addEventListener ("click", d2, false);
   document.getElementById("toggle-fan").addEventListener ("click", function() {
     if (c54.isAnimationOn) {
-      c54.stop();
+      c54.off();
     } else {
-      c54.start();
+      c54.on();
     }
   }, false);
 

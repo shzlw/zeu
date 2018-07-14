@@ -2,7 +2,7 @@ import BaseCanvas from './base-canvas';
 import Color from './color';
 import Utility from './utility';
 
-export default class Fan extends BaseCanvas {
+export default class RoundFan extends BaseCanvas {
 
   constructor(canvas, options) {
     super(canvas);
@@ -15,11 +15,11 @@ export default class Fan extends BaseCanvas {
     this._ctx.globalCompositeOperation = 'destination-over';
   }
 
-  start() {
+  on() {
     super.startAnimation();
   }
 
-  stop() {
+  off() {
     super.stopAnimation();
   }
 
