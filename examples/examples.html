@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="../lib/zeux.js"></script>
+<style>
+html,
+body {
+  font-family: Consolas, monaco, monospace;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.panel {
+  padding: 10px;
+}
+
+h3 {
+  margin: 5px 0px;
+}
+
+</style>
+</head>
+<body>
+  <div class="panel">
+    <h3>Digital Clock</h3>
+    <canvas id="digital-clock-1" width="400" height="100"></canvas>
+  </div>
+
+  <div class="panel">
+    <h3>Fan</h3>
+    <canvas id="fan-1" width="150" height="150"></canvas>
+    <button id="toggle-fan">ON/OFF</button>
+  </div>
+
+
+<script type= text/javascript>
+document.addEventListener("DOMContentLoaded", function(event) { 
+
+  var digitalClock1 = new zeux.DigitalClcok(
+    document.getElementById('digital-clock-1'), 
+    {
+      dashColor: '#DCDCDC',
+      barWidth: 8,
+      barHeight : 30,
+      space: 10
+    }
+  );
+  digitalClock1.draw();
+
+  var fan1 = new zeux.Fan(document.getElementById('fan-1'));
+  fan1.start();
+
+  setInterval(function() {
+    digitalClock1.numberColor = getRandomColor();
+
+    fan1.speed = getRandomInt(1, 5);
+    fan1.fanColor = getRandomColor();
+    fan1.centerColor = getRandomColor();
+  }, 3000);
+
+  document.getElementById("toggle-fan").addEventListener ("click", function() {
+    if (fan1.isAnimationOn) {
+      fan1.stop();
+    } else {
+      fan1.start();
+    }
+  }, false);
+
+  function getRandomColor() {
+    return '#' + ((1 << 24) * Math.random() | 0).toString(16);
+  }
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  
+
+
+});
+
+</script>
+</body>
+</html>

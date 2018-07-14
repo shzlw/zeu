@@ -8,7 +8,7 @@ export default class Fan extends BaseCanvas {
     super(canvas);
 
     this._angle = 0;
-    this._fanColor = new Color().fill;
+    this._fanColor = Utility.has(options, 'fanColor') ? options.fanColor : new Color().fill;
     this._centerColor = Utility.has(options, 'centerColor') ? options.centerColor : '#FFFFFF';
     this._speed = Utility.has(options, 'speed') ? options.speed : 1;
 
@@ -16,18 +16,38 @@ export default class Fan extends BaseCanvas {
   }
 
   start() {
-    super.animate();
+    super.startAnimation();
   }
 
   stop() {
-
+    super.stopAnimation();
   }
 
   set speed(speed) {
     this._speed = speed;
   }
 
-  draw() {
+  get speed() {
+    return this._speed;
+  }
+
+  set centerColor(color) {
+    this._centerColor = color;
+  }
+
+  get centerColor() {
+    this._centerColor;
+  }
+
+  set fanColor(color) {
+    this._fanColor = color;
+  }
+
+  get fanColor() {
+    this._fanColor;
+  }
+
+  drawFrame() {
     this.clearAll();
     this._ctx.save();
     this.scale();

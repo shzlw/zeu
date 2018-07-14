@@ -1,13 +1,38 @@
 import BaseCanvas from './base-canvas';
+import Utility from './utility';
 import Color from './color';
 
 export default class DigitalClock extends BaseCanvas {
 
-  constructor(canvas) {
+  constructor(canvas, options) {
     super(canvas);
-    this._bw = 4; // Bar width
-    this._bh = 20; // Bar height
-    this._space = 10;
+
+    // Bar width
+    this._bw = Utility.has(options, 'barWidth') ? options.barWidth : 4;
+
+    // Bar height
+    this._bh = Utility.has(options, 'barHeight') ? options.barHeight : 20;
+
+    // Space between numbers
+    this._space = Utility.has(options, 'space') ? options.space : 10;
+    this._numberColor = Utility.has(options, 'numberColor') ? options.numberColor : new Color().fill;
+    this._dashColor = Utility.has(options, 'dashColor') ? options.dashColor : new Color().border;
+  }
+
+  set numberColor(color) {
+    this._numberColor = color;
+  }
+
+  get numberColor() {
+    this._numberColor;
+  }
+
+  set dashColor(color) {
+    this.dashColor = color;
+  }
+
+  get dashColor() {
+    this.dashColor;
   }
 
   draw() {
@@ -17,17 +42,30 @@ export default class DigitalClock extends BaseCanvas {
       this.clearAll();
       this._ctx.save();
 
+      this._ctx.translate(this._space, this._space);
+
       // Draw hour.
       this.drawTime(now.getHours());
+      this.drawInterpoint();
 
       // Draw minute.
       this.drawTime(now.getMinutes());
+      this.drawInterpoint();
 
       // Draw second.
       this.drawTime(now.getSeconds());
 
       this._ctx.restore();
     }, 1000);
+  }
+
+  drawInterpoint() {
+    this._ctx.beginPath();
+    this._ctx.fillStyle = this._numberColor;
+    this._ctx.fillRect(0, (this._bh * 2 + this._bw) / 3, this._bw, this._bw);
+    this._ctx.fillRect(0, (this._bh * 2 + this._bw) / 3 * 2 + this._bw, this._bw, this._bw);
+    this._ctx.translate(this._bw + this._space, 0);
+    this._ctx.closePath();
   }
 
   drawTime(t) {
@@ -49,7 +87,7 @@ export default class DigitalClock extends BaseCanvas {
 
   drawEmpty() {
     this._ctx.beginPath();
-    this._ctx.fillStyle = new Color().border;
+    this._ctx.fillStyle = this._dashColor;
     this._ctx.moveTo(0, 0);
     this.vTopLeft();
     this.vBottomLeft();
@@ -98,7 +136,7 @@ export default class DigitalClock extends BaseCanvas {
   drawNumber(n) {
     this.drawEmpty();
     this._ctx.beginPath();
-    this._ctx.fillStyle = new Color().fill;
+    this._ctx.fillStyle = this._numberColor;
 
     switch (n) {
       case 0:
@@ -156,8 +194,8 @@ export default class DigitalClock extends BaseCanvas {
       case 8:
         this.vTopLeft();
         this.vBottomLeft();
-        this.vTopLeft();
         this.vTopRight();
+        this.vBottomRight();
         this.hTop();
         this.hMiddle();
         this.hBottom();

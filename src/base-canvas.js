@@ -15,6 +15,7 @@ export default class BaseCanvas {
     this._fpsInterval = 1000 / this._fps;
     this._lastFrame = Date.now();
 
+    // Bind the animate function.
     this.animate = this.animate.bind(this);
   }
 
@@ -26,6 +27,24 @@ export default class BaseCanvas {
     this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
   }
 
+  startAnimation() {
+    if (this._animationTimer == null) {
+      this.animate();
+    }
+  }
+
+  stopAnimation() {
+    if (this._animationTimer != null) {
+      window.cancelAnimationFrame(this._animationTimer);
+      this._animationTimer = null;
+      this.drawFrame();
+    }
+  }
+
+  get isAnimationOn() {
+    return this._animationTimer != null;
+  }
+
   animate() {
     this._animationTimer = window.requestAnimationFrame(this.animate);
     let now = Date.now();
@@ -35,11 +54,11 @@ export default class BaseCanvas {
       this._lastFrame = now - (elapsed % this._fpsInterval);
 
       // Draw
-      this.draw();
+      this.drawFrame();
     }
   }
 
-  draw() {
+  drawFrame() {
 
   }
 
