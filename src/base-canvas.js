@@ -17,6 +17,11 @@ export default class BaseCanvas {
 
     // Bind the animate function.
     this.animate = this.animate.bind(this);
+
+    // Default color
+    this._fontColor = '#181818';
+    this._lineColor = '#F8F8FF';
+    this._fillColor = '#00D7AF';
   }
 
   scale() {

@@ -7,16 +7,21 @@ export default class VolumeMeter extends BaseCanvas {
 
   constructor(canvas, options) {
     super(canvas);
+    this._width = 200;
+    this._height = 200;
 
     this._min = 0;
     this._max = 100;
     this._value = 50;
     this._speed = 1;
 
-    this._margin = 10;
-    this._meterWidth = 150;
+    this._lineWidth = 5;
+
+    this._margin = 80;
+    this._meterWidth = 50;
     this._meterHeight = 180;
-    this._y = this._meterHeight - ((this._value / (this._max - this._min)) * this._meterHeight);
+    // Ignore line width totaly.
+    this._y = this._meterHeight - ((this._value / (this._max - this._min)) * this._meterHeight) + 10;
     this._nextY = this._y;
   }
 
@@ -29,10 +34,8 @@ export default class VolumeMeter extends BaseCanvas {
         // Move up
         this._speed = -Math.abs(this._speed);
       }
-      this._nextY = this._meterHeight - ((n / (this._max - this._min)) * this._meterHeight);
-      // console.log('pre: ' + this._value + ' next: ' + n);
+      this._nextY = this._meterHeight - ((n / (this._max - this._min)) * this._meterHeight) + 10;
       this._value = n;
-      // console.log('pre Y: ' + this._y + ' next Y: ' + this._nextY + ' Speed: ' + this._speed);
     } else {
       // TODO: out of range!
     }
@@ -48,16 +51,28 @@ export default class VolumeMeter extends BaseCanvas {
     this.scale();
 
     this._ctx.moveTo(0, 0);
-    this._ctx.fillStyle = 'green';
-    this._ctx.fillRect(10, this._y, this._meterWidth, 190 - this._y);
+    this._ctx.fillStyle = this._fillColor;
+    // Draw the filled part.
+    this._ctx.fillRect(80, this._y, this._meterWidth, 190 - this._y);
 
     if ((this._speed > 0 && this._y <= this._nextY) || (this._speed <= 0 && this._y >= this._nextY)) {
       this._y += this._speed;
     }
 
-    this._ctx.rect(10, 10, this._meterWidth, this._meterHeight);
-    this._ctx.lineWidth = 5;
+    // Draw the border.
+    this._ctx.rect(80, 10, this._meterWidth, this._meterHeight);
+    this._ctx.lineWidth = this._lineWidth;
+    this._ctx.strokeStyle = this._fontColor;
     this._ctx.stroke();
+
+    this._ctx.fillStyle = this._fontColor;
+    this._ctx.font = '15px Arial';
+    // Draw max number.
+    this._ctx.fillText(this._max, 50, 15);
+    // Draw min number.
+    this._ctx.fillText(this._min, 50, this._meterHeight + 15);
+    // Draw value.
+    this._ctx.fillText(this._value, this._meterWidth + 50 + 35, this._y + 15 * 0.5);
 
     this._ctx.restore();
   }

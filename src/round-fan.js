@@ -6,8 +6,9 @@ export default class RoundFan extends BaseCanvas {
 
   constructor(canvas, options) {
     super(canvas);
+    this._width = 200;
+    this._height = 200;
 
-    this._angle = 0;
     this._fanColor = Utility.has(options, 'fanColor') ? options.fanColor : new Color().fill;
     this._centerColor = Utility.has(options, 'centerColor') ? options.centerColor : '#FFFFFF';
     this._speed = Utility.has(options, 'speed') ? options.speed : 1;
@@ -52,9 +53,13 @@ export default class RoundFan extends BaseCanvas {
     this._ctx.save();
     this.scale();
 
-    this._angle = (this._angle + this._speed) % 360;
     this._ctx.translate(100, 100);
-    this._ctx.rotate(this._angle * Math.PI / 180);
+    let now = new Date();
+
+    this._ctx.rotate(
+      ((this._speed * Math.PI) / 6) * now.getSeconds() +
+      ((this._speed * Math.PI) / 6000) * now.getMilliseconds()
+    );
 
     this._ctx.strokeStyle = this._centerColor;
     this._ctx.beginPath();

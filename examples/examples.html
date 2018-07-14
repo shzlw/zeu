@@ -31,7 +31,7 @@ h3 {
 
   <div class="panel">
     <h3>Fan</h3>
-    <canvas id="round-fan-1" width="150" height="150"></canvas>
+    <canvas id="round-fan-1" width="100" height="100"></canvas>
     <button id="toggle-fan">ON/OFF</button>
   </div>
 
@@ -73,11 +73,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   setInterval(function() {
     digitalClock1.numberColor = getRandomColor();
 
-    // roundFan1.speed = getRandomInt(1, 5);
+    roundFan1.speed = getRandomInt(1, 5);
     roundFan1.fanColor = getRandomColor();
     roundFan1.centerColor = getRandomColor();
 
-    volumeMeter1.value = getRandomInt(10, 80);
+    volumeMeter1.value = getRandomInt(0, 100);
   }, 3000);
 
   function getRandomColor() {
