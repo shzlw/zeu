@@ -1,22 +1,22 @@
 {
-  "name": "zeux",
+  "name": "zeu",
   "version": "0.0.1",
-  "description": "zeux",
-  "main": "lib/zeux.js",
+  "description": "zeu",
+  "main": "lib/zeu.js",
   "scripts": {
     "build": "webpack --env dev && webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/shzlw/zeux"
+    "url": "https://github.com/shzlw/zeu"
   },
   "keywords": [
-    "zeux"
+    "zeu"
   ],
   "author": "Zhonglu Wang",
   "license": "MIT",
-  "homepage": "https://github.com/shzlw/zeux",
+  "homepage": "https://github.com/shzlw/zeu",
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.51",
     "@babel/core": "^7.0.0-beta.51",
@@ -26,7 +26,7 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^7.0.0-beta.3",
     "babel-register": "^7.0.0-beta.3",
-    "eslint": "^5.0.1",
+    "eslint": "^5.0.0",
     "eslint-loader": "^2.0.0",
     "jsdom": "11.11.0",
     "jsdom-global": "3.0.2",

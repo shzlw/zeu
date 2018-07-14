@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<script src="../lib/zeux.js"></script>
+<script src="../lib/zeu.js"></script>
 <style>
 html,
 body {
@@ -56,16 +56,16 @@ body {
 <script type= text/javascript>
 document.addEventListener("DOMContentLoaded", function(event) { 
   
-  var a = new zeux.Circle(document.getElementById('c1'));
+  var a = new zeu.Circle(document.getElementById('c1'));
   a.draw();
 
-  var b = new zeux.Rect(document.getElementById('c2'));
+  var b = new zeu.Rect(document.getElementById('c2'));
   b.update();
   
-  var c = new zeux.VerticalGauge(document.getElementById('c3'));
+  var c = new zeu.VerticalGauge(document.getElementById('c3'));
   c.draw();
 
-  var c4 = new zeux.DigitalClcok(
+  var c4 = new zeu.DigitalClcok(
     document.getElementById('c4'), 
     {
       dashColor: '#181818',
@@ -76,16 +76,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
   );
   c4.draw();
 
-  var c51 = new zeux.Fan(document.getElementById('c51'), {centerColor: '#181818', speed: 2});
+  var c51 = new zeu.Fan(document.getElementById('c51'), {centerColor: '#181818', speed: 2});
   c51.start();
 
-  var c52 = new zeux.Fan(document.getElementById('c52'), {centerColor: '#181818', speed: 3});
+  var c52 = new zeu.Fan(document.getElementById('c52'), {centerColor: '#181818', speed: 3});
   c52.start();
 
-  var c53 = new zeux.Fan(document.getElementById('c53'), {speed: 3});
+  var c53 = new zeu.Fan(document.getElementById('c53'), {speed: 3});
   c53.start();
 
-  var c54 = new zeux.Fan(document.getElementById('c54'), {speed: 4});
+  var c54 = new zeu.Fan(document.getElementById('c54'), {speed: 4});
   c54.start();
 
   setInterval(function() {

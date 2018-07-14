@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<script src="../lib/zeux.js"></script>
+<script src="../lib/zeu.js"></script>
 <style>
 html,
 body {
@@ -39,7 +39,7 @@ h3 {
 <script type= text/javascript>
 document.addEventListener("DOMContentLoaded", function(event) { 
 
-  var digitalClock1 = new zeux.DigitalClcok(
+  var digitalClock1 = new zeu.DigitalClcok(
     document.getElementById('digital-clock-1'), 
     {
       dashColor: '#DCDCDC',
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   );
   digitalClock1.draw();
 
-  var fan1 = new zeux.Fan(document.getElementById('fan-1'));
+  var fan1 = new zeu.Fan(document.getElementById('fan-1'));
   fan1.start();
 
   setInterval(function() {

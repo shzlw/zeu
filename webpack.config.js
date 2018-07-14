@@ -5,7 +5,7 @@ const path = require('path');
 const env = require('yargs').argv.env; // use --env with webpack 2
 const pkg = require('./package.json');
 
-let libraryName = 'zeux';
+let libraryName = 'zeu';
 
 let outputFile, mode;
 

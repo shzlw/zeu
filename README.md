@@ -1,10 +1,10 @@
-# Zeux.js
+# Zeu.js
 
-![Travis CI](https://travis-ci.org/shzlw/zeux.svg?branch=master)
+![Travis CI](https://travis-ci.org/shzlw/zeu.svg?branch=master)
 
 ## Usage
 
-[Examples](https://shzlw.github.io/zeux/examples/demo.html)
+[Examples](https://shzlw.github.io/zeu/examples/demo.html)
 
 ## License
 
