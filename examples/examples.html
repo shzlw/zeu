@@ -35,6 +35,11 @@ h3 {
     <button id="toggle-fan">ON/OFF</button>
   </div>
 
+  <div class="panel">
+    <h3>Volume Meter</h3>
+    <canvas id="volume-meter-1" width="200" height="200"></canvas>
+  </div>
+
 
 <script type= text/javascript>
 document.addEventListener("DOMContentLoaded", function(event) { 
@@ -51,15 +56,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   digitalClock1.draw();
 
   var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'));
+  roundFan1.speed = 5;
   roundFan1.on();
-
-  setInterval(function() {
-    digitalClock1.numberColor = getRandomColor();
-
-    roundFan1.speed = getRandomInt(1, 5);
-    roundFan1.fanColor = getRandomColor();
-    roundFan1.centerColor = getRandomColor();
-  }, 3000);
 
   document.getElementById("toggle-fan").addEventListener ("click", function() {
     if (roundFan1.isAnimationOn) {
@@ -68,6 +66,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
       roundFan1.on();
     }
   }, false);
+
+  var volumeMeter1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'));
+  volumeMeter1.startAnimation();
+
+  setInterval(function() {
+    digitalClock1.numberColor = getRandomColor();
+
+    // roundFan1.speed = getRandomInt(1, 5);
+    roundFan1.fanColor = getRandomColor();
+    roundFan1.centerColor = getRandomColor();
+
+    volumeMeter1.value = getRandomInt(10, 80);
+  }, 3000);
 
   function getRandomColor() {
     return '#' + ((1 << 24) * Math.random() | 0).toString(16);

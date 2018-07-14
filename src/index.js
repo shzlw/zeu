@@ -1,15 +1,17 @@
 import Circle from './circle.js';
 import Rect from './Rect.js';
 import Color from './color.js';
-import VerticalGauge from './veritical-gauge';
-import DigitalClcok from './digital-clock';
-import RoundFan from './round-fan';
+import BarMeter from './bar-meter.js';
+import DigitalClcok from './digital-clock.js';
+import RoundFan from './round-fan.js';
+import VolumeMeter from './volume-meter';
 
 export {
   Circle,
   Rect,
   Color,
-  VerticalGauge,
+  BarMeter,
   DigitalClcok,
-  RoundFan
+  RoundFan,
+  VolumeMeter
 };
