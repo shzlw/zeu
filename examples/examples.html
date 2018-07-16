@@ -40,6 +40,16 @@ h3 {
     <canvas id="volume-meter-1" width="200" height="200"></canvas>
   </div>
 
+  <div class="panel">
+    <h3>Message Queue</h3>
+    <canvas id="message-queue" width="200" height="200"></canvas>
+  </div>
+
+  <div class="panel">
+    <h3>Heatbeat</h3>
+    <canvas id="heatbeat" width="200" height="200"></canvas>
+  </div>
+
 
 <script type= text/javascript>
 document.addEventListener("DOMContentLoaded", function(event) { 
@@ -55,10 +65,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   );
   digitalClock1.draw();
 
+  
   var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'));
   roundFan1.speed = 5;
   roundFan1.on();
-
+  
   document.getElementById("toggle-fan").addEventListener ("click", function() {
     if (roundFan1.isAnimationOn) {
       roundFan1.off();
@@ -67,18 +78,39 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
   }, false);
 
+  setInterval(function() {
+    roundFan1.speed = getRandomInt(1, 5);
+    roundFan1.fanColor = getRandomColor();
+    roundFan1.centerColor = getRandomColor();
+  }, 2000);
+  
+
   var volumeMeter1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'));
   volumeMeter1.startAnimation();
+
+  
+  var messageQueue = new zeu.MessageQueue(document.getElementById('message-queue'));
+  messageQueue.startAnimation();
+  setInterval(function() {
+    var now = new Date();
+    var data = now.getMinutes() + ':' + now.getSeconds();
+    var color = getRandomColor();
+
+    messageQueue.push({val: data, x: 20, y: 200, color: color});
+  }, 500);
+  
 
   setInterval(function() {
     digitalClock1.numberColor = getRandomColor();
 
-    roundFan1.speed = getRandomInt(1, 5);
-    roundFan1.fanColor = getRandomColor();
-    roundFan1.centerColor = getRandomColor();
-
     volumeMeter1.value = getRandomInt(0, 100);
+
   }, 3000);
+
+  var heatbeat = new zeu.Heatbeat(document.getElementById('heatbeat'));
+  heatbeat.beat();
+
+  
 
   function getRandomColor() {
     return '#' + ((1 << 24) * Math.random() | 0).toString(16);

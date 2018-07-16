@@ -1,3 +1,4 @@
+import { GLOBAL } from './global';
 
 export default class BaseCanvas {
 
@@ -10,18 +11,14 @@ export default class BaseCanvas {
     // Base scale on the height.
     this._heightScale = this._canvas.height / this._height;
 
-    // Animation parameters.
-    this._fps = 60;
-    this._fpsInterval = 1000 / this._fps;
-    this._lastFrame = Date.now();
-
-    // Bind the animate function.
-    this.animate = this.animate.bind(this);
+    // Bind the drawFrame function.
+    this.drawFrame = this.drawFrame.bind(this);
 
     // Default color
     this._fontColor = '#181818';
     this._lineColor = '#F8F8FF';
     this._fillColor = '#00D7AF';
+
   }
 
   scale() {
@@ -33,39 +30,56 @@ export default class BaseCanvas {
   }
 
   startAnimation() {
-    if (this._animationTimer == null) {
-      this.animate();
+    let index = this.getAnimationFrameArrayPos();
+
+    if (index === -1) {
+      GLOBAL.requestAnimationFrameArray.push(this.drawFrameObj());
     }
   }
 
   stopAnimation() {
-    if (this._animationTimer != null) {
-      window.cancelAnimationFrame(this._animationTimer);
-      this._animationTimer = null;
-      this.drawFrame();
+    let index = this.getAnimationFrameArrayPos();
+
+    if (index !== -1) {
+      GLOBAL.requestAnimationFrameArray.splice(index, 1);
     }
+  }
+
+  drawFrameObj() {
+    return {
+      func: this.drawFrame,
+      self: this
+    };
   }
 
   get isAnimationOn() {
-    return this._animationTimer != null;
+    return this.getAnimationFrameArrayPos() !== -1;
   }
 
-  animate() {
-    this._animationTimer = window.requestAnimationFrame(this.animate);
-    let now = Date.now();
-    let elapsed = now - this._lastFrame;
+  getAnimationFrameArrayPos() {
+    let index = -1;
 
-    if (elapsed > this._fpsInterval) {
-      this._lastFrame = now - (elapsed % this._fpsInterval);
+    for (let i = 0; i < GLOBAL.requestAnimationFrameArray.length; i++) {
+      let drawFrameObj = GLOBAL.requestAnimationFrameArray[i];
 
-      // Draw
-      this.drawFrame();
+      if (drawFrameObj.self._canvas.id === this._canvas.id) {
+        index = i;
+        break;
+      }
+
     }
+    return index;
   }
 
-  drawFrame() {
-
+  /*
+  animate2() {
+    this._animationTimer = setInterval(() => {
+      this.drawFrame();
+    }, 1000 / this._fps);
   }
+  */
+
+  drawFrame() {}
 
 }
 

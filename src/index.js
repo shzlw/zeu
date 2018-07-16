@@ -1,17 +1,23 @@
 import Circle from './circle.js';
-import Rect from './Rect.js';
 import Color from './color.js';
 import BarMeter from './bar-meter.js';
 import DigitalClcok from './digital-clock.js';
 import RoundFan from './round-fan.js';
 import VolumeMeter from './volume-meter';
+import MessageQueue from './message-queue';
+import Heatbeat from './heatbeat';
+import AnimationTimer from './global';
 
 export {
   Circle,
-  Rect,
   Color,
   BarMeter,
   DigitalClcok,
   RoundFan,
-  VolumeMeter
+  VolumeMeter,
+  MessageQueue,
+  Heatbeat
 };
+
+// Fire up window.requestAnimationFrame()
+new AnimationTimer().animate();

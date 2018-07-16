@@ -1,7 +1,5 @@
 
 import BaseCanvas from './base-canvas';
-// import Utility from './utility';
-// import Color from './color';
 
 export default class VolumeMeter extends BaseCanvas {
 
@@ -13,7 +11,7 @@ export default class VolumeMeter extends BaseCanvas {
     this._min = 0;
     this._max = 100;
     this._value = 50;
-    this._speed = 1;
+    this._speed = 3;
 
     this._lineWidth = 5;
 

@@ -17,11 +17,11 @@ export default class RoundFan extends BaseCanvas {
   }
 
   on() {
-    super.startAnimation();
+    this.startAnimation();
   }
 
   off() {
-    super.stopAnimation();
+    this.stopAnimation();
   }
 
   set speed(speed) {
