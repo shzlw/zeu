@@ -6,10 +6,6 @@ export default class Heartbeat extends BaseCanvas {
   constructor(canvas) {
     super(canvas);
     this._a = 0;
-
-    this._ctx.moveTo(0, 0);
-    this._ctx.beginPath();
-    this._ctx.lineCap = 'round';
   }
 
   beat() {
@@ -26,5 +22,25 @@ export default class Heartbeat extends BaseCanvas {
       }
       this._ctx.stroke();
     }, 100);
+  }
+
+  drawFrame() {
+    this.clearAll();
+    this._ctx.save();
+
+    this._ctx.beginPath();
+    this._ctx.moveTo(-50, 100);
+
+    this._ctx.lineTo(this._a - 20, 100);
+    this._ctx.lineTo(this._a, 50);
+    this._ctx.lineTo(this._a + 20, 100);
+    this._ctx.lineTo(this._a + 260, 100);
+    this._a += 1;
+    if (this._a > 260) {
+      this._a = -40;
+    }
+    this._ctx.stroke();
+
+    this._ctx.restore();
   }
 }

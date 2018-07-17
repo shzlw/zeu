@@ -1,22 +1,26 @@
-import Circle from './circle.js';
-import Color from './color.js';
-import BarMeter from './bar-meter.js';
-import DigitalClcok from './digital-clock.js';
-import RoundFan from './round-fan.js';
+import Circle from './circle';
+import BarMeter from './bar-meter';
+import DigitalClcok from './digital-clock';
+import RoundFan from './round-fan';
 import VolumeMeter from './volume-meter';
 import MessageQueue from './message-queue';
 import Heatbeat from './heatbeat';
-import AnimationTimer from './global';
+import BlinkDialog from './blink-dialog';
+import BlinkBox from './blink-box';
+import AutoScrollPanel from './auto-scroll-panel';
+import AnimationTimer from './animation-timer';
 
 export {
   Circle,
-  Color,
   BarMeter,
   DigitalClcok,
   RoundFan,
   VolumeMeter,
   MessageQueue,
-  Heatbeat
+  Heatbeat,
+  BlinkDialog,
+  BlinkBox,
+  AutoScrollPanel
 };
 
 // Fire up window.requestAnimationFrame()

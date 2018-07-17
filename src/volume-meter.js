@@ -3,8 +3,8 @@ import BaseCanvas from './base-canvas';
 
 export default class VolumeMeter extends BaseCanvas {
 
-  constructor(canvas, options) {
-    super(canvas);
+  constructor(baseDiv, options) {
+    super(baseDiv);
     this._width = 200;
     this._height = 200;
 
@@ -45,11 +45,10 @@ export default class VolumeMeter extends BaseCanvas {
 
   drawFrame() {
     this.clearAll();
-    this._ctx.save();
-    this.scale();
 
     this._ctx.moveTo(0, 0);
     this._ctx.fillStyle = this._fillColor;
+    this._ctx.beginPath();
     // Draw the filled part.
     this._ctx.fillRect(80, this._y, this._meterWidth, 190 - this._y);
 
@@ -61,7 +60,6 @@ export default class VolumeMeter extends BaseCanvas {
     this._ctx.rect(80, 10, this._meterWidth, this._meterHeight);
     this._ctx.lineWidth = this._lineWidth;
     this._ctx.strokeStyle = this._fontColor;
-    this._ctx.stroke();
 
     this._ctx.fillStyle = this._fontColor;
     this._ctx.font = '15px Arial';
@@ -71,7 +69,6 @@ export default class VolumeMeter extends BaseCanvas {
     this._ctx.fillText(this._min, 50, this._meterHeight + 15);
     // Draw value.
     this._ctx.fillText(this._value, this._meterWidth + 50 + 35, this._y + 15 * 0.5);
-
-    this._ctx.restore();
+    this._ctx.stroke();
   }
 }

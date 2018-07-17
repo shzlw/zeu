@@ -2,14 +2,20 @@ import { GLOBAL } from './global';
 
 export default class BaseCanvas {
 
-  constructor(canvas) {
-    this._canvas = canvas;
-    this._ctx = canvas.getContext('2d');
+  constructor(baseDiv) {
+    this._div = baseDiv;
+    this._canvas = document.createElement('canvas');
+    this._canvas.setAttribute('width', baseDiv.clientWidth);
+    this._canvas.setAttribute('height', baseDiv.clientHeight);
+    this._div.appendChild(this._canvas);
+    this._ctx = this._canvas.getContext('2d');
     this._width = 200;
     this._height = 200;
 
     // Base scale on the height.
-    this._heightScale = this._canvas.height / this._height;
+    // this._heightScale = this._canvas.height / this._height;
+    // this._canvas.style.transformOrigin = '0 0'; // scale from top left
+    // this._canvas.style.transform = 'scale(' + this._heightScale + ')';
 
     // Bind the drawFrame function.
     this.drawFrame = this.drawFrame.bind(this);
@@ -62,7 +68,7 @@ export default class BaseCanvas {
     for (let i = 0; i < GLOBAL.requestAnimationFrameArray.length; i++) {
       let drawFrameObj = GLOBAL.requestAnimationFrameArray[i];
 
-      if (drawFrameObj.self._canvas.id === this._canvas.id) {
+      if (drawFrameObj.self._div.id === this._div.id) {
         index = i;
         break;
       }

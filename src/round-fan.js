@@ -4,8 +4,8 @@ import Utility from './utility';
 
 export default class RoundFan extends BaseCanvas {
 
-  constructor(canvas, options) {
-    super(canvas);
+  constructor(baseDiv, options) {
+    super(baseDiv);
     this._width = 200;
     this._height = 200;
 
@@ -51,8 +51,6 @@ export default class RoundFan extends BaseCanvas {
   drawFrame() {
     this.clearAll();
     this._ctx.save();
-    this.scale();
-
     this._ctx.translate(100, 100);
     let now = new Date();
 
@@ -64,24 +62,18 @@ export default class RoundFan extends BaseCanvas {
     this._ctx.strokeStyle = this._centerColor;
     this._ctx.beginPath();
     this._ctx.arc(0, 0, 10, 0, 2 * Math.PI);
-    this._ctx.stroke();
     this._ctx.fillStyle = this._centerColor;
     this._ctx.fill();
-    this._ctx.closePath();
 
     this._ctx.beginPath();
     this._ctx.arc(0, 0, 30, 0, 2 * Math.PI);
-    this._ctx.stroke();
     this._ctx.fillStyle = this._fanColor;
     this._ctx.fill();
-    this._ctx.closePath();
 
     this._ctx.beginPath();
     this._ctx.arc(0, 0, 35, 0, 2 * Math.PI);
     this._ctx.fillStyle = this._centerColor;
     this._ctx.fill();
-    this._ctx.stroke();
-    this._ctx.closePath();
 
     this._ctx.beginPath();
     this._ctx.moveTo(0, 0);
@@ -105,7 +97,6 @@ export default class RoundFan extends BaseCanvas {
     this._ctx.fillStyle = this._fanColor;
     this._ctx.fill();
     this._ctx.stroke();
-    this._ctx.closePath();
 
     this._ctx.restore();
   }

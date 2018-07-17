@@ -26,34 +26,37 @@ h3 {
 <body>
   <div class="panel">
     <h3>Digital Clock</h3>
-    <canvas id="digital-clock-1" width="400" height="100"></canvas>
+    <div id="digital-clock-1" style="width: 400px; height: 100px;"></div>
   </div>
 
   <div class="panel">
     <h3>Fan</h3>
-    <canvas id="round-fan-1" width="100" height="100"></canvas>
+    <div id="round-fan-1" style="width: 200px; height: 200px;"></div>
     <button id="toggle-fan">ON/OFF</button>
   </div>
 
   <div class="panel">
     <h3>Volume Meter</h3>
-    <canvas id="volume-meter-1" width="200" height="200"></canvas>
-  </div>
-
-  <div class="panel">
-    <h3>Message Queue</h3>
-    <canvas id="message-queue" width="200" height="200"></canvas>
+    <div id="volume-meter-1" style="width: 200px; height: 200px;"></div>
   </div>
 
   <div class="panel">
     <h3>Heatbeat</h3>
-    <canvas id="heatbeat" width="200" height="200"></canvas>
+    <div id="heatbeat" style="width: 200px; height: 200px;"></div>
+  </div>
+
+  <div id="blink-box" class="panel" style="font: green;">
+    blink box
+  </div>
+
+  <div class="panel">
+    <div id="auto-scroll-panel" style="overflow: hidden; height: 300px; width: 400px; border: 1px solid #999;"></div>
   </div>
 
 
 <script type= text/javascript>
 document.addEventListener("DOMContentLoaded", function(event) { 
-
+  
   var digitalClock1 = new zeu.DigitalClcok(
     document.getElementById('digital-clock-1'), 
     {
@@ -83,35 +86,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
     roundFan1.fanColor = getRandomColor();
     roundFan1.centerColor = getRandomColor();
   }, 2000);
-  
 
   var volumeMeter1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'));
   volumeMeter1.startAnimation();
-
-  
-  var messageQueue = new zeu.MessageQueue(document.getElementById('message-queue'));
-  messageQueue.startAnimation();
   setInterval(function() {
-    var now = new Date();
-    var data = now.getMinutes() + ':' + now.getSeconds();
-    var color = getRandomColor();
-
-    messageQueue.push({val: data, x: 20, y: 200, color: color});
-  }, 500);
-  
-
-  setInterval(function() {
-    digitalClock1.numberColor = getRandomColor();
-
     volumeMeter1.value = getRandomInt(0, 100);
-
-  }, 3000);
+  }, 1000);
+  
 
   var heatbeat = new zeu.Heatbeat(document.getElementById('heatbeat'));
-  heatbeat.beat();
+  heatbeat.startAnimation();
 
+  var blinkDialog = new zeu.BlinkDialog();
+  blinkDialog.blink('BLINK DIALOG!');
+  blinkDialog.hide();
+
+  var blinkBox = new zeu.BlinkBox(document.getElementById('blink-box'));
+  blinkBox.blink('BLINK BOX!', 'white', 'green');
+  blinkBox.hide();
+
+  var autoScrollPanel = new zeu.AutoScrollPanel(document.getElementById('auto-scroll-panel'));
+  setInterval(function() {
+    var message = document.createElement('div');
+    message.innerHTML = 'time_' + Date.now();
+    message.style.cssText = 'margin: 3px; padding: 3px; color: white; background-color: ' + getRandomColor() + ';';
+    autoScrollPanel.push(message);
+  }, 200);
   
-
   function getRandomColor() {
     return '#' + ((1 << 24) * Math.random() | 0).toString(16);
   }
