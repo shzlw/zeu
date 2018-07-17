@@ -23,18 +23,20 @@ export default class BlinkDialog {
     this._dialog.innerHTML = message;
     this._dialog.style.display = 'block';
 
-    this._blinkTimer = setInterval(() => {
-      if (this._dialog.style.display !== 'block') {
-        this._dialog.style.display = 'block';
-      } else {
-        this._dialog.style.display = 'none';
-      }
-    }, 1000);
+    if (this._blinkTimer == null) {
+      this._blinkTimer = setInterval(() => {
+        if (this._dialog.style.display !== 'block') {
+          this._dialog.style.display = 'block';
+        } else {
+          this._dialog.style.display = 'none';
+        }
+      }, 1000);
+    }
   }
 
-  hide() {
+  unblink() {
     this._dialog.style.display = 'none';
-    if (this._blinkTimer !== null) {
+    if (this._blinkTimer != null) {
       clearInterval(this._blinkTimer);
     }
   }

@@ -45,8 +45,8 @@ h3 {
     <div id="heatbeat" style="width: 200px; height: 200px;"></div>
   </div>
 
-  <div id="blink-box" class="panel" style="font: green;">
-    blink box
+  <div id="blink-text" class="panel" style="font: green;">
+    blink text
   </div>
 
   <div class="panel">
@@ -99,11 +99,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   var blinkDialog = new zeu.BlinkDialog();
   blinkDialog.blink('BLINK DIALOG!');
-  blinkDialog.hide();
+  blinkDialog.unblink();
 
-  var blinkBox = new zeu.BlinkBox(document.getElementById('blink-box'));
-  blinkBox.blink('BLINK BOX!', 'white', 'green');
-  blinkBox.hide();
+  var binkText = new zeu.BlinkText(document.getElementById('blink-text'));
+  binkText.blinkCss = 'color: white; background-color: green;';
+  binkText.blink('BLINK TEXT!');
+  binkText.blink('BLINK xxxxxxx!');
+  // binkText.blinkCss = 'color: white; background-color: red;';
+  // binkText.unblink();
 
   var autoScrollPanel = new zeu.AutoScrollPanel(document.getElementById('auto-scroll-panel'));
   setInterval(function() {

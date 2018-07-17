@@ -3,8 +3,8 @@ import { GLOBAL } from './global';
 export default class AnimationTimer {
 
   constructor() {
-    // Bind the animate function.
-    this.animate = this.animate.bind(this);
+    // Bind the render function.
+    this.render = this.render.bind(this);
 
     // Animation parameters.
     this._fps = 60;
@@ -12,8 +12,8 @@ export default class AnimationTimer {
     this._lastFrame = Date.now();
   }
 
-  animate() {
-    window.requestAnimationFrame(this.animate);
+  render() {
+    window.requestAnimationFrame(this.render);
 
     // FPS control
     let now = Date.now();

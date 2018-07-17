@@ -26,7 +26,7 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^7.0.0-beta.3",
     "babel-register": "^7.0.0-beta.3",
-    "eslint": "^5.0.0",
+    "eslint": "^4.19.1",
     "eslint-loader": "^2.0.0",
     "jsdom": "11.11.0",
     "jsdom-global": "3.0.2",
