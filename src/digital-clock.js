@@ -1,11 +1,13 @@
 import BaseCanvas from './base-canvas';
 import Utility from './utility';
-import Color from './color';
+import { COLOR } from './color';
 
 export default class DigitalClock extends BaseCanvas {
 
   constructor(baseDiv, options) {
     super(baseDiv);
+    this._width = 380;
+    this._height = 100;
 
     // Bar width
     this._bw = Utility.has(options, 'barWidth') ? options.barWidth : 4;
@@ -15,8 +17,10 @@ export default class DigitalClock extends BaseCanvas {
 
     // Space between numbers
     this._space = Utility.has(options, 'space') ? options.space : 10;
-    this._numberColor = Utility.has(options, 'numberColor') ? options.numberColor : new Color().fill;
-    this._dashColor = Utility.has(options, 'dashColor') ? options.dashColor : new Color().border;
+    this._numberColor = Utility.has(options, 'numberColor') ? options.numberColor : COLOR.green;
+    this._dashColor = Utility.has(options, 'dashColor') ? options.dashColor : COLOR.grey;
+    this._hourOffset = Utility.has(options, '_hourOffset') ? options._hourOffset : 0;
+    this._timer = null;
   }
 
   set numberColor(color) {
@@ -24,7 +28,7 @@ export default class DigitalClock extends BaseCanvas {
   }
 
   get numberColor() {
-    this._numberColor;
+    return this._numberColor;
   }
 
   set dashColor(color) {
@@ -32,31 +36,49 @@ export default class DigitalClock extends BaseCanvas {
   }
 
   get dashColor() {
-    this.dashColor;
+    return this.dashColor;
   }
 
-  draw() {
-    this._timer = setInterval(() => {
-      let now = new Date();
+  set hourOffset(hourOffset) {
+    this._hourOffset = hourOffset;
+  }
 
-      this.clearAll();
-      this._ctx.save();
+  get hourOffset() {
+    return this._hourOffset;
+  }
 
-      this._ctx.translate(this._space, this._space);
+  tick() {
+    if (this._timer == null) {
+      this._timer = setInterval(() => {
+        let now = Utility.addHour(this._hourOffset);
 
-      // Draw hour.
-      this.drawTime(now.getHours());
-      this.drawInterpoint();
+        this.clearAll();
+        this._ctx.save();
+        this.scale();
 
-      // Draw minute.
-      this.drawTime(now.getMinutes());
-      this.drawInterpoint();
+        this._ctx.translate(this._space, this._space);
 
-      // Draw second.
-      this.drawTime(now.getSeconds());
+        // Draw hour.
+        this.drawTime(now.getHours());
+        this.drawInterpoint();
 
-      this._ctx.restore();
-    }, 1000);
+        // Draw minute.
+        this.drawTime(now.getMinutes());
+        this.drawInterpoint();
+
+        // Draw second.
+        this.drawTime(now.getSeconds());
+
+        this._ctx.restore();
+      }, 1000);
+    }
+  }
+
+  stopTick() {
+    if (this._timer != null) {
+      clearInterval(this._timer);
+      this._timer = null;
+    }
   }
 
   drawInterpoint() {

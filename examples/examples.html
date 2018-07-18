@@ -26,18 +26,18 @@ h3 {
 <body>
   <div class="panel">
     <h3>Digital Clock</h3>
-    <div id="digital-clock-1" style="width: 400px; height: 100px;"></div>
+    <div id="digital-clock-1" style="width: 380px; height: 50px;"></div>
   </div>
 
   <div class="panel">
     <h3>Fan</h3>
-    <div id="round-fan-1" style="width: 200px; height: 200px;"></div>
+    <div id="round-fan-1" style="width: 100px; height: 100px;"></div>
     <button id="toggle-fan">ON/OFF</button>
   </div>
 
   <div class="panel">
     <h3>Volume Meter</h3>
-    <div id="volume-meter-1" style="width: 200px; height: 200px;"></div>
+    <div id="volume-meter-1" style="width: 50px; height: 100px;"></div>
   </div>
 
   <div class="panel">
@@ -50,7 +50,11 @@ h3 {
   </div>
 
   <div class="panel">
-    <div id="auto-scroll-panel" style="overflow: hidden; height: 300px; width: 400px; border: 1px solid #999;"></div>
+    <div id="scroll-panel" style="overflow: hidden; height: 300px; width: 400px; border: 1px solid #999;"></div>
+  </div>
+
+  <div class="panel">
+    <div id="scroll-panel-2" style="overflow: hidden; height: 300px; width: 400px; border: 1px solid #999;"></div>
   </div>
 
 
@@ -63,10 +67,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
       dashColor: '#DCDCDC',
       barWidth: 8,
       barHeight : 30,
-      space: 10
+      space: 8
     }
   );
-  digitalClock1.draw();
+  digitalClock1.tick();
 
   
   var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'));
@@ -108,12 +112,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // binkText.blinkCss = 'color: white; background-color: red;';
   // binkText.unblink();
 
-  var autoScrollPanel = new zeu.AutoScrollPanel(document.getElementById('auto-scroll-panel'));
+  var scrollPanel = new zeu.ScrollPanel(document.getElementById('scroll-panel'));
   setInterval(function() {
     var message = document.createElement('div');
     message.innerHTML = 'time_' + Date.now();
     message.style.cssText = 'margin: 3px; padding: 3px; color: white; background-color: ' + getRandomColor() + ';';
-    autoScrollPanel.push(message);
+    scrollPanel.push(message);
+  }, 200);
+
+  var scrollPanel2 = new zeu.ScrollPanel(document.getElementById('scroll-panel-2'));
+  scrollPanel2.isUp = false;
+  setInterval(function() {
+    var color = 'margin: 3px; padding: 3px; color: white; background-color: ' + getRandomColor() + ';';
+    scrollPanel2.pushText('time_' + Date.now(), color);
   }, 200);
   
   function getRandomColor() {

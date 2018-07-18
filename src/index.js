@@ -6,7 +6,7 @@ import VolumeMeter from './volume-meter';
 import Heatbeat from './heatbeat';
 import BlinkDialog from './blink-dialog';
 import BlinkText from './blink-text';
-import AutoScrollPanel from './auto-scroll-panel';
+import ScrollPanel from './scroll-panel';
 import AnimationTimer from './animation-timer';
 
 export {
@@ -18,7 +18,7 @@ export {
   Heatbeat,
   BlinkDialog,
   BlinkText,
-  AutoScrollPanel
+  ScrollPanel
 };
 
 // Fire up window.requestAnimationFrame()

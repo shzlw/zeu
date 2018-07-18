@@ -5,7 +5,7 @@ export default class VolumeMeter extends BaseCanvas {
 
   constructor(baseDiv, options) {
     super(baseDiv);
-    this._width = 200;
+    this._width = 100;
     this._height = 200;
 
     this._min = 0;
@@ -15,10 +15,10 @@ export default class VolumeMeter extends BaseCanvas {
 
     this._lineWidth = 5;
 
-    this._margin = 80;
+    this._margin = 40;
     this._meterWidth = 50;
     this._meterHeight = 180;
-    // Ignore line width totaly.
+    // Ignore line width totally.
     this._y = this._meterHeight - ((this._value / (this._max - this._min)) * this._meterHeight) + 10;
     this._nextY = this._y;
   }
@@ -45,30 +45,34 @@ export default class VolumeMeter extends BaseCanvas {
 
   drawFrame() {
     this.clearAll();
+    this._ctx.save();
+    this.scale();
 
     this._ctx.moveTo(0, 0);
     this._ctx.fillStyle = this._fillColor;
     this._ctx.beginPath();
     // Draw the filled part.
-    this._ctx.fillRect(80, this._y, this._meterWidth, 190 - this._y);
+    this._ctx.fillRect(25, this._y, this._meterWidth, 190 - this._y);
 
     if ((this._speed > 0 && this._y <= this._nextY) || (this._speed <= 0 && this._y >= this._nextY)) {
       this._y += this._speed;
     }
 
     // Draw the border.
-    this._ctx.rect(80, 10, this._meterWidth, this._meterHeight);
+    this._ctx.rect(25, 10, this._meterWidth, this._meterHeight);
     this._ctx.lineWidth = this._lineWidth;
     this._ctx.strokeStyle = this._fontColor;
 
     this._ctx.fillStyle = this._fontColor;
-    this._ctx.font = '15px Arial';
+    this._ctx.font = '12px Arial';
     // Draw max number.
-    this._ctx.fillText(this._max, 50, 15);
+    this._ctx.fillText(this._max, 0, 15);
     // Draw min number.
-    this._ctx.fillText(this._min, 50, this._meterHeight + 15);
+    this._ctx.fillText(this._min, 0, this._meterHeight + 15);
     // Draw value.
-    this._ctx.fillText(this._value, this._meterWidth + 50 + 35, this._y + 15 * 0.5);
+    this._ctx.fillText(this._value, this._meterWidth + 30, this._y + 15 * 0.5);
     this._ctx.stroke();
+
+    this._ctx.restore();
   }
 }

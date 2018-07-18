@@ -12,8 +12,6 @@ export default class BaseCanvas {
     this._width = 200;
     this._height = 200;
 
-    // Base scale on the height.
-    // this._heightScale = this._canvas.height / this._height;
     // this._canvas.style.transformOrigin = '0 0'; // scale from top left
     // this._canvas.style.transform = 'scale(' + this._heightScale + ')';
 
@@ -28,7 +26,10 @@ export default class BaseCanvas {
   }
 
   scale() {
-    this._ctx.scale(this._heightScale, this._heightScale);
+    // Base scale on the height.
+    let heightScale = this._canvas.height / this._height;
+
+    this._ctx.scale(heightScale, heightScale);
   }
 
   clearAll() {

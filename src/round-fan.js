@@ -1,5 +1,5 @@
 import BaseCanvas from './base-canvas';
-import Color from './color';
+import { COLOR } from './color';
 import Utility from './utility';
 
 export default class RoundFan extends BaseCanvas {
@@ -9,7 +9,7 @@ export default class RoundFan extends BaseCanvas {
     this._width = 200;
     this._height = 200;
 
-    this._fanColor = Utility.has(options, 'fanColor') ? options.fanColor : new Color().fill;
+    this._fanColor = Utility.has(options, 'fanColor') ? options.fanColor : COLOR.green;
     this._centerColor = Utility.has(options, 'centerColor') ? options.centerColor : '#FFFFFF';
     this._speed = Utility.has(options, 'speed') ? options.speed : 1;
 
@@ -51,6 +51,7 @@ export default class RoundFan extends BaseCanvas {
   drawFrame() {
     this.clearAll();
     this._ctx.save();
+    this.scale();
     this._ctx.translate(100, 100);
     let now = new Date();
 

@@ -14,4 +14,11 @@ export default class Utility {
   static has(object, key) {
     return object ? hasOwnProperty.call(object, key) : false;
   }
+
+  static addHour(h) {
+    let now = new Date();
+
+    now.setHours(now.getHours() + h);
+    return now;
+  }
 }

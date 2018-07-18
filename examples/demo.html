@@ -14,21 +14,51 @@ body {
   background-color: #181818;
 }
 
+.middle {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.clear {
+  clear: both;
+  line-height: 0;
+}
 .box {
   float: left;
-  background-color: #F8F8FF;
-  margin: 10px;
-  border: 5px solid #00d7af;
+  // margin: 10px;
+  // border: 5px solid #00d7af;
+  border: 2px solid #F8F8FF;
 }
 
 .pull-left {
   float: left;
 }
+
+.dialog {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: green;
+  opacity: 0.5;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
 </style>
 </head>
 <body>
+<div class="dialog">
+  <div style="color: white; font-size: 50px; display: inline-block; width: 200px; height: 200px; position: relative;">
+      test dialog
+  </div>
+</div>
+
+<div class="middle">
   <div class="box">
-    <canvas id="c1" width="200" height="200"></canvas>
+    <canvas id="c1"></canvas>
     <button id="speed">speed</button>
   </div>
 
@@ -55,6 +85,9 @@ body {
   <div class="box" style="background-color: #181818;">
     <canvas id="message-queue" width="140" height="200"></canvas>
   </div>
+
+  <br class="clear" />
+</div>
 
 <script type= text/javascript>
 document.addEventListener("DOMContentLoaded", function(event) { 
@@ -100,21 +133,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     volumeMeter1.value = getRandomInt(0, 100);
   }, 1000);
 
-  var messageQueue = new zeu.MessageQueue(document.getElementById('message-queue'));
-  messageQueue.startAnimation();
-  setInterval(function() {
-    var now = new Date();
-    var data = now.getMinutes() + ':' + now.getSeconds();
-    var color = getRandomColor();
-
-    messageQueue.push();
-  }, 500);
-
-  setInterval(function() {
-    messageQueue.pop();
-  }, 1000);
-
-
 
   function getRandomColor() {
     return '#' + ((1 << 24) * Math.random() | 0).toString(16);
@@ -138,6 +156,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
     a.speed = getRandomInt(10, 50);
     console.log('speed: ' + a.speed);
   }
+
+  function test(a) {
+    if (a != null) {
+      console.log('111111');
+    }
+    
+    if (a !== null) {
+      console.log('222222');
+    }
+  
+    if (a !== undefined) {
+      console.log('333333');
+    }
+  }
+
+  test(1);
 
 });
 

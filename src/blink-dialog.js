@@ -17,6 +17,8 @@ export default class BlinkDialog {
 
     this._dialog = d;
     document.getElementsByTagName('body')[0].appendChild(this._dialog);
+
+    this._blinkTimer = null;
   }
 
   blink(message) {
@@ -38,6 +40,7 @@ export default class BlinkDialog {
     this._dialog.style.display = 'none';
     if (this._blinkTimer != null) {
       clearInterval(this._blinkTimer);
+      this._blinkTimer = null;
     }
   }
 }

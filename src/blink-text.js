@@ -6,6 +6,7 @@ export default class BlinkText {
     this._defaultCss = baseDiv.style.cssText;
     this._interval = 500;
     this._blinkCss = 'color: white; background-color: red;';
+    this._blinkTimer = null;
   }
 
   set interval(interval) {
@@ -33,7 +34,6 @@ export default class BlinkText {
       this._blinkTimer = setInterval(() => {
         let currCss = this._div.style.cssText === this._blinkCss ? this._defaultCss : this._blinkCss;
 
-        console.log(currCss);
         this._div.style.cssText = currCss;
       }, this._interval);
     }
@@ -42,6 +42,7 @@ export default class BlinkText {
   unblink() {
     if (this._blinkTimer != null) {
       clearInterval(this._blinkTimer);
+      this._blinkTimer = null;
     }
   }
 }
