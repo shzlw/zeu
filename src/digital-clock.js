@@ -5,9 +5,7 @@ import { COLOR } from './color';
 export default class DigitalClock extends BaseCanvas {
 
   constructor(baseDiv, options) {
-    super(baseDiv);
-    this._width = 380;
-    this._height = 100;
+    super(baseDiv, 370, 100);
 
     // Bar width
     this._bw = Utility.has(options, 'barWidth') ? options.barWidth : 4;

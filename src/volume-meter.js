@@ -4,9 +4,7 @@ import BaseCanvas from './base-canvas';
 export default class VolumeMeter extends BaseCanvas {
 
   constructor(baseDiv, options) {
-    super(baseDiv);
-    this._width = 100;
-    this._height = 200;
+    super(baseDiv, 100, 200);
 
     this._min = 0;
     this._max = 100;

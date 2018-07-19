@@ -5,9 +5,7 @@ import Utility from './utility';
 export default class RoundFan extends BaseCanvas {
 
   constructor(baseDiv, options) {
-    super(baseDiv);
-    this._width = 200;
-    this._height = 200;
+    super(baseDiv, 200, 200);
 
     this._fanColor = Utility.has(options, 'fanColor') ? options.fanColor : COLOR.green;
     this._centerColor = Utility.has(options, 'centerColor') ? options.centerColor : '#FFFFFF';

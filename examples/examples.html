@@ -37,12 +37,12 @@ h3 {
 
   <div class="panel">
     <h3>Volume Meter</h3>
-    <div id="volume-meter-1" style="width: 50px; height: 100px;"></div>
+    <div id="volume-meter-1" style="width: 100px; height: 200px;"></div>
   </div>
 
   <div class="panel">
     <h3>Heatbeat</h3>
-    <div id="heatbeat" style="width: 200px; height: 200px;"></div>
+    <div id="heatbeat" style="width: 200px; height: 100px;"></div>
   </div>
 
   <div id="blink-text" class="panel" style="font: green;">
@@ -100,18 +100,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   var heatbeat = new zeu.Heatbeat(document.getElementById('heatbeat'));
   heatbeat.startAnimation();
+  setInterval(function() {
+    heatbeat.beat();
+  }, 500);
 
   var blinkDialog = new zeu.BlinkDialog();
   blinkDialog.blink('BLINK DIALOG!');
   blinkDialog.unblink();
 
+  /*
   var binkText = new zeu.BlinkText(document.getElementById('blink-text'));
   binkText.blinkCss = 'color: white; background-color: green;';
   binkText.blink('BLINK TEXT!');
   binkText.blink('BLINK xxxxxxx!');
+  */
   // binkText.blinkCss = 'color: white; background-color: red;';
   // binkText.unblink();
 
+  /*
   var scrollPanel = new zeu.ScrollPanel(document.getElementById('scroll-panel'));
   setInterval(function() {
     var message = document.createElement('div');
@@ -126,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var color = 'margin: 3px; padding: 3px; color: white; background-color: ' + getRandomColor() + ';';
     scrollPanel2.pushText('time_' + Date.now(), color);
   }, 200);
+  */
   
   function getRandomColor() {
     return '#' + ((1 << 24) * Math.random() | 0).toString(16);

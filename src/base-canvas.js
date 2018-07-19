@@ -1,33 +1,35 @@
 import { GLOBAL } from './global';
+import { COLOR } from './color';
 
 export default class BaseCanvas {
 
-  constructor(baseDiv) {
+  constructor(baseDiv, width, height) {
     this._div = baseDiv;
+    this._defaultWidth = width;
+    this._defaultHeight = height;
     this._canvas = document.createElement('canvas');
     this._canvas.setAttribute('width', baseDiv.clientWidth);
     this._canvas.setAttribute('height', baseDiv.clientHeight);
     this._div.appendChild(this._canvas);
     this._ctx = this._canvas.getContext('2d');
-    this._width = 200;
-    this._height = 200;
 
+    // Base scale on the height. Use CSS transform instead of scale()
+    // let heightScale = baseDiv.clientHeight / height;
     // this._canvas.style.transformOrigin = '0 0'; // scale from top left
-    // this._canvas.style.transform = 'scale(' + this._heightScale + ')';
+    // this._canvas.style.transform = 'scale(' + heightScale + ')';
 
     // Bind the drawFrame function.
     this.drawFrame = this.drawFrame.bind(this);
 
     // Default color
-    this._fontColor = '#181818';
-    this._lineColor = '#F8F8FF';
-    this._fillColor = '#00D7AF';
-
+    this._fontColor = COLOR.black;
+    this._lineColor = COLOR.grey;
+    this._fillColor = COLOR.green;
   }
 
   scale() {
     // Base scale on the height.
-    let heightScale = this._canvas.height / this._height;
+    let heightScale = this._div.clientHeight / this._defaultHeight;
 
     this._ctx.scale(heightScale, heightScale);
   }
