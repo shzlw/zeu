@@ -17,6 +17,11 @@ export default class Heartbeat extends BaseCanvas {
     this.drawSeconds();
   }
 
+  configCtx() {
+    this._ctx.textAlign = 'center';
+    this._ctx.font = '12px Arial';
+  }
+
   beat() {
     this._queue.push({ time: null, x: -30});
   }
@@ -41,7 +46,6 @@ export default class Heartbeat extends BaseCanvas {
     this.clearAll();
     this._ctx.save();
     this.scale();
-    this._ctx.font = '12px Arial';
 
     for (let i = 0; i < this._queue.length; i++) {
       let q = this._queue[i];

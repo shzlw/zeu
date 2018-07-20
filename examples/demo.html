@@ -3,6 +3,7 @@
 <head>
 
 <script src="../lib/zeu.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue.css">
 <style>
 html,
 body {
@@ -23,40 +24,54 @@ body {
   clear: both;
   line-height: 0;
 }
-.box {
-  float: left;
-  // margin: 10px;
-  // border: 5px solid #00d7af;
-  border: 2px solid #F8F8FF;
-}
 
 .pull-left {
   float: left;
 }
 
-.dialog {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  background-color: green;
-  opacity: 0.5;
-  text-align: center;
-  display: table-cell;
-  vertical-align: middle;
+.bt {
+  border-top: 3px solid white;
 }
+
+.bl {
+  border-left: 3px solid white;
+}
+
+.bb {
+  border-bottom: 3px solid white;
+}
+
+.br {
+  border-right: 3px solid white;
+}
+
+.power-grid {
+  float: left;
+  height: 50px;
+  line-height: 50px;
+  width: 67px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #00d7af;
+  color: white;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
 </style>
 </head>
 <body>
-<div class="dialog">
-  <div style="color: white; font-size: 50px; display: inline-block; width: 200px; height: 200px; position: relative;">
-      test dialog
-  </div>
-</div>
 
 <div class="middle">
+  <div>
+    <div id="power" class="bt bl bb br" style="width: 396px; height: 396px; float: left;">
+    </div>
+    <div id="heatbeat" class="bt bb br" style="width: 396px; height: 396px; float: left;">
+    </div>
+    <div id="fan" class="bt bb br" style="width: 396px; height: 396px; float: left;">
+      Monochromatic color schemes
+    </div>
+  </div>
   <div class="box">
     <canvas id="c1"></canvas>
     <button id="speed">speed</button>
@@ -91,7 +106,48 @@ body {
 
 <script type= text/javascript>
 document.addEventListener("DOMContentLoaded", function(event) { 
+
+  function getRandomColor() {
+    return '#' + ((1 << 24) * Math.random() | 0).toString(16);
+  }
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  var powerPanel = document.getElementById('power');
+  var powerGrids = ['A', 'B', 'C', 'D', 'E'];
+  // var powerGrids = ['A'];
+  var powerTexts = [];
+  for (var i = 0; i < powerGrids.length; i++) {
+    createPowerGrid(powerGrids[i]);
+  }
+
+  function createPowerGrid(v) {
+    for (var i = 1; i <= 5; i++) {
+      var p = document.createElement('div');
+      p.innerHTML = v + i;
+      p.id = 'power-' + v + i;
+      p.className = 'power-grid';
+      powerPanel.append(p);
+
+      powerTexts.push(new zeu.BlinkText(document.getElementById(p.id)));
+    }
+  }
+
+  setInterval(function() {
+    for (var i = 0; i < powerTexts.length; i++) {
+      var status = getRandomInt(0, 1);
+      if (status === 0) {
+        powerTexts[i].blinkCss = 'color: white; background-color: ' + getRandomColor() + ';';
+        powerTexts[i].blink();
+      } else {
+        powerTexts[i].unblink();
+      }
+    }
+  }, 15000);
   
+  /*
   var a = new zeu.Circle(document.getElementById('c1'));
   a.draw();
   
@@ -134,13 +190,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }, 1000);
 
 
-  function getRandomColor() {
-    return '#' + ((1 << 24) * Math.random() | 0).toString(16);
-  }
-
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+  
 
   document.getElementById("speed").addEventListener ("click", d2, false);
   document.getElementById("toggle-fan").addEventListener ("click", function() {
@@ -172,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   test(1);
+  */
 
 });
 

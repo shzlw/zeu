@@ -1,6 +1,6 @@
 # Zeu.js
 
-![Travis CI](https://travis-ci.org/shzlw/zeu.svg?branch=master)
+![Build Status](https://travis-ci.org/shzlw/zeu.svg?branch=master)
 
 [Demo](https://shzlw.github.io/zeu/examples/demo.html)
 
@@ -24,9 +24,27 @@ var digitalClock1 = new zeu.DigitalClcok(
 digitalClock1.draw();
 ```
 
+#### Volume Meter
+
+[Example](https://shzlw.github.io/zeu/examples/volume-meter.html)
+
 #### Round Fan
 
-[Examples](https://shzlw.github.io/zeu/examples/examples.html)
+[Example](https://shzlw.github.io/zeu/examples/round-fan.html)
+
+#### Heatbeat
+
+[Example](https://shzlw.github.io/zeu/examples/heartbeat.html)
+
+#### Scroll Panel
+
+[Example](https://shzlw.github.io/zeu/examples/scroll-panel.html)
+
+#### Blink Text
+
+[Example](https://shzlw.github.io/zeu/examples/blink-text.html)
+
+#### Blink Dialog
 
 ## License
 

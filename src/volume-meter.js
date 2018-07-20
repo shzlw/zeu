@@ -19,6 +19,11 @@ export default class VolumeMeter extends BaseCanvas {
     // Ignore line width totally.
     this._y = this._meterHeight - ((this._value / (this._max - this._min)) * this._meterHeight) + 10;
     this._nextY = this._y;
+
+  }
+
+  configCtx() {
+    this._ctx.font = '12px Arial';
   }
 
   set value(n) {
@@ -62,12 +67,13 @@ export default class VolumeMeter extends BaseCanvas {
     this._ctx.strokeStyle = this._fontColor;
 
     this._ctx.fillStyle = this._fontColor;
-    this._ctx.font = '12px Arial';
     // Draw max number.
-    this._ctx.fillText(this._max, 0, 15);
+    this._ctx.textAlign = 'right';
+    this._ctx.fillText(this._max, 20, 15);
     // Draw min number.
-    this._ctx.fillText(this._min, 0, this._meterHeight + 15);
+    this._ctx.fillText(this._min, 20, this._meterHeight + 15);
     // Draw value.
+    this._ctx.textAlign = 'left';
     this._ctx.fillText(this._value, this._meterWidth + 30, this._y + 15 * 0.5);
     this._ctx.stroke();
 

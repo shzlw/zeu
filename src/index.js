@@ -1,4 +1,3 @@
-import Circle from './circle';
 import BarMeter from './bar-meter';
 import DigitalClcok from './digital-clock';
 import RoundFan from './round-fan';
@@ -10,7 +9,6 @@ import ScrollPanel from './scroll-panel';
 import AnimationTimer from './animation-timer';
 
 export {
-  Circle,
   BarMeter,
   DigitalClcok,
   RoundFan,

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Scroll Panel</title>
+<script src="../lib/zeu.js"></script>
+<script src="examples.js"></script>
+<link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <div class="container">
+    <h3>Up</h3>
+    <div id="scroll-panel-1" style="overflow: hidden; height: 320px; width: 300px; border: 1px solid #999;"></div>
+
+    <h3>Down</h3>
+    <div id="scroll-panel-2" style="overflow: hidden; height: 500px; width: 500px;"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var scrollPanel1 = new zeu.ScrollPanel(document.getElementById('scroll-panel-1'));
+  setInterval(function() {
+    var message = document.createElement('div');
+    message.innerHTML = 'time_' + Date.now();
+    message.style.cssText = 'margin: 10px; padding: 10px; color: white; background-color: ' + getRandomColor() + ';';
+    scrollPanel1.push(message);
+  }, 500);
+
+  var scrollPanel2 = new zeu.ScrollPanel(document.getElementById('scroll-panel-2'));
+  scrollPanel2.isUp = false;
+  setInterval(function() {
+    var color = 'margin: 3px; padding: 3px; color: white; background-color: ' + getRandomColor() + ';';
+    scrollPanel2.pushText('time_' + Date.now(), color);
+  }, 500);
+
+</script>
+</body>
+</html>

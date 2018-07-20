@@ -17,7 +17,7 @@ export default class DigitalClock extends BaseCanvas {
     this._space = Utility.has(options, 'space') ? options.space : 10;
     this._numberColor = Utility.has(options, 'numberColor') ? options.numberColor : COLOR.green;
     this._dashColor = Utility.has(options, 'dashColor') ? options.dashColor : COLOR.grey;
-    this._hourOffset = Utility.has(options, '_hourOffset') ? options._hourOffset : 0;
+    this._hourOffset = Utility.has(options, 'hourOffset') ? options.hourOffset : 0;
     this._timer = null;
   }
 

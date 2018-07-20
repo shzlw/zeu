@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Round Fan</title>
+<script src="../lib/zeu.js"></script>
+<script src="examples.js"></script>
+<link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <div class="container">
+    <h3>Fan</h3>
+    <div id="round-fan-1" style="width: 200px; height: 200px;"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'));
+  roundFan1.speed = 5;
+  roundFan1.on();
+
+  setInterval(function() {
+    roundFan1.speed = getRandomInt(1, 5);
+    roundFan1.fanColor = getRandomColor();
+    roundFan1.centerColor = getRandomColor();
+  }, 2000);
+
+</script>
+</body>
+</html>

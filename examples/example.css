@@ -1,0 +1,16 @@
+html,
+body {
+  font-family: Consolas, monaco, monospace;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  padding: 20px;
+}
+
+h3 {
+  margin: 10px 0px;
+}

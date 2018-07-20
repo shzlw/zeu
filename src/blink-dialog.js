@@ -61,7 +61,10 @@ export default class BlinkDialog {
   }
 
   blink(message) {
-    this._dialog.innerHTML = message;
+    if (message != null) {
+      this._div.innerHTML = message;
+    }
+
     this._dialog.style.display = 'block';
 
     if (this._blinkTimer == null) {

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Blink Text</title>
+<script src="../lib/zeu.js"></script>
+<script src="examples.js"></script>
+<link rel="stylesheet" href="example.css">
+<style>
+.box {
+  padding: 10px;
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <h3>Normal</h3>
+    <div id="blink-text" class="box">
+      blink text
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var binkText = new zeu.BlinkText(document.getElementById('blink-text'));
+  binkText.blinkCss = 'color: white; background-color: red;';
+  binkText.blink();
+
+  setInterval(function() {
+    binkText.blinkCss = 'color: white; background-color: ' + getRandomColor() + ';';
+  }, 10000);
+
+</script>
+</body>
+</html>

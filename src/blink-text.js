@@ -32,7 +32,7 @@ export default class BlinkText {
 
     if (this._blinkTimer == null) {
       this._blinkTimer = setInterval(() => {
-        let currCss = this._div.style.cssText === this._blinkCss ? this._defaultCss : this._blinkCss;
+        let currCss = this._div.style.cssText !== this._defaultCss ? this._defaultCss : this._blinkCss;
 
         this._div.style.cssText = currCss;
       }, this._interval);
@@ -43,6 +43,7 @@ export default class BlinkText {
     if (this._blinkTimer != null) {
       clearInterval(this._blinkTimer);
       this._blinkTimer = null;
+      this._div.style.cssText = this._defaultCss;
     }
   }
 }

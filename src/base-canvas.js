@@ -25,7 +25,11 @@ export default class BaseCanvas {
     this._fontColor = COLOR.black;
     this._lineColor = COLOR.grey;
     this._fillColor = COLOR.green;
+
+    this.configCtx();
   }
+
+  configCtx() {}
 
   scale() {
     // Base scale on the height.

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Heatbeat</title>
+<script src="../lib/zeu.js"></script>
+<link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <div class="container">
+    <h3>Normal</h3>
+    <div id="heatbeat-1" style="width: 200px; height: 100px;"></div>
+
+    <h3>Size x 2</h3>
+    <div id="heatbeat-2" style="width: 400px; height: 200px;"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var heatbeat1 = new zeu.Heatbeat(document.getElementById('heatbeat-1'));
+  heatbeat1.startAnimation();
+  setInterval(function() {
+    heatbeat1.beat();
+  }, 1000);
+
+  var heatbeat2 = new zeu.Heatbeat(document.getElementById('heatbeat-2'));
+  heatbeat2.startAnimation();
+  setInterval(function() {
+    heatbeat2.beat();
+  }, 1000);
+
+</script>
+</body>
+</html>

@@ -102,18 +102,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
   heatbeat.startAnimation();
   setInterval(function() {
     heatbeat.beat();
-  }, 500);
+  }, 1500);
 
   var blinkDialog = new zeu.BlinkDialog();
   blinkDialog.blink('BLINK DIALOG!');
   blinkDialog.unblink();
 
-  /*
+  
   var binkText = new zeu.BlinkText(document.getElementById('blink-text'));
   binkText.blinkCss = 'color: white; background-color: green;';
-  binkText.blink('BLINK TEXT!');
-  binkText.blink('BLINK xxxxxxx!');
-  */
+  binkText.blink();
+  
   // binkText.blinkCss = 'color: white; background-color: red;';
   // binkText.unblink();
 
@@ -134,13 +133,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }, 200);
   */
   
-  function getRandomColor() {
-    return '#' + ((1 << 24) * Math.random() | 0).toString(16);
-  }
 
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
 
   
 

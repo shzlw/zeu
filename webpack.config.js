@@ -45,7 +45,14 @@ const config = {
   resolve: {
     modules: [path.resolve('./node_modules'), path.resolve('./src')],
     extensions: ['.json', '.js']
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"'
+    }),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin()
+  ]
 };
 
 module.exports = config;

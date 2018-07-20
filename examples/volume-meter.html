@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Volume Meter</title>
+<script src="../lib/zeu.js"></script>
+<script src="examples.js"></script>
+<link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <div class="container">
+    <h3>Normal</h3>
+    <div id="volume-meter-1" style="width: 100px; height: 200px;"></canvas>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var volumeMeter1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'));
+  volumeMeter1.startAnimation();
+  setInterval(function() {
+    volumeMeter1.value = getRandomInt(0, 100);
+  }, 1000);
+
+</script>
+</body>
+</html>
