@@ -1,18 +1,19 @@
 import BaseCanvas from './base-canvas';
-// import Utility from './utility';
+import Utility from './utility';
 import { COLOR } from './color';
 
 export default class Heartbeat extends BaseCanvas {
 
-  constructor(canvas) {
-    super(canvas, 200, 100);
+  constructor(canvas, options) {
+    super(canvas, 300, 100);
 
+    this._lineColor = Utility.has(options, 'lineColor') ? options.lineColor : COLOR.green;
+    this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
+    this._queueMaxCapacity = Utility.has(options, 'queueMaxCapacity') ? options.queueMaxCapacity : 30;
+    
     this._vector = 1;
     this._queue = [];
-    this._queueMaxCapacity = 50;
     this._lastSec = 0;
-    this._lineColor = COLOR.green;
-    this._fontColor = COLOR.black;
 
     this.drawSeconds();
   }
@@ -65,7 +66,7 @@ export default class Heartbeat extends BaseCanvas {
       q.x += this._vector;
     }
     this._ctx.fillStyle = this._lineColor;
-    this._ctx.fillRect(0, 50, 200, 2);
+    this._ctx.fillRect(0, 50, 300, 2);
 
     this._ctx.restore();
   }

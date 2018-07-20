@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Data Center</title>
+<script src="../lib/zeu.js"></script>
+<style>
+body {
+  font-family: Consolas, monaco, monospace;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #000;
+  color: #fff;
+}
+
+.middle {
+  width: 1200px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+.col-1 {
+  float: left;
+  border-left: 4px solid #fff;
+  border-top: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  width: 396px;
+  height: 800px;
+}
+
+.col-2 {
+  float: left;
+  border: 4px solid #fff;
+  width: 392px;
+  height: 800px;
+}
+
+.col-3 {
+  float: left;
+  border-right: 4px solid #fff;
+  border-top: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  width: 396px;
+  height: 800px;
+}
+
+.panel {
+  width: 250px;
+  height: 250px;
+  float: left;
+  border: 4px solid #fff;
+}
+
+.border-bottom {
+  border-bottom: 4px solid #fff;
+}
+
+.panel-title {
+  border-bottom: 4px solid #fff;
+  padding: 4px;
+}
+
+.title {
+  color: #fff;
+  font-size: 20px;
+}
+
+.sub-title {
+  color: #2196f3;
+  font-size: 12px;
+}
+
+.blue-text {
+  color: #2196f3;
+}
+
+.pull-left {
+  float: left;
+}
+
+.master {
+  margin: 10px 5px;
+}
+
+.master-name {
+  width: 80px;
+  height: 50px;
+  padding: 5px;
+}
+
+.master-chart {
+  width: 280px;
+  height: 50px;
+  padding: 5px;
+  border-left: 2px solid #0c87eb;
+  border-right: 2px solid #0c87eb;
+}
+
+.server-grid {
+  float: left;
+  height: 40px;
+  line-height: 40px;
+  width: 66px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #0c87eb;
+  color: white;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.cluster-circle {
+  width: 196px;
+  height: 196px;
+  text-align: center;
+}
+
+.temperature-col {
+  width: 132px;
+  text-align: center;
+}
+
+.temperature-meter {
+  width: 66px;
+  height: 132px;
+}
+
+.fan-col {
+  width: 99px;
+  height: 99px;
+  text-align: center;
+}
+
+.queue-col {
+  width: 66px;
+  height: 132px;
+  text-align: center;
+}
+
+.storage-col {
+  width: 99px;
+  height: 198px;
+  text-align: center;
+}
+
+.clear {
+  clear: both;
+}
+/*
+  blue: #2196f3
+  l5: #f2f9fe
+  l2: #79bff8
+  d1: #0c87eb
+  d5: #074b83
+
+  red: #f44336
+  l2: #f98d85
+  d1: #f32617
+  d5: #8d1007
+
+  yellow: #ffeb3b
+*/
+</style>
+</head>
+<body>
+
+<div class="middle">
+  <div class="col-1">
+    <!-- master -->
+    <div class="panel-title">
+      <div class="title">
+        title
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      <div class="master">
+        
+        <div class="pull-left master-name">
+          master 1
+        </div>
+        <div id="heartbeat-1" class="pull-left master-chart"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="master">
+        <div class="pull-left master-name">
+          master 2
+        </div>
+        <div class="pull-left master-chart">
+          xxxx
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="master">
+        <div class="pull-left master-name">
+          master 3
+        </div>
+        <div class="pull-left master-chart">
+          xxxx
+        </div>
+        <div class="clear"></div>
+      </div>
+      
+    </div>
+
+    <!-- Temperature -->
+    <div class="panel-title">
+      <div class="title">
+        TEMPERATURE
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      <div class="pull-left temperature-col">
+        <div>T 1</div>
+        <div id="volume-meter-1" class="pull-left temperature-meter"></div>
+        <div id="volume-meter-2" class="pull-left temperature-meter"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="pull-left temperature-col">
+        <div>T 2</div>
+        <div id="volume-meter-3" class="pull-left temperature-meter"></div>
+        <div id="volume-meter-4" class="pull-left temperature-meter"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="pull-left temperature-col">
+        <div>T 3</div>
+        <div id="volume-meter-5" class="pull-left temperature-meter"></div>
+        <div id="volume-meter-6" class="pull-left temperature-meter"></div>
+        <div class="clear"></div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+
+    <!-- Fan -->
+    <div class="panel-title">
+      <div class="title">
+        FAN
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div>
+      <div class="pull-left fan-col">
+        <div>Fan 1</div>
+        <div id="round-fan-1" class="fan-col"></div>
+        <div>10 RPM</div>
+      </div>
+      <div class="pull-left fan-col">
+        <div>Fan 2</div>
+        <div id="round-fan-2" class="fan-col"></div>
+        <div>10 RPM</div>
+      </div>
+      <div class="pull-left fan-col">
+        <div>Fan 3</div>
+        <div id="round-fan-3" class="fan-col"></div>
+        <div>10 RPM</div>
+      </div>
+      <div class="pull-left fan-col">
+        <div>Fan 4</div>
+        <div id="round-fan-4" class="fan-col"></div>
+        <div>10 RPM</div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+
+  </div>
+
+  <div class="col-2">
+
+    <!-- Clock and Cluster -->
+    <div class="panel-title">
+      <div class="title">
+        CLUSTER
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      <div style="text-align: center;">
+        Current
+        <div id="digital-clock" style="width: 185px; height: 50px; margin: 0 auto;"></div>
+      </div>
+
+      <div class="pull-left cluster-circle">
+        circle
+      </div>
+      <div class="pull-left cluster-circle">
+        circle
+      </div>
+      <div class="pull-left cluster-circle">
+        circle
+      </div>
+      <div class="pull-left cluster-circle">
+        circle
+      </div>
+
+        <div class="clear"></div>
+    </div>
+
+    <!-- Server Grid -->
+    <div class="panel-title">
+      <div class="title">
+        SERVER
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div id="server-grid">
+    </div>
+  </div>
+
+  <div class="col-3">
+
+    <!-- Message -->
+    <div class="panel-title">
+      <div class="title">
+        MESSAGES
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      Message
+    </div>
+
+    <!-- Job queue -->
+    <div class="panel-title">
+      <div class="title">
+        JOB QUEUE
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      <div class="pull-left queue-col">1</div>
+      <div class="pull-left queue-col">2</div>
+      <div class="pull-left queue-col">3</div>
+      <div class="pull-left queue-col">4</div>
+      <div class="pull-left queue-col">5</div>
+      <div class="pull-left queue-col">6</div>
+      <div class="clear"></div>
+    </div>
+
+    <!-- Storage -->
+    <div class="panel-title">
+      <div class="title">
+        STORAGE
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div>
+      <div class="pull-left storage-col">1</div>
+      <div class="pull-left storage-col">2</div>
+      <div class="pull-left storage-col">3</div>
+      <div class="pull-left storage-col">4</div>
+      <div class="pull-left storage-col">5</div>
+      <div class="pull-left storage-col">6</div>
+      <div class="pull-left storage-col">7</div>
+      <div class="pull-left storage-col">8</div>
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+
+
+var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'));
+heartbeat1.startAnimation();
+setInterval(function() {
+  heartbeat1.beat();
+}, 1000);
+
+
+
+
+
+
+var digitalClock = new zeu.DigitalClcok(
+  document.getElementById('digital-clock'), 
+  {
+    dashColor: '#000',
+    numberColor: '#2196f3',
+    barWidth: 8,
+    barHeight : 30,
+    space: 8
+  }
+);
+digitalClock.tick();
+
+
+var serverGrid = document.getElementById('server-grid');
+var servers = ['A', 'B', 'C', 'D', 'E'];
+var serverTexts = [];
+for (var i = 0; i < servers.length; i++) {
+  createServerGrid(servers[i]);
+}
+
+function createServerGrid(v) {
+  for (var i = 1; i <= 5; i++) {
+    var p = document.createElement('div');
+    p.innerHTML = v + i;
+    p.id = 'server-' + v + i;
+    p.className = 'server-grid';
+    serverGrid.append(p);
+
+    serverTexts.push(new zeu.BlinkText(document.getElementById(p.id)));
+  }
+}
+
+setInterval(function() {
+  for (var i = 0; i < serverTexts.length; i++) {
+    var status = getRandomInt(0, 1);
+    if (status === 0) {
+      serverTexts[i].blink();
+    } else {
+      serverTexts[i].unblink();
+    }
+  }
+}, 10000);
+
+
+var volumeMeter1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'));
+var volumeMeter2 = new zeu.VolumeMeter(document.getElementById('volume-meter-2'));
+var volumeMeter3 = new zeu.VolumeMeter(document.getElementById('volume-meter-3'));
+var volumeMeter4 = new zeu.VolumeMeter(document.getElementById('volume-meter-4'));
+var volumeMeter5 = new zeu.VolumeMeter(document.getElementById('volume-meter-5'));
+var volumeMeter6 = new zeu.VolumeMeter(document.getElementById('volume-meter-6'));
+volumeMeter1.startAnimation();
+volumeMeter2.startAnimation();
+volumeMeter3.startAnimation();
+volumeMeter4.startAnimation();
+volumeMeter5.startAnimation();
+volumeMeter6.startAnimation();
+
+setInterval(function() {
+  volumeMeter1.value = getRandomInt(0, 100);
+  volumeMeter2.value = getRandomInt(0, 100);
+  volumeMeter3.value = getRandomInt(0, 100);
+  volumeMeter4.value = getRandomInt(0, 100);
+  volumeMeter5.value = getRandomInt(0, 100);
+  volumeMeter6.value = getRandomInt(0, 100);
+}, 1000);
+
+var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'));
+var roundFan2 = new zeu.RoundFan(document.getElementById('round-fan-2'));
+var roundFan3 = new zeu.RoundFan(document.getElementById('round-fan-3'));
+var roundFan4 = new zeu.RoundFan(document.getElementById('round-fan-4'));
+roundFan1.on();
+roundFan2.on();
+roundFan3.on();
+roundFan4.on();
+
+setInterval(function() {
+  roundFan1.speed = getRandomInt(1, 5);
+  roundFan2.speed = getRandomInt(1, 5);
+  roundFan3.speed = getRandomInt(1, 5);
+  roundFan4.speed = getRandomInt(1, 5);
+}, 2000);
+
+
+
+
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+</script>
+</body>
+</html>

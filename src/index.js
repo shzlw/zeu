@@ -2,7 +2,7 @@ import BarMeter from './bar-meter';
 import DigitalClcok from './digital-clock';
 import RoundFan from './round-fan';
 import VolumeMeter from './volume-meter';
-import Heatbeat from './heatbeat';
+import Heartbeat from './heartbeat';
 import BlinkDialog from './blink-dialog';
 import BlinkText from './blink-text';
 import ScrollPanel from './scroll-panel';
@@ -13,7 +13,7 @@ export {
   DigitalClcok,
   RoundFan,
   VolumeMeter,
-  Heatbeat,
+  Heartbeat,
   BlinkDialog,
   BlinkText,
   ScrollPanel

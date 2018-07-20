@@ -2,9 +2,15 @@
 
 ![Build Status](https://travis-ci.org/shzlw/zeu.svg?branch=master)
 
+## Demo
+
 [Demo](https://shzlw.github.io/zeu/examples/demo.html)
 
 ## Installation
+
+```html
+<script src="zeu.js"></script>
+```
 
 ## Usage
 

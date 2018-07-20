@@ -1,8 +1,8 @@
 /* global __dirname, require, module*/
 
-const webpack = require('webpack');
+const webpack = require('../../../Library/Caches/typescript/2.9/node_modules/@types/webpack');
 const path = require('path');
-const env = require('yargs').argv.env; // use --env with webpack 2
+const env = require('../../../Library/Caches/typescript/2.9/node_modules/@types/yargs').argv.env; // use --env with webpack 2
 const pkg = require('./package.json');
 
 let libraryName = 'zeu';
