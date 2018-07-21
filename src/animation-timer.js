@@ -7,7 +7,7 @@ export default class AnimationTimer {
     this.render = this.render.bind(this);
 
     // Animation parameters.
-    this._fps = 60;
+    this._fps = 30;
     this._fpsInterval = 1000 / this._fps;
     this._lastFrame = Date.now();
   }

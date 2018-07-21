@@ -11,7 +11,8 @@ export default class Heartbeat extends BaseCanvas {
     this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
     this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
 
-    this._vector = 1;
+    // Affected by the FPS value. If FPS = 60, suggest to set vector = 1;
+    this._vector = 2;
     this._queue = [];
     this._lastSec = 0;
 

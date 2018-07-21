@@ -10,7 +10,10 @@ export default class RoundFan extends BaseCanvas {
     this._fanColor = Utility.has(options, 'fanColor') ? options.fanColor : COLOR.green;
     this._centerColor = Utility.has(options, 'centerColor') ? options.centerColor : '#FFFFFF';
     this._speed = Utility.has(options, 'speed') ? options.speed : 1;
+  }
 
+  postConstructor() {
+    super.postConstructor();
     this._ctx.globalCompositeOperation = 'destination-over';
   }
 

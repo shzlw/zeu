@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Data Center</title>
+<title>My Command Center</title>
 <script src="../lib/zeu.js"></script>
 <style>
 body {
@@ -63,12 +63,12 @@ body {
 
 .title {
   color: #fff;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .sub-title {
   color: #2196f3;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .blue-text {
@@ -107,7 +107,7 @@ body {
   width: 66.5px;
   text-align: center;
   vertical-align: middle;
-  background-color: #0c87eb;
+  background-color: #79bff8;
   color: white;
   margin-top: 10px;
   margin-left: 10px;
@@ -172,7 +172,7 @@ body {
 }
 
 .fan-rpm {
-  margin-top: 20px;
+  margin-top: 30px;
   padding: 5px 0px;
   border-top: 4px solid #fff;
 }
@@ -185,12 +185,50 @@ body {
 .queue-chart-col {
   width: 66px;
   height: 132px;
+  padding-top: 3px;
 }
 
-.storage-col {
-  width: 99px;
-  height: 198px;
-  text-align: center;
+.queue-title {
+  padding: 5px 0px;
+}
+
+.queue-sub-title {
+  padding: 3px 0px;
+  width: 50px;
+  margin: 0 auto;
+  background-color: #0c87eb;
+  color: #fff;
+}
+
+.capacity-col {
+  width: 188px;
+  padding: 5px;
+}
+
+.capacity-name {
+  width: 30px;
+  height: 50px;
+  padding-left: 8px;
+  line-height: 50px;
+  vertical-align: middle;
+  font-size: 18px;
+}
+
+.capacity-sub-name {
+  margin-left: 100px;
+  width: 30px;
+  height: 50px;
+  padding-left: 8px;
+  line-height: 50px;
+  font-size: 16px;
+}
+
+.capacity-chart-col {
+  width: 50px;
+  height: 100px;
+  transform: rotate(90deg);
+  transform-origin: 0px 100px;
+  margin-top: -100px;
 }
 
 .clear {
@@ -362,8 +400,8 @@ body {
       </div>
     </div>
     <div class="border-bottom">
-      <div style="text-align: center; padding: 5px;">
-        CURRENT TIME
+      <div style="text-align: center; padding: 5px 0px 10px 0px;">
+        <div style="padding-top: 5px;">CURRENT TIME</div>
         <div id="digital-clock" style="width: 185px; height: 50px; margin: 0 auto;"></div>
       </div>
       <div class="cluster-top">
@@ -405,19 +443,6 @@ body {
 
   <div class="col-3">
 
-    <!-- Message -->
-    <div class="panel-title">
-      <div class="title">
-        MESSAGES
-      </div>
-      <div class="sub-title">
-        LIVE
-      </div>
-    </div>
-    <div class="border-bottom">
-      Message
-    </div>
-
     <!-- Job queue -->
     <div class="panel-title">
       <div class="title">
@@ -429,56 +454,121 @@ body {
     </div>
     <div class="border-bottom">
       <div class="pull-left queue-col">
-        <div>Q1</div>
-        <div>Q1</div>
+        <div class="queue-title">Q-1</div>
+        <div id="queue-size-1" class="queue-sub-title">Q1</div>
         <div id="message-queue-1" class="queue-chart-col"></div>
       </div>
       <div class="pull-left queue-col">
-        <div>Q2</div>
-        <div>Q2</div>
+        <div class="queue-title">Q-2</div>
+        <div id="queue-size-2" class="queue-sub-title">Q2</div>
         <div id="message-queue-2" class="queue-chart-col"></div>
       </div>
       <div class="pull-left queue-col">
-        <div>Q3</div>
-        <div>Q3</div>
+        <div class="queue-title">Q-3</div>
+        <div id="queue-size-3" class="queue-sub-title">Q3</div>
         <div id="message-queue-3" class="queue-chart-col"></div>
       </div>
       <div class="pull-left queue-col">
-        <div>Q4</div>
-        <div>Q4</div>
+        <div class="queue-title">Q-4</div>
+        <div id="queue-size-4" class="queue-sub-title">Q4</div>
         <div id="message-queue-4" class="queue-chart-col"></div>
       </div>
       <div class="pull-left queue-col">
-        <div>Q5</div>
-        <div>Q5</div>
+        <div class="queue-title">Q-5</div>
+        <div id="queue-size-5" class="queue-sub-title">Q5</div>
         <div id="message-queue-5" class="queue-chart-col"></div>
       </div>
       <div class="pull-left queue-col">
-        <div>Q6</div>
-        <div>Q6</div>
+        <div class="queue-title">Q-6</div>
+        <div id="queue-size-6" class="queue-sub-title">Q6</div>
         <div id="message-queue-6" class="queue-chart-col"></div>
       </div>
       <div class="clear"></div>
     </div>
 
-    <!-- Storage -->
+    <!-- Message -->
     <div class="panel-title">
       <div class="title">
-        STORAGE
+        MESSAGES
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      <div id="scroll-panel" style="overflow: hidden; width: 396px; height: 205px;"></div>
+    </div>
+
+    <!-- Capacity -->
+    <div class="panel-title">
+      <div class="title">
+        CAPACITY
       </div>
       <div class="sub-title">
         LIVE
       </div>
     </div>
     <div>
-      <div class="pull-left storage-col">1</div>
-      <div class="pull-left storage-col">2</div>
-      <div class="pull-left storage-col">3</div>
-      <div class="pull-left storage-col">4</div>
-      <div class="pull-left storage-col">5</div>
-      <div class="pull-left storage-col">6</div>
-      <div class="pull-left storage-col">7</div>
-      <div class="pull-left storage-col">8</div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P1</div>
+        <div id="bar-meter-1" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-1" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P2</div>
+        <div id="bar-meter-2" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-2" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    
+    <div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P3</div>
+        <div id="bar-meter-3" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-3" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P4</div>
+        <div id="bar-meter-4" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-4" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+
+    <div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P5</div>
+        <div id="bar-meter-5" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-5" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P6</div>
+        <div id="bar-meter-6" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-6" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+
+    <div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P7</div>
+        <div id="bar-meter-7" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-7" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P8</div>
+        <div id="bar-meter-8" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-8" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
       <div class="clear"></div>
     </div>
   </div>
@@ -640,6 +730,13 @@ var messageQueue4 = new zeu.MessageQueue(document.getElementById('message-queue-
 var messageQueue5 = new zeu.MessageQueue(document.getElementById('message-queue-5'), messageQueueConfig);
 var messageQueue6 = new zeu.MessageQueue(document.getElementById('message-queue-6'), messageQueueConfig);
 
+var mqSize1 = document.getElementById('queue-size-1');
+var mqSize2 = document.getElementById('queue-size-2');
+var mqSize3 = document.getElementById('queue-size-3');
+var mqSize4 = document.getElementById('queue-size-4');
+var mqSize5 = document.getElementById('queue-size-5');
+var mqSize6 = document.getElementById('queue-size-6');
+
 setInterval(function() {
   if (isPush()) { messageQueue1.push(); }
   if (isPush()) { messageQueue2.push(); }
@@ -647,6 +744,13 @@ setInterval(function() {
   if (isPush()) { messageQueue4.push(); }
   if (isPush()) { messageQueue5.push(); }
   if (isPush()) { messageQueue6.push(); }
+
+  mqSize1.innerHTML = messageQueue1.queueSize;
+  mqSize2.innerHTML = messageQueue2.queueSize;
+  mqSize3.innerHTML = messageQueue3.queueSize;
+  mqSize4.innerHTML = messageQueue4.queueSize;
+  mqSize5.innerHTML = messageQueue5.queueSize;
+  mqSize6.innerHTML = messageQueue6.queueSize;
 }, 500);
 
 function isPush() {
@@ -661,6 +765,60 @@ setInterval(function() {
   messageQueue5.pop();
   messageQueue6.pop();
 }, 1000);
+
+
+var scrollPanel = new zeu.ScrollPanel(document.getElementById('scroll-panel'));
+setInterval(function() {
+  var message = document.createElement('div');
+  message.innerHTML = 'time_' + Date.now();
+  message.style.cssText = 'margin: 5px; padding: 5px; color: white; background-color: ' + blue_d1 + ';';
+  scrollPanel.push(message);
+}, 500);
+
+var barMeterConfig1 = {barColor: blue_d1};
+var barMeter1 = new zeu.BarMeter(document.getElementById('bar-meter-1'), barMeterConfig1);
+var barMeter2 = new zeu.BarMeter(document.getElementById('bar-meter-2'), barMeterConfig1);
+var barMeter3 = new zeu.BarMeter(document.getElementById('bar-meter-3'), barMeterConfig1);
+var barMeter4 = new zeu.BarMeter(document.getElementById('bar-meter-4'), barMeterConfig1);
+
+var barMeterConfig2 = {barColor: blue_d1};
+var barMeter5 = new zeu.BarMeter(document.getElementById('bar-meter-5'), barMeterConfig2);
+var barMeter6 = new zeu.BarMeter(document.getElementById('bar-meter-6'), barMeterConfig2);
+var barMeter7 = new zeu.BarMeter(document.getElementById('bar-meter-7'), barMeterConfig2);
+var barMeter8 = new zeu.BarMeter(document.getElementById('bar-meter-8'), barMeterConfig2);
+
+var stoargePct1 = document.getElementById('capacity-pct-1');
+var stoargePct2 = document.getElementById('capacity-pct-2');
+var stoargePct3 = document.getElementById('capacity-pct-3');
+var stoargePct4 = document.getElementById('capacity-pct-4');
+var stoargePct5 = document.getElementById('capacity-pct-5');
+var stoargePct6 = document.getElementById('capacity-pct-6');
+var stoargePct7 = document.getElementById('capacity-pct-7');
+var stoargePct8 = document.getElementById('capacity-pct-8');
+
+setInterval(function() {
+  barMeter1.value = getRandomInt(10, 90);
+  barMeter2.value = getRandomInt(10, 90);
+  barMeter3.value = getRandomInt(10, 90);
+  barMeter4.value = getRandomInt(10, 90);
+  barMeter5.value = getRandomInt(10, 90);
+  barMeter6.value = getRandomInt(10, 90);
+  barMeter7.value = getRandomInt(10, 90);
+  barMeter8.value = getRandomInt(10, 90);
+
+  stoargePct1.innerHTML = barMeter1.valuePct;
+  stoargePct2.innerHTML = barMeter2.valuePct;
+  stoargePct3.innerHTML = barMeter3.valuePct;
+  stoargePct4.innerHTML = barMeter4.valuePct;
+  stoargePct5.innerHTML = barMeter5.valuePct;
+  stoargePct6.innerHTML = barMeter6.valuePct;
+  stoargePct7.innerHTML = barMeter7.valuePct;
+  stoargePct8.innerHTML = barMeter8.valuePct;
+  
+}, 5000);
+
+
+
 
 
 function getRandomInt(min, max) {
