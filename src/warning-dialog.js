@@ -1,7 +1,13 @@
+import Utility from './utility';
 
-export default class BlinkDialog {
+export default class WarningDialog {
 
-  constructor() {
+  constructor(options) {
+    this._reasonText = Utility.has(options, 'reason') ? options.reason : '';
+    this._interval = Utility.has(options, 'interval') ? options.interval : 1000;
+    // let red = '#dc3545';
+    // let yellow = '#ffc107';
+
     let d = document.createElement('div');
 
     let dialogCss = `
@@ -12,10 +18,27 @@ export default class BlinkDialog {
       padding: 0;
       width: 100%;
       height: 100%;
-      z-index: 10;
-      border: 30px solid #dc3545;
+      z-index: 100;
+      display: none;
+      background-color: rgb(220, 53, 69, 0.8);
+    `;
+
+    d.style.cssText = dialogCss;
+
+    let panel = document.createElement('div');
+    let panelCss = `
+      width: 600px;
+      height: 400px;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      margin-top: -200px; 
+      margin-left: -300px;
+      text-align: center;
+      padding: 20px;
+      border: 20px solid #dc3545;
       box-sizing: border-box;
-      background-size: 100px 100px;
+      background-size: 80px 80px;
       background-image: linear-gradient(
         45deg, 
         #dc3545 25%, 
@@ -28,36 +51,42 @@ export default class BlinkDialog {
       animation: zeu-pole 1s linear infinite;
     `;
 
-    d.style.cssText = dialogCss;
-
-    let panel = document.createElement('div');
-    let panelCss = `
-      width: 300px;
-      height: 200px;
-      position: relative;
-      top: 50%;
-      left: 50%;
-      margin-top: -120px; 
-      margin-left: -170px;
-      border: 10px dashed black;
-      background-color: white;
-      text-align: center;
-      padding: 10px;
-    `;
-
     panel.style.cssText = panelCss;
 
+    let innerPanel = document.createElement('div');
+
+    innerPanel.style.cssText = `
+      margin: 0 auto;
+    `;
     let warning = document.createElement('div');
 
     warning.innerHTML = 'WARNING';
-    warning.style.cssText = 'height: 50px; border: 10px solid #dc3545;';
+    warning.style.cssText = `
+      height: 100px; 
+      background-color: #dc3545;
+      line-height: 100px;
+      font-size: 50px;
+      font-weight: bold;
+      color: #fff;
+    `;
 
     this._reason = document.createElement('div');
     this._reason.innerHTML = this._reasonText;
-    this._reason.style.cssText = '';
+    this._reason.style.cssText = `
+      height: 180px;
+      background-color: rgb(220, 53, 69, 0.9);
+      font-size: 30px;
+      color: #fff;
+      padding: 10px;
+      border-left: 20px solid #dc3545;
+      border-right: 20px solid #dc3545;
+      border-bottom: 20px solid #dc3545;
+    `;
 
-    panel.appendChild(warning);
-    panel.appendChild(this._reason);
+    innerPanel.appendChild(warning);
+    innerPanel.appendChild(this._reason);
+
+    panel.appendChild(innerPanel);
 
     d.appendChild(panel);
 
@@ -71,7 +100,7 @@ export default class BlinkDialog {
     let zeuPole = `
     @keyframes zeu-pole {
       from { background-position: 0 0; }
-      to { background-position: 200px 100px; }
+      to { background-position: 160px 80px; }
     }
     `;
 
@@ -91,11 +120,12 @@ export default class BlinkDialog {
     this._blinkTimer = null;
   }
 
-  blink(message) {
-    if (message != null) {
-      this._dialog.innerHTML = message;
-    }
+  set reason(reason) {
+    this._reasonText = reason;
+    this._reason.innerHTML = this._reasonText;
+  }
 
+  blink() {
     this._dialog.style.display = 'block';
 
     if (this._blinkTimer == null) {
@@ -105,7 +135,7 @@ export default class BlinkDialog {
         } else {
           this._dialog.style.display = 'none';
         }
-      }, 10000000);
+      }, this._interval);
     }
   }
 

@@ -11,8 +11,9 @@
 
 <script type="text/javascript">
 
-  var blinkDialog = new zeu.BlinkDialog();
-  blinkDialog.blink();
+  var warningDialog = new zeu.WarningDialog({ interval: 50000 });
+  warningDialog.reason = 'PLEASE';
+  warningDialog.blink();
   //blinkDialog.unblink();
 
 </script>

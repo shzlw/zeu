@@ -1,13 +1,14 @@
 import { GLOBAL } from './global';
+import Settings from './settings';
 
-export default class AnimationTimer {
+class AnimationTimer {
 
   constructor() {
     // Bind the render function.
     this.render = this.render.bind(this);
 
     // Animation parameters.
-    this._fps = 30;
+    this._fps = Settings._fps;
     this._fpsInterval = 1000 / this._fps;
     this._lastFrame = Date.now();
   }
@@ -41,3 +42,6 @@ export default class AnimationTimer {
   }
 
 }
+
+export default new AnimationTimer();
+

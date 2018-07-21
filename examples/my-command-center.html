@@ -262,20 +262,13 @@ body {
   top: 10px;
   right: 10px;
 }
-/*
-  blue: #2196f3
-  l5: #f2f9fe
-  l2: #79bff8
-  d1: #0c87eb
-  d5: #074b83
 
-  red: #f44336
-  l2: #f98d85
-  d1: #f32617
-  d5: #8d1007
+.github-button:hover {
+  background-color: #0c87eb;
+  border: 2px solid #fff;
+  color: #fff;
+}
 
-  yellow: #ffeb3b
-*/
 </style>
 </head>
 <body>
@@ -365,22 +358,22 @@ body {
       <div class="pull-left fan-col">
         <div class="fan-title">FAN 1</div>
         <div id="round-fan-1" class="fan-chart-col"></div>
-        <div class="fan-rpm border-right"><span class="green">10</span> RPM</div>
+        <div class="fan-rpm border-right"><span id="fan-speed-1" class="green">10</span> RPM</div>
       </div>
       <div class="pull-left fan-col">
         <div class="fan-title">FAN 2</div>
         <div id="round-fan-2" class="fan-chart-col"></div>
-        <div class="fan-rpm border-right"><span class="green">11</span> RPM</div>
+        <div class="fan-rpm border-right"><span id="fan-speed-2" class="green">11</span> RPM</div>
       </div>
       <div class="pull-left fan-col">
         <div class="fan-title">FAN 3</div>
         <div id="round-fan-3" class="fan-chart-col"></div>
-        <div class="fan-rpm border-right"><span class="green">19</span> RPM</div>
+        <div class="fan-rpm border-right"><span id="fan-speed-3" class="green">19</span> RPM</div>
       </div>
       <div class="pull-left fan-col">
         <div class="fan-title">FAN 4</div>
         <div id="round-fan-4" class="fan-chart-col"></div>
-        <div class="fan-rpm"><span class="green">8</span> RPM</div>
+        <div class="fan-rpm"><span id="fan-speed-4" class="green">8</span> RPM</div>
       </div>
 
       <div class="clear"></div>
@@ -489,7 +482,7 @@ body {
     <!-- Message -->
     <div class="panel-title">
       <div class="title">
-        MESSAGES
+        MESSAGE
       </div>
       <div class="sub-title">
         LIVE
@@ -584,10 +577,13 @@ var blue_l2 = '#79bff8';
 var blue_d1 = '#0c87eb';
 var blue_d5 = '#074b83';
 
+var yellow = '#ffeb3b';
 var green = '#4caf50';
 var red = '#f44336';
 var white = '#fff';
 var black = '#000';
+
+zeu.Settings.fps = 30;
 
 var heartbeatConfig = {
   fontColor: white,
@@ -677,9 +673,13 @@ function createServerGrid(v) {
 
 setInterval(function() {
   for (var i = 0; i < serverTexts.length; i++) {
-    var status = getRandomInt(0, 1);
+    var status = getRandomInt(0, 2);
     if (status === 0) {
+      serverTexts[i].blinkCss = 'color: white; background-color: ' + red + ';';
       serverTexts[i].blink();
+    } else if (status === 1) {
+      serverTexts[i].blinkCss = 'color: white; background-color: ' + blue_d5 + ';';
+      serverTexts[i].blink();  
     } else {
       serverTexts[i].unblink();
     }
@@ -708,7 +708,7 @@ setInterval(function() {
   volumeMeter6.value = getRandomInt(0, 100);
 }, 1000);
 
-var roundFanConfig = {fanColor: blue_d1, centerColor: black};
+var roundFanConfig = {fanColor: blue, centerColor: black};
 var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'), roundFanConfig);
 var roundFan2 = new zeu.RoundFan(document.getElementById('round-fan-2'), roundFanConfig);
 var roundFan3 = new zeu.RoundFan(document.getElementById('round-fan-3'), roundFanConfig);
@@ -721,6 +721,15 @@ roundFan1.on();
 roundFan2.on();
 roundFan3.on();
 roundFan4.on();
+
+var fanSpeed1 = document.getElementById('fan-speed-1');
+var fanSpeed2 = document.getElementById('fan-speed-2');
+var fanSpeed3 = document.getElementById('fan-speed-3');
+var fanSpeed4 = document.getElementById('fan-speed-4');
+fanSpeed1.innerHTML = roundFan1.speed * 5;
+fanSpeed2.innerHTML = roundFan2.speed * 5;
+fanSpeed3.innerHTML = roundFan3.speed * 5;
+fanSpeed4.innerHTML = roundFan4.speed * 5;
 
 var messageQueueConfig = {barColor: blue_l2, barWidth: 60};
 var messageQueue1 = new zeu.MessageQueue(document.getElementById('message-queue-1'), messageQueueConfig);
@@ -770,10 +779,28 @@ setInterval(function() {
 var scrollPanel = new zeu.ScrollPanel(document.getElementById('scroll-panel'));
 setInterval(function() {
   var message = document.createElement('div');
-  message.innerHTML = 'time_' + Date.now();
-  message.style.cssText = 'margin: 5px; padding: 5px; color: white; background-color: ' + blue_d1 + ';';
+  message.innerHTML = getCurrentTime() + ' NEW MESSAGE: ' + getRandomInt(1, 9) + ' DB-' + getRandomInt(1, 9);
+  message.style.cssText = 'margin: 5px; padding: 5px; color: white; background-color: ' + getSrollColor() + ';';
   scrollPanel.push(message);
 }, 500);
+
+function getCurrentTime() {
+  var now = new Date();
+  var time = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+  return time;
+}
+
+setInterval(function() {
+  scrollPanel.pop();
+}, 800);
+
+function getSrollColor() {
+  var c = getRandomInt(0, 3);
+  if (c == 0) { return blue; }
+  else if (c == 1) { return blue_l2; }
+  else if (c == 2) { return blue_d1; }
+  return blue_d5;
+}
 
 var barMeterConfig1 = {barColor: blue_d1};
 var barMeter1 = new zeu.BarMeter(document.getElementById('bar-meter-1'), barMeterConfig1);
@@ -818,7 +845,15 @@ setInterval(function() {
 }, 5000);
 
 
+var warningDialog = new zeu.WarningDialog();
+warningDialog.reason = 'PLEASE CHECK YOUR SERVER!';
 
+setInterval(function() {
+  warningDialog.blink();
+  setTimeout(function() {
+    warningDialog.unblink();
+  }, 6500);
+}, 20000);
 
 
 function getRandomInt(min, max) {

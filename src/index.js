@@ -3,12 +3,13 @@ import DigitalClcok from './digital-clock';
 import RoundFan from './round-fan';
 import VolumeMeter from './volume-meter';
 import Heartbeat from './heartbeat';
-import BlinkDialog from './blink-dialog';
+import WarningDialog from './warning-dialog';
 import BlinkText from './blink-text';
 import ScrollPanel from './scroll-panel';
 import MessageQueue from './message-queue';
 import DoubleCircle from './double-circle';
 import AnimationTimer from './animation-timer';
+import Settings from './settings';
 
 export {
   BarMeter,
@@ -18,10 +19,11 @@ export {
   Heartbeat,
   MessageQueue,
   DoubleCircle,
-  BlinkDialog,
+  WarningDialog,
   BlinkText,
-  ScrollPanel
+  ScrollPanel,
+  Settings
 };
 
 // Fire up window.requestAnimationFrame()
-new AnimationTimer().render();
+AnimationTimer.render();

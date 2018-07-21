@@ -11,7 +11,7 @@ export default class ScrollPanel {
 
     this._defaultCss = Utility.has(options, 'defaultCss') ? options.defaultCss : defaultCss;
     this._isUp = Utility.has(options, 'isUp') ? options.isUp : true;;
-    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 50;
+    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
   }
 
   set isUp(isUp) {
@@ -34,6 +34,8 @@ export default class ScrollPanel {
     if (this._queue.length > this._maxQueueCapacity) {
       this.pop();
     }
+
+    this._queue.push(boxDiv);
 
     if (this._isUp) {
       this._div.prepend(boxDiv);
