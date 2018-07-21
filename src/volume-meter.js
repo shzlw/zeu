@@ -22,7 +22,8 @@ export default class VolumeMeter extends BaseCanvas {
 
   }
 
-  configCtx() {
+  postConstructor() {
+    super.postConstructor();
     this._ctx.font = '12px Arial';
   }
 

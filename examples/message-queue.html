@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Message Queue</title>
+<script src="../lib/zeu.js"></script>
+<script src="examples.js"></script>
+<link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <div class="container">
+    <h3>Normal</h3>
+    <div id="message-queue-1" style="width: 200px; height: 400px;"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var messageQueue1 = new zeu.MessageQueue(document.getElementById('message-queue-1'));
+  setInterval(function() {
+    messageQueue1.push();
+  }, 300);
+
+  setInterval(function() {
+    messageQueue1.pop();
+  }, 1000);
+
+</script>
+</body>
+</html>

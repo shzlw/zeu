@@ -58,7 +58,7 @@ body {
 
 .panel-title {
   border-bottom: 4px solid #fff;
-  padding: 4px;
+  padding: 4px 8px;
 }
 
 .title {
@@ -90,9 +90,8 @@ body {
 }
 
 .master-chart {
-  width: 280px;
-  height: 50px;
-  padding: 5px;
+  width: 240px;
+  height: 80px;
   border-left: 2px solid #0c87eb;
   border-right: 2px solid #0c87eb;
 }
@@ -101,7 +100,7 @@ body {
   float: left;
   height: 40px;
   line-height: 40px;
-  width: 66px;
+  width: 66.5px;
   text-align: center;
   vertical-align: middle;
   background-color: #0c87eb;
@@ -112,8 +111,13 @@ body {
 
 .cluster-circle {
   width: 196px;
-  height: 196px;
   text-align: center;
+}
+
+.cluster-chart-circle {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
 }
 
 .temperature-col {
@@ -128,14 +132,22 @@ body {
 
 .fan-col {
   width: 99px;
-  height: 99px;
   text-align: center;
+}
+
+.fan-chart-col {
+  width: 99px;
+  height: 99px;
 }
 
 .queue-col {
   width: 66px;
-  height: 132px;
   text-align: center;
+}
+
+.queue-chart-col {
+  width: 66px;
+  height: 132px;
 }
 
 .storage-col {
@@ -250,22 +262,22 @@ body {
     <div>
       <div class="pull-left fan-col">
         <div>Fan 1</div>
-        <div id="round-fan-1" class="fan-col"></div>
+        <div id="round-fan-1" class="fan-chart-col"></div>
         <div>10 RPM</div>
       </div>
       <div class="pull-left fan-col">
         <div>Fan 2</div>
-        <div id="round-fan-2" class="fan-col"></div>
+        <div id="round-fan-2" class="fan-chart-col"></div>
         <div>10 RPM</div>
       </div>
       <div class="pull-left fan-col">
         <div>Fan 3</div>
-        <div id="round-fan-3" class="fan-col"></div>
+        <div id="round-fan-3" class="fan-chart-col"></div>
         <div>10 RPM</div>
       </div>
       <div class="pull-left fan-col">
         <div>Fan 4</div>
-        <div id="round-fan-4" class="fan-col"></div>
+        <div id="round-fan-4" class="fan-chart-col"></div>
         <div>10 RPM</div>
       </div>
 
@@ -292,16 +304,20 @@ body {
       </div>
 
       <div class="pull-left cluster-circle">
-        circle
+        <div>circle</div>
+        <div id="double-circle-1" class="cluster-chart-circle"></div>
       </div>
       <div class="pull-left cluster-circle">
-        circle
+        <div>circle</div>
+        <div id="double-circle-2" class="cluster-chart-circle"></div>
       </div>
       <div class="pull-left cluster-circle">
-        circle
+        <div>circle</div>
+        <div id="double-circle-3" class="cluster-chart-circle"></div>
       </div>
       <div class="pull-left cluster-circle">
-        circle
+        <div>circle</div>
+        <div id="double-circle-4" class="cluster-chart-circle"></div>
       </div>
 
         <div class="clear"></div>
@@ -345,12 +361,36 @@ body {
       </div>
     </div>
     <div class="border-bottom">
-      <div class="pull-left queue-col">1</div>
-      <div class="pull-left queue-col">2</div>
-      <div class="pull-left queue-col">3</div>
-      <div class="pull-left queue-col">4</div>
-      <div class="pull-left queue-col">5</div>
-      <div class="pull-left queue-col">6</div>
+      <div class="pull-left queue-col">
+        <div>Q1</div>
+        <div>Q1</div>
+        <div id="message-queue-1" class="queue-chart-col"></div>
+      </div>
+      <div class="pull-left queue-col">
+        <div>Q2</div>
+        <div>Q2</div>
+        <div id="message-queue-2" class="queue-chart-col"></div>
+      </div>
+      <div class="pull-left queue-col">
+        <div>Q3</div>
+        <div>Q3</div>
+        <div id="message-queue-3" class="queue-chart-col"></div>
+      </div>
+      <div class="pull-left queue-col">
+        <div>Q4</div>
+        <div>Q4</div>
+        <div id="message-queue-4" class="queue-chart-col"></div>
+      </div>
+      <div class="pull-left queue-col">
+        <div>Q5</div>
+        <div>Q5</div>
+        <div id="message-queue-5" class="queue-chart-col"></div>
+      </div>
+      <div class="pull-left queue-col">
+        <div>Q6</div>
+        <div>Q6</div>
+        <div id="message-queue-6" class="queue-chart-col"></div>
+      </div>
       <div class="clear"></div>
     </div>
 
@@ -382,7 +422,10 @@ body {
 <script type="text/javascript">
 
 
-var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'));
+var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'), {
+  fontColor: '#fff',
+  lineColor: '#2196f3'
+});
 heartbeat1.startAnimation();
 setInterval(function() {
   heartbeat1.beat();
@@ -404,6 +447,11 @@ var digitalClock = new zeu.DigitalClcok(
   }
 );
 digitalClock.tick();
+
+var doubleCircle1 = new zeu.DoubleCircle(document.getElementById('double-circle-1'));
+var doubleCircle2 = new zeu.DoubleCircle(document.getElementById('double-circle-2'));
+var doubleCircle3 = new zeu.DoubleCircle(document.getElementById('double-circle-3'));
+var doubleCircle4 = new zeu.DoubleCircle(document.getElementById('double-circle-4'));
 
 
 var serverGrid = document.getElementById('server-grid');
@@ -443,12 +491,6 @@ var volumeMeter3 = new zeu.VolumeMeter(document.getElementById('volume-meter-3')
 var volumeMeter4 = new zeu.VolumeMeter(document.getElementById('volume-meter-4'));
 var volumeMeter5 = new zeu.VolumeMeter(document.getElementById('volume-meter-5'));
 var volumeMeter6 = new zeu.VolumeMeter(document.getElementById('volume-meter-6'));
-volumeMeter1.startAnimation();
-volumeMeter2.startAnimation();
-volumeMeter3.startAnimation();
-volumeMeter4.startAnimation();
-volumeMeter5.startAnimation();
-volumeMeter6.startAnimation();
 
 setInterval(function() {
   volumeMeter1.value = getRandomInt(0, 100);
@@ -476,7 +518,34 @@ setInterval(function() {
 }, 2000);
 
 
+var messageQueue1 = new zeu.MessageQueue(document.getElementById('message-queue-1'));
+var messageQueue2 = new zeu.MessageQueue(document.getElementById('message-queue-2'));
+var messageQueue3 = new zeu.MessageQueue(document.getElementById('message-queue-3'));
+var messageQueue4 = new zeu.MessageQueue(document.getElementById('message-queue-4'));
+var messageQueue5 = new zeu.MessageQueue(document.getElementById('message-queue-5'));
+var messageQueue6 = new zeu.MessageQueue(document.getElementById('message-queue-6'));
 
+setInterval(function() {
+  if (isPush()) { messageQueue1.push(); }
+  if (isPush()) { messageQueue2.push(); }
+  if (isPush()) { messageQueue3.push(); }
+  if (isPush()) { messageQueue4.push(); }
+  if (isPush()) { messageQueue5.push(); }
+  if (isPush()) { messageQueue6.push(); }
+}, 500);
+
+function isPush() {
+  return getRandomInt(0, 1) === 0 ? true : false;
+}
+
+setInterval(function() {
+  messageQueue1.pop();
+  messageQueue2.pop();
+  messageQueue3.pop();
+  messageQueue4.pop();
+  messageQueue5.pop();
+  messageQueue6.pop();
+}, 1000);
 
 
 function getRandomInt(min, max) {

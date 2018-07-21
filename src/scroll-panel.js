@@ -6,7 +6,7 @@ export default class ScrollPanel {
   constructor(baseDiv, options) {
     this._div = baseDiv;
 
-    this._array = [];
+    this._queue = [];
     let defaultCss = 'margin: 3px; padding: 3px; color: white; background-color: ' + COLOR.green + ';';
 
     this._defaultCss = Utility.has(options, 'defaultCss') ? options.defaultCss : defaultCss;
@@ -31,27 +31,25 @@ export default class ScrollPanel {
   }
 
   push(boxDiv) {
-    if (this.isExceedCapacity()) {
+    if (this._queue.length > this._maxQueueCapacity) {
       this.pop();
+    }
+
+    if (this._isUp) {
+      this._div.prepend(boxDiv);
+      this._div.scrollBottom = this._div.scrollHeight;
     } else {
-      if (this._isUp) {
-        this._div.prepend(boxDiv);
-        this._div.scrollBottom = this._div.scrollHeight;
-      } else {
-        this._div.append(boxDiv);
-        this._div.scrollTop = this._div.scrollHeight;
-      }
+      this._div.append(boxDiv);
+      this._div.scrollTop = this._div.scrollHeight;
     }
   }
 
   pop() {
-    let f = this._array.shift();
+    if (this._queue.length > 0) {
+      let f = this._queue.shift();
 
-    this._div.removeChild(f);
-  }
-
-  isExceedCapacity() {
-    return this._array.length >= this._maxQueueCapacity;
+      this._div.removeChild(f);
+    }
   }
 
   pushText(text, css) {

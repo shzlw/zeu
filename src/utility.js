@@ -21,4 +21,8 @@ export default class Utility {
     now.setHours(now.getHours() + h);
     return now;
   }
+
+  static getAngleByDate(speed, date) {
+    return ((speed * Math.PI) / 6) * date.getSeconds() + ((speed * Math.PI) / 6000) * date.getMilliseconds();
+  }
 }

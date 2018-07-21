@@ -6,6 +6,8 @@ import Heartbeat from './heartbeat';
 import BlinkDialog from './blink-dialog';
 import BlinkText from './blink-text';
 import ScrollPanel from './scroll-panel';
+import MessageQueue from './message-queue';
+import DoubleCircle from './double-circle';
 import AnimationTimer from './animation-timer';
 
 export {
@@ -14,6 +16,8 @@ export {
   RoundFan,
   VolumeMeter,
   Heartbeat,
+  MessageQueue,
+  DoubleCircle,
   BlinkDialog,
   BlinkText,
   ScrollPanel

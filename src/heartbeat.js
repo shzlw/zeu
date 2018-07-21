@@ -4,13 +4,13 @@ import { COLOR } from './color';
 
 export default class Heartbeat extends BaseCanvas {
 
-  constructor(canvas, options) {
-    super(canvas, 300, 100);
+  constructor(baseDiv, options) {
+    super(baseDiv, 300, 100);
 
     this._lineColor = Utility.has(options, 'lineColor') ? options.lineColor : COLOR.green;
     this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
-    this._queueMaxCapacity = Utility.has(options, 'queueMaxCapacity') ? options.queueMaxCapacity : 30;
-    
+    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
+
     this._vector = 1;
     this._queue = [];
     this._lastSec = 0;
@@ -18,7 +18,8 @@ export default class Heartbeat extends BaseCanvas {
     this.drawSeconds();
   }
 
-  configCtx() {
+  postConstructor() {
+    super.postConstructor();
     this._ctx.textAlign = 'center';
     this._ctx.font = '12px Arial';
   }
@@ -29,7 +30,7 @@ export default class Heartbeat extends BaseCanvas {
 
   drawSeconds() {
     setInterval(() => {
-      if (this._queue.length >= this._queueMaxCapacity) {
+      if (this._queue.length >= this._maxQueueCapacity) {
         this._queue.shift();
       }
 

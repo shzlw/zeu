@@ -50,13 +50,11 @@ export default class RoundFan extends BaseCanvas {
     this.clearAll();
     this._ctx.save();
     this.scale();
+
     this._ctx.translate(100, 100);
     let now = new Date();
 
-    this._ctx.rotate(
-      ((this._speed * Math.PI) / 6) * now.getSeconds() +
-      ((this._speed * Math.PI) / 6000) * now.getMilliseconds()
-    );
+    this._ctx.rotate(Utility.getAngleByDate(this._speed, now));
 
     this._ctx.strokeStyle = this._centerColor;
     this._ctx.beginPath();

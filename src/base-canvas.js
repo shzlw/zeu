@@ -26,10 +26,17 @@ export default class BaseCanvas {
     this._lineColor = COLOR.grey;
     this._fillColor = COLOR.green;
 
-    this.configCtx();
+    this.postConstructor();
   }
 
-  configCtx() {}
+  destroy() {
+    this.stopAnimation();
+    this._div.removeChild(this._canvas);
+  }
+
+  postConstructor() {
+    this.startAnimation();
+  }
 
   scale() {
     // Base scale on the height.
