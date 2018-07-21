@@ -19,17 +19,19 @@ export default class DoubleCircle extends BaseCanvas {
     this._innerSpeed = Utility.has(inner, 'speed') ? inner.speed : 0.2;
     this._innerRadius = Utility.has(inner, 'radius') ? inner.radius : 80;
 
-    this._fontColor = COLOR.green;
-    this._text = 'ON';
+    this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.green;
+    this._text = Utility.has(options, 'text') ? options.text : 'ON';
 
     this._isDot = Utility.has(options, 'isDot') ? options.isDot : true;
-    this._dots = Utility.has(options, 'dots') ? options.dots : 40;
+    this._dots = Utility.has(options, 'dots') ? options.dots : 30;
     this._lineWidth = 10;
+
+    this._interval = (Math.PI * 2) / this._dots;
   }
 
   postConstructor() {
     super.postConstructor();
-    this._ctx.font = '15px Arial';
+    this._ctx.font = '20px Arial';
     this._ctx.textAlign = 'center';
   }
 
@@ -42,6 +44,7 @@ export default class DoubleCircle extends BaseCanvas {
     let outerAngle = Utility.getAngleByDate(this._outerSpeed, now);
     let innerAngle = -Utility.getAngleByDate(this._innerSpeed, now);
 
+    this._ctx.fillStyle = this._fontColor;
     this._ctx.fillText(this._text, 100, 100);
 
     this._ctx.translate(100, 100);
@@ -51,7 +54,7 @@ export default class DoubleCircle extends BaseCanvas {
     if (this._isDot) {
       this._ctx.fillStyle = this._outerColor;
       for (let i = 0; i < this._dots; i++) {
-        let d = (Math.PI * 2) / this._dots * i;
+        let d = this._interval * i;
         let x = this._outerRadius * Math.cos(d);
         let y = this._outerRadius * Math.sin(d);
 
@@ -79,7 +82,7 @@ export default class DoubleCircle extends BaseCanvas {
     if (this._isDot) {
       this._ctx.fillStyle = this._innerColor;
       for (let i = 0; i < this._dots; i++) {
-        let d = (Math.PI * 2) / this._dots * i;
+        let d = this._interval * i;
         let x = this._innerRadius * Math.cos(d);
         let y = this._innerRadius * Math.sin(d);
 

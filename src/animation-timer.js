@@ -27,9 +27,13 @@ export default class AnimationTimer {
         let drawFrameObj = GLOBAL.requestAnimationFrameArray[i];
 
         // Buy me some time.
+        /*
         setTimeout(() => {
           drawFrameObj.func.call(drawFrameObj.self);
         }, 0);
+        */
+
+        drawFrameObj.func.call(drawFrameObj.self);
       }
 
     }

@@ -30,6 +30,37 @@ export default class BlinkDialog {
 
     d.style.cssText = dialogCss;
 
+    let panel = document.createElement('div');
+    let panelCss = `
+      width: 300px;
+      height: 200px;
+      position: relative;
+      top: 50%;
+      left: 50%;
+      margin-top: -120px; 
+      margin-left: -170px;
+      border: 10px dashed black;
+      background-color: white;
+      text-align: center;
+      padding: 10px;
+    `;
+
+    panel.style.cssText = panelCss;
+
+    let warning = document.createElement('div');
+
+    warning.innerHTML = 'WARNING';
+    warning.style.cssText = 'height: 50px; border: 10px solid #dc3545;';
+
+    this._reason = document.createElement('div');
+    this._reason.innerHTML = this._reasonText;
+    this._reason.style.cssText = '';
+
+    panel.appendChild(warning);
+    panel.appendChild(this._reason);
+
+    d.appendChild(panel);
+
     this._dialog = d;
     // Append dialog div to body
     let body = document.body || document.getElementsByTagName('body')[0];
@@ -62,7 +93,7 @@ export default class BlinkDialog {
 
   blink(message) {
     if (message != null) {
-      this._div.innerHTML = message;
+      this._dialog.innerHTML = message;
     }
 
     this._dialog.style.display = 'block';
@@ -74,7 +105,7 @@ export default class BlinkDialog {
         } else {
           this._dialog.style.display = 'none';
         }
-      }, 1000);
+      }, 10000000);
     }
   }
 

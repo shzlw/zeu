@@ -1,5 +1,7 @@
 
 import BaseCanvas from './base-canvas';
+import { COLOR } from './color';
+import Utility from './utility';
 
 export default class VolumeMeter extends BaseCanvas {
 
@@ -9,13 +11,17 @@ export default class VolumeMeter extends BaseCanvas {
     this._min = 0;
     this._max = 100;
     this._value = 50;
+    this._fillColor = Utility.has(options, 'fillColor') ? options.fillColor : COLOR.green;
+    this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
+    this._lineColor = Utility.has(options, 'lineColor') ? options.lineColor : COLOR.black;
     this._speed = 3;
 
-    this._lineWidth = 5;
+    this._lineWidth = Utility.has(options, 'lineWidth') ? options.lineWidth : 5;
 
     this._margin = 40;
     this._meterWidth = 50;
     this._meterHeight = 180;
+
     // Ignore line width totally.
     this._y = this._meterHeight - ((this._value / (this._max - this._min)) * this._meterHeight) + 10;
     this._nextY = this._y;
@@ -65,7 +71,7 @@ export default class VolumeMeter extends BaseCanvas {
     // Draw the border.
     this._ctx.rect(25, 10, this._meterWidth, this._meterHeight);
     this._ctx.lineWidth = this._lineWidth;
-    this._ctx.strokeStyle = this._fontColor;
+    this._ctx.strokeStyle = this._lineColor;
 
     this._ctx.fillStyle = this._fontColor;
     // Draw max number.

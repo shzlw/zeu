@@ -17,6 +17,14 @@ export default class MessageQueue extends BaseCanvas {
     this._queue = [];
   }
 
+  set barColor(barColor) {
+    this._barColor = barColor;
+  }
+
+  get queueSize() {
+    return this._queue.length;
+  }
+
   push() {
     if (this._queue.length > this._maxQueueCapacity) {
       this.pop();

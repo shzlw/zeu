@@ -98,12 +98,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }, 1000);
   
 
-  var heatbeat = new zeu.Heatbeat(document.getElementById('heatbeat'));
-  heatbeat.startAnimation();
-  setInterval(function() {
-    heatbeat.beat();
-  }, 1500);
-
   var blinkDialog = new zeu.BlinkDialog();
   blinkDialog.blink('BLINK DIALOG!');
   blinkDialog.unblink();

@@ -79,27 +79,31 @@ body {
   float: left;
 }
 
-.master {
+.region {
   margin: 10px 5px;
 }
 
-.master-name {
-  width: 80px;
-  height: 50px;
-  padding: 5px;
+.region-name {
+  width: 90px;
+  height: 72px;
+  padding: 8px;
+  line-height: 72px;
+  vertical-align: middle;
+  font-size: 18px;
 }
 
-.master-chart {
+.region-chart {
   width: 240px;
   height: 80px;
+  margin-left: 10px;
   border-left: 2px solid #0c87eb;
   border-right: 2px solid #0c87eb;
 }
 
 .server-grid {
   float: left;
-  height: 40px;
-  line-height: 40px;
+  height: 35px;
+  line-height: 35px;
   width: 66.5px;
   text-align: center;
   vertical-align: middle;
@@ -109,9 +113,15 @@ body {
   margin-left: 10px;
 }
 
+.cluster-top {
+  border-top: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+}
+
 .cluster-circle {
   width: 196px;
   text-align: center;
+  margin: 5px 0px;
 }
 
 .cluster-chart-circle {
@@ -123,6 +133,22 @@ body {
 .temperature-col {
   width: 132px;
   text-align: center;
+}
+
+.temperature-title {
+  padding: 10px 0px 5px 0px;
+}
+
+.temperature-sub-title {
+  padding: 3px 0px;
+  width: 50px;
+  margin: 0 auto;
+  background-color: #0c87eb;
+  color: #fff;
+}
+
+.temperature-content {
+  padding: 15px 0px 5px 0px;
 }
 
 .temperature-meter {
@@ -138,6 +164,17 @@ body {
 .fan-chart-col {
   width: 99px;
   height: 99px;
+}
+
+.fan-title {
+  padding: 10px 0px;
+  margin-bottom: 15px;
+}
+
+.fan-rpm {
+  margin-top: 20px;
+  padding: 5px 0px;
+  border-top: 4px solid #fff;
 }
 
 .queue-col {
@@ -159,6 +196,34 @@ body {
 .clear {
   clear: both;
 }
+
+.green {
+  color: #4caf50;
+}
+
+.border-left {
+  border-left: 4px solid #fff;
+}
+
+.border-right {
+  border-right: 4px solid #fff;
+}
+
+.github-button {
+  background-color: #000;
+  border: 2px solid #0c87eb;
+  color: #0c87eb;
+  padding: 6px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 /*
   blue: #2196f3
   l5: #f2f9fe
@@ -177,45 +242,35 @@ body {
 </head>
 <body>
 
+<a href="https://github.com/shzlw/zeu" class="github-button">GitHub</a>
+
 <div class="middle">
   <div class="col-1">
-    <!-- master -->
+    <!-- Region -->
     <div class="panel-title">
       <div class="title">
-        title
+        REGION
       </div>
       <div class="sub-title">
         LIVE
       </div>
     </div>
     <div class="border-bottom">
-      <div class="master">
+      <div class="region">
         
-        <div class="pull-left master-name">
-          master 1
+        <div class="pull-left region-name">
+          R - 001
         </div>
-        <div id="heartbeat-1" class="pull-left master-chart"></div>
+        <div id="heartbeat-1" class="pull-left region-chart"></div>
         <div class="clear"></div>
       </div>
-      <div class="master">
-        <div class="pull-left master-name">
-          master 2
+      <div class="region">
+        <div class="pull-left region-name">
+          R - 002
         </div>
-        <div class="pull-left master-chart">
-          xxxx
-        </div>
+        <div id="heartbeat-2" class="pull-left region-chart"></div>
         <div class="clear"></div>
-      </div>
-      <div class="master">
-        <div class="pull-left master-name">
-          master 3
-        </div>
-        <div class="pull-left master-chart">
-          xxxx
-        </div>
-        <div class="clear"></div>
-      </div>
-      
+      </div>      
     </div>
 
     <!-- Temperature -->
@@ -229,22 +284,31 @@ body {
     </div>
     <div class="border-bottom">
       <div class="pull-left temperature-col">
-        <div>T 1</div>
-        <div id="volume-meter-1" class="pull-left temperature-meter"></div>
-        <div id="volume-meter-2" class="pull-left temperature-meter"></div>
-        <div class="clear"></div>
+        <div class="temperature-title">TEMP 1</div>
+        <div class="temperature-sub-title">LOW</div>
+        <div class="temperature-content">
+          <div id="volume-meter-1" class="pull-left temperature-meter"></div>
+          <div id="volume-meter-2" class="pull-left temperature-meter"></div>
+          <div class="clear"></div>
+        </div>
       </div>
       <div class="pull-left temperature-col">
-        <div>T 2</div>
-        <div id="volume-meter-3" class="pull-left temperature-meter"></div>
-        <div id="volume-meter-4" class="pull-left temperature-meter"></div>
-        <div class="clear"></div>
+        <div class="temperature-title">TEMP 2</div>
+        <div class="temperature-sub-title">LOW</div>
+        <div class="temperature-content">
+          <div id="volume-meter-3" class="pull-left temperature-meter"></div>
+          <div id="volume-meter-4" class="pull-left temperature-meter"></div>
+          <div class="clear"></div>
+        </div>
       </div>
       <div class="pull-left temperature-col">
-        <div>T 3</div>
-        <div id="volume-meter-5" class="pull-left temperature-meter"></div>
-        <div id="volume-meter-6" class="pull-left temperature-meter"></div>
-        <div class="clear"></div>
+        <div class="temperature-title">TEMP 3</div>
+        <div class="temperature-sub-title">LOW</div>
+        <div class="temperature-content">
+          <div id="volume-meter-5" class="pull-left temperature-meter"></div>
+          <div id="volume-meter-6" class="pull-left temperature-meter"></div>
+          <div class="clear"></div>
+        </div>
       </div>
 
       <div class="clear"></div>
@@ -261,24 +325,24 @@ body {
     </div>
     <div>
       <div class="pull-left fan-col">
-        <div>Fan 1</div>
+        <div class="fan-title">FAN 1</div>
         <div id="round-fan-1" class="fan-chart-col"></div>
-        <div>10 RPM</div>
+        <div class="fan-rpm border-right"><span class="green">10</span> RPM</div>
       </div>
       <div class="pull-left fan-col">
-        <div>Fan 2</div>
+        <div class="fan-title">FAN 2</div>
         <div id="round-fan-2" class="fan-chart-col"></div>
-        <div>10 RPM</div>
+        <div class="fan-rpm border-right"><span class="green">11</span> RPM</div>
       </div>
       <div class="pull-left fan-col">
-        <div>Fan 3</div>
+        <div class="fan-title">FAN 3</div>
         <div id="round-fan-3" class="fan-chart-col"></div>
-        <div>10 RPM</div>
+        <div class="fan-rpm border-right"><span class="green">19</span> RPM</div>
       </div>
       <div class="pull-left fan-col">
-        <div>Fan 4</div>
+        <div class="fan-title">FAN 4</div>
         <div id="round-fan-4" class="fan-chart-col"></div>
-        <div>10 RPM</div>
+        <div class="fan-rpm"><span class="green">8</span> RPM</div>
       </div>
 
       <div class="clear"></div>
@@ -298,29 +362,32 @@ body {
       </div>
     </div>
     <div class="border-bottom">
-      <div style="text-align: center;">
-        Current
+      <div style="text-align: center; padding: 5px;">
+        CURRENT TIME
         <div id="digital-clock" style="width: 185px; height: 50px; margin: 0 auto;"></div>
       </div>
-
-      <div class="pull-left cluster-circle">
-        <div>circle</div>
-        <div id="double-circle-1" class="cluster-chart-circle"></div>
-      </div>
-      <div class="pull-left cluster-circle">
-        <div>circle</div>
-        <div id="double-circle-2" class="cluster-chart-circle"></div>
-      </div>
-      <div class="pull-left cluster-circle">
-        <div>circle</div>
-        <div id="double-circle-3" class="cluster-chart-circle"></div>
-      </div>
-      <div class="pull-left cluster-circle">
-        <div>circle</div>
-        <div id="double-circle-4" class="cluster-chart-circle"></div>
-      </div>
-
+      <div class="cluster-top">
+        <div class="pull-left cluster-circle">
+          <div>C1</div>
+          <div id="double-circle-1" class="cluster-chart-circle"></div>
+        </div>
+        <div class="pull-left cluster-circle">
+          <div>C2</div>
+          <div id="double-circle-2" class="cluster-chart-circle"></div>
+        </div>
         <div class="clear"></div>
+      </div>
+      <div>
+        <div class="pull-left cluster-circle">
+          <div>D1</div>
+          <div id="double-circle-3" class="cluster-chart-circle"></div>
+        </div>
+        <div class="pull-left cluster-circle">
+          <div>D2</div>
+          <div id="double-circle-4" class="cluster-chart-circle"></div>
+        </div>
+        <div class="clear"></div>
+      </div>
     </div>
 
     <!-- Server Grid -->
@@ -421,26 +488,36 @@ body {
 
 <script type="text/javascript">
 
+var blue = '#2196f3';
+var blue_l5 = '#f2f9fe';
+var blue_l2 = '#79bff8';
+var blue_d1 = '#0c87eb';
+var blue_d5 = '#074b83';
 
-var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'), {
-  fontColor: '#fff',
-  lineColor: '#2196f3'
-});
-heartbeat1.startAnimation();
+var green = '#4caf50';
+var red = '#f44336';
+var white = '#fff';
+var black = '#000';
+
+var heartbeatConfig = {
+  fontColor: white,
+  lineColor: green
+};
+var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'), heartbeatConfig);
+var heartbeat2 = new zeu.Heartbeat(document.getElementById('heartbeat-2'), heartbeatConfig);
 setInterval(function() {
   heartbeat1.beat();
 }, 1000);
 
-
-
-
-
+setInterval(function() {
+  heartbeat2.beat();
+}, 1500);
 
 var digitalClock = new zeu.DigitalClcok(
   document.getElementById('digital-clock'), 
   {
-    dashColor: '#000',
-    numberColor: '#2196f3',
+    dashColor: black,
+    numberColor: blue_d1,
     barWidth: 8,
     barHeight : 30,
     space: 8
@@ -448,14 +525,47 @@ var digitalClock = new zeu.DigitalClcok(
 );
 digitalClock.tick();
 
-var doubleCircle1 = new zeu.DoubleCircle(document.getElementById('double-circle-1'));
-var doubleCircle2 = new zeu.DoubleCircle(document.getElementById('double-circle-2'));
-var doubleCircle3 = new zeu.DoubleCircle(document.getElementById('double-circle-3'));
-var doubleCircle4 = new zeu.DoubleCircle(document.getElementById('double-circle-4'));
+var doubleCircleConfig1 = {
+  isDot: false,
+  outer: {
+    color: blue_d5,
+    radius: 90,
+    speed: 0.7
+
+  },
+  inner: {
+    color: blue_l2,
+    radius: 70,
+    speed: 0.5
+  },
+  fontColor: green,
+  text: 'NORMAL'
+};
+var doubleCircle1 = new zeu.DoubleCircle(document.getElementById('double-circle-1'), doubleCircleConfig1);
+var doubleCircle2 = new zeu.DoubleCircle(document.getElementById('double-circle-2'), doubleCircleConfig1);
+
+var doubleCircleConfig2 = {
+  isDot: true,
+  outer: {
+    color: blue_d5,
+    radius: 90,
+    speed: 0.7
+
+  },
+  inner: {
+    color: blue_l2,
+    radius: 80,
+    speed: 0.5
+  },
+  fontColor: green,
+  text: 'RUNNING'
+};
+var doubleCircle3 = new zeu.DoubleCircle(document.getElementById('double-circle-3'), doubleCircleConfig2);
+var doubleCircle4 = new zeu.DoubleCircle(document.getElementById('double-circle-4'), doubleCircleConfig2);
 
 
 var serverGrid = document.getElementById('server-grid');
-var servers = ['A', 'B', 'C', 'D', 'E'];
+var servers = ['V', 'W', 'X', 'Y', 'Z'];
 var serverTexts = [];
 for (var i = 0; i < servers.length; i++) {
   createServerGrid(servers[i]);
@@ -469,7 +579,9 @@ function createServerGrid(v) {
     p.className = 'server-grid';
     serverGrid.append(p);
 
-    serverTexts.push(new zeu.BlinkText(document.getElementById(p.id)));
+    var blinkText = new zeu.BlinkText(document.getElementById(p.id))
+    blinkText.blinkCss = 'color: white; background-color: ' + red + ';';
+    serverTexts.push(blinkText);
   }
 }
 
@@ -484,13 +596,18 @@ setInterval(function() {
   }
 }, 10000);
 
-
-var volumeMeter1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'));
-var volumeMeter2 = new zeu.VolumeMeter(document.getElementById('volume-meter-2'));
-var volumeMeter3 = new zeu.VolumeMeter(document.getElementById('volume-meter-3'));
-var volumeMeter4 = new zeu.VolumeMeter(document.getElementById('volume-meter-4'));
-var volumeMeter5 = new zeu.VolumeMeter(document.getElementById('volume-meter-5'));
-var volumeMeter6 = new zeu.VolumeMeter(document.getElementById('volume-meter-6'));
+var volumenMeterConfig = {
+  lineColor: blue_d5,
+  fontColor: white,
+  fillColor: blue_l2,
+  lineWidth: 3
+};
+var volumeMeter1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'), volumenMeterConfig);
+var volumeMeter2 = new zeu.VolumeMeter(document.getElementById('volume-meter-2'), volumenMeterConfig);
+var volumeMeter3 = new zeu.VolumeMeter(document.getElementById('volume-meter-3'), volumenMeterConfig);
+var volumeMeter4 = new zeu.VolumeMeter(document.getElementById('volume-meter-4'), volumenMeterConfig);
+var volumeMeter5 = new zeu.VolumeMeter(document.getElementById('volume-meter-5'), volumenMeterConfig);
+var volumeMeter6 = new zeu.VolumeMeter(document.getElementById('volume-meter-6'), volumenMeterConfig);
 
 setInterval(function() {
   volumeMeter1.value = getRandomInt(0, 100);
@@ -501,29 +618,27 @@ setInterval(function() {
   volumeMeter6.value = getRandomInt(0, 100);
 }, 1000);
 
-var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'));
-var roundFan2 = new zeu.RoundFan(document.getElementById('round-fan-2'));
-var roundFan3 = new zeu.RoundFan(document.getElementById('round-fan-3'));
-var roundFan4 = new zeu.RoundFan(document.getElementById('round-fan-4'));
+var roundFanConfig = {fanColor: blue_d1, centerColor: black};
+var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'), roundFanConfig);
+var roundFan2 = new zeu.RoundFan(document.getElementById('round-fan-2'), roundFanConfig);
+var roundFan3 = new zeu.RoundFan(document.getElementById('round-fan-3'), roundFanConfig);
+var roundFan4 = new zeu.RoundFan(document.getElementById('round-fan-4'), roundFanConfig);
+roundFan1.speed = getRandomInt(1, 5);
+roundFan2.speed = getRandomInt(1, 5)
+roundFan3.speed = getRandomInt(1, 5)
+roundFan4.speed = getRandomInt(1, 5)
 roundFan1.on();
 roundFan2.on();
 roundFan3.on();
 roundFan4.on();
 
-setInterval(function() {
-  roundFan1.speed = getRandomInt(1, 5);
-  roundFan2.speed = getRandomInt(1, 5);
-  roundFan3.speed = getRandomInt(1, 5);
-  roundFan4.speed = getRandomInt(1, 5);
-}, 2000);
-
-
-var messageQueue1 = new zeu.MessageQueue(document.getElementById('message-queue-1'));
-var messageQueue2 = new zeu.MessageQueue(document.getElementById('message-queue-2'));
-var messageQueue3 = new zeu.MessageQueue(document.getElementById('message-queue-3'));
-var messageQueue4 = new zeu.MessageQueue(document.getElementById('message-queue-4'));
-var messageQueue5 = new zeu.MessageQueue(document.getElementById('message-queue-5'));
-var messageQueue6 = new zeu.MessageQueue(document.getElementById('message-queue-6'));
+var messageQueueConfig = {barColor: blue_l2, barWidth: 60};
+var messageQueue1 = new zeu.MessageQueue(document.getElementById('message-queue-1'), messageQueueConfig);
+var messageQueue2 = new zeu.MessageQueue(document.getElementById('message-queue-2'), messageQueueConfig);
+var messageQueue3 = new zeu.MessageQueue(document.getElementById('message-queue-3'), messageQueueConfig);
+var messageQueue4 = new zeu.MessageQueue(document.getElementById('message-queue-4'), messageQueueConfig);
+var messageQueue5 = new zeu.MessageQueue(document.getElementById('message-queue-5'), messageQueueConfig);
+var messageQueue6 = new zeu.MessageQueue(document.getElementById('message-queue-6'), messageQueueConfig);
 
 setInterval(function() {
   if (isPush()) { messageQueue1.push(); }

@@ -4,7 +4,7 @@
 
 ## Demo
 
-[Demo](https://shzlw.github.io/zeu/examples/demo.html)
+[My Command Center](https://shzlw.github.io/zeu/examples/my-command-center.html)
 
 ## Installation
 
