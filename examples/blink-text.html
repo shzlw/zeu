@@ -13,23 +13,73 @@
 </head>
 <body>
   <div class="container">
-    <h3>Normal</h3>
-    <div id="blink-text" class="box">
+    <h3>Default</h3>
+    <pre><code>
+var binkText1 = new zeu.BlinkText(document.getElementById('blink-text-1'));
+binkText1.blink();
+    </code></pre>
+    <div id="blink-text-1" class="box">
       blink text
     </div>
+
+    <h3>Constructor</h3>
+    <pre><code>
+var binkText2 = new zeu.BlinkText(document.getElementById('blink-text-2'),
+{
+  interval: 300,
+  blinkCss: 'color: white; background-color: blue;'
+});
+binkText2.blink();
+    </code></pre>
+    <div id="blink-text-2" class="box">
+      blink constructor
+    </div>
+
+    <h3>Setters</h3>
+    <pre><code>
+var binkText3 = new zeu.BlinkText(document.getElementById('blink-text-3'));
+binkText3.blinkCss = 'color: white; background-color: green;';
+binkText3.interval = 2000;
+binkText3.blink('NEW BLINK TEXT');
+    </code></pre>
+    <div id="blink-text-3" class="box">
+      blink setters
+    </div>
+
+    <h3>Unblink</h3>
+    <pre><code>
+var binkText4 = new zeu.BlinkText(document.getElementById('blink-text-4'));
+binkText4.blink();
+binkText4.unblink();
+    </code></pre>
+    <div id="blink-text-4" class="box">
+      blink setters
+    </div>
+
   </div>
 </div>
 
 <script type="text/javascript">
 
-  var binkText = new zeu.BlinkText(document.getElementById('blink-text'));
-  binkText.blinkCss = 'color: white; background-color: red;';
-  binkText.blink();
+  var binkText1 = new zeu.BlinkText(document.getElementById('blink-text-1'));
+  binkText1.blink();
 
-  setInterval(function() {
-    binkText.blinkCss = 'color: white; background-color: ' + getRandomColor() + ';';
-  }, 10000);
+  var binkText2 = new zeu.BlinkText(document.getElementById('blink-text-2'),
+  {
+    interval: 300,
+    blinkCss: 'color: white; background-color: blue;'
+  });
+  binkText2.blink();
 
+  var binkText3 = new zeu.BlinkText(document.getElementById('blink-text-3'));
+  binkText3.blinkCss = 'color: white; background-color: green;';
+  binkText3.interval = 2000;
+  binkText3.blink('NEW BLINK TEXT');
+
+  var binkText4 = new zeu.BlinkText(document.getElementById('blink-text-4'));
+  binkText4.blink();
+  binkText4.unblink();
+    
 </script>
 </body>
 </html>

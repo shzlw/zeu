@@ -7,29 +7,20 @@ export default class BarMeter extends BaseCanvas {
   constructor(canvas, options) {
     super(canvas, 100, 200);
 
+    // Options
     this._min = Utility.has(options, 'min') ? options.min : 0;
     this._max = Utility.has(options, 'max') ? options.max : 100;
     this._value = Utility.has(options, 'value') ? options.value : 50;
     this._dashColor = Utility.has(options, 'dashColor') ? options.dashColor : COLOR.grey;
     this._barColor = Utility.has(options, 'barColor') ? options.barColor : COLOR.green;
+    this._speed = Utility.has(options, 'speed') ? options.speed : 5;
 
     this._barWidth = 80;
     this._barHeight = 15;
     this._space = (100 - this._barWidth) / 2;
-    this._speed = 5;
     this._currBar = 0;
-    this._numberOfBars = Math.floor(this._value / (this._max - this._min) * 10);
+    this._numberOfBars = Math.floor((this._value - this._min) / (this._max - this._min) * 10);
     this._barMax = this._numberOfBars * 100;
-  }
-
-  set value(value) {
-    this._value = value;
-    this._numberOfBars = Math.floor(this._value / (this._max - this._min) * 10);
-    this._barMax = this._numberOfBars * 100;
-  }
-
-  get valuePct() {
-    return Math.floor(this._value / (this._max - this._min) * 100);
   }
 
   postConstructor() {
@@ -71,4 +62,59 @@ export default class BarMeter extends BaseCanvas {
 
     this._ctx.restore();
   }
+
+  set value(value) {
+    this._value = value;
+    this._numberOfBars = Math.floor((this._value - this._min) / (this._max - this._min) * 10);
+    this._barMax = this._numberOfBars * 100;
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  get valuePct() {
+    return Math.floor(this._value / (this._max - this._min) * 100);
+  }
+
+  set min(min) {
+    this._min = min;
+  }
+
+  get min() {
+    return this._min;
+  }
+
+  set max(max) {
+    this._max = max;
+  }
+
+  get max() {
+    return this._max;
+  }
+
+  set dashColor(dashColor) {
+    this._dashColor = dashColor;
+  }
+
+  get dashColor() {
+    return this._dashColor;
+  }
+
+  set barColor(barColor) {
+    this._barColor = barColor;
+  }
+
+  get barColor() {
+    return this._barColor;
+  }
+
+  set speed(speed) {
+    this._speed = speed;
+  }
+
+  get speed() {
+    return this._speed;
+  }
 }
+

@@ -8,14 +8,75 @@
 </head>
 <body>
   <div class="container">
-    <h3>Normal</h3>
+    <h3>Default Size</h3>
+    <pre><code>
+width: 100px; 
+height: 200px;
+    </code></pre>
+
+    <h3>Default</h3>
+    <pre><code>
+var barMeter1 = new zeu.BarMeter(document.getElementById('bar-meter-1'));
+    </code></pre>
     <div id="bar-meter-1" style="width: 100px; height: 200px;"></div>
+
+    <h3>Constructor</h3>
+    <pre><code>
+var barMeter2 = new zeu.BarMeter(document.getElementById('bar-meter-2'),
+{
+  min: -100,
+  max: 100,
+  value: 80,
+  dashColor: '#000',
+  barColor: '#FF0000',
+  speed: 10
+});
+    </code></pre>
+    <div id="bar-meter-2" style="width: 100px; height: 200px;"></div>
+
+    <h3>Setters</h3>
+    <pre><code>
+var barMeter3 = new zeu.BarMeter(document.getElementById('bar-meter-3'));
+barMeter3.min = 0;
+barMeter3.max = 200;
+barMeter3.value = 60;
+barMeter3.dashColor = '#008000';
+barMeter3.barColor = '#FF0000';
+barMeter3.speed = 20;
+    </code></pre>
+    <div id="bar-meter-3" style="width: 100px; height: 200px;"></div>
+
+    <h3>Size X 2</h3>
+    <pre><code>
+var barMeter4 = new zeu.BarMeter(document.getElementById('bar-meter-4'));
+    </code></pre>
+    <div id="bar-meter-4" style="width: 200px; height: 400px;"></div>
   </div>
 </div>
 
 <script type="text/javascript">
 
   var barMeter1 = new zeu.BarMeter(document.getElementById('bar-meter-1'));
+
+  var barMeter2 = new zeu.BarMeter(document.getElementById('bar-meter-2'),
+  {
+    min: -100,
+    max: 100,
+    value: 80,
+    dashColor: '#000',
+    barColor: '#FF0000',
+    speed: 10
+  });
+
+  var barMeter3 = new zeu.BarMeter(document.getElementById('bar-meter-3'));
+  barMeter3.min = 0;
+  barMeter3.max = 200;
+  barMeter3.value = 60;
+  barMeter3.dashColor = '#008000';
+  barMeter3.barColor = '#FF0000';
+  barMeter3.speed = 20;
+
+  var barMeter4 = new zeu.BarMeter(document.getElementById('bar-meter-4'));
 
 </script>
 </body>

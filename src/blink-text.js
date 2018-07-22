@@ -1,28 +1,15 @@
+import Utility from './utility';
 
 export default class BlinkText {
 
-  constructor(baseDiv) {
+  constructor(baseDiv, options) {
     this._div = baseDiv;
     this._defaultCss = baseDiv.style.cssText;
-    this._interval = 500;
-    this._blinkCss = 'color: white; background-color: red;';
     this._blinkTimer = null;
-  }
 
-  set interval(interval) {
-    this._interval = interval;
-  }
-
-  get interval() {
-    return this._interval;
-  }
-
-  set blinkCss(css) {
-    this._blinkCss = css;
-  }
-
-  get blinkCss() {
-    return this._blinkCss;
+    // Options
+    this._interval = Utility.has(options, 'interval') ? options.interval : 500;
+    this._blinkCss = Utility.has(options, 'blinkCss') ? options.blinkCss : 'color: white; background-color: red;';
   }
 
   blink(message) {
@@ -45,5 +32,21 @@ export default class BlinkText {
       this._blinkTimer = null;
       this._div.style.cssText = this._defaultCss;
     }
+  }
+
+  set interval(interval) {
+    this._interval = interval;
+  }
+
+  get interval() {
+    return this._interval;
+  }
+
+  set blinkCss(blinkCss) {
+    this._blinkCss = blinkCss;
+  }
+
+  get blinkCss() {
+    return this._blinkCss;
   }
 }
