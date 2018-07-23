@@ -778,15 +778,33 @@ setInterval(function() {
 
 var scrollPanel = new zeu.ScrollPanel(document.getElementById('scroll-panel'));
 setInterval(function() {
-  var message = document.createElement('div');
-  message.innerHTML = getCurrentTime() + ' NEW MESSAGE: ' + getRandomInt(1, 9) + ' DB-' + getRandomInt(1, 9);
-  message.style.cssText = 'margin: 5px; padding: 5px; color: white; background-color: ' + getSrollColor() + ';';
+  var message = document.createElement('div'); 
+  var color = getSrollColor();
+  message.style.cssText = 'margin: 5px;';
+  var time = document.createElement('div');
+  time.innerHTML = getCurrentTime();
+  time.style.cssText = 'width: 100px; text-align: center; padding: 5px; float: left; color: white; background-color: ' +  color + ';';
+  var value = document.createElement('div');
+  value.innerHTML = 'msg-' + getRandomInt(100, 900) + ' status ' + getRandomInt(0, 100);
+  value.style.cssText = 'width: 250px; padding: 5px; float: left; margin-left: 10px; border-bottom: 1px solid ' + color + ';';
+  var clear = document.createElement('div');
+  clear.style.cssText = 'clear: both;';
+  message.appendChild(time);
+  message.appendChild(value);
+  message.appendChild(clear);
   scrollPanel.push(message);
 }, 500);
 
+function appendZero(n) {
+  if (n < 10) {
+    return '0' + n;
+  }
+  return n;
+}
+
 function getCurrentTime() {
   var now = new Date();
-  var time = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+  var time = appendZero(now.getHours()) + ':' + appendZero(now.getMinutes()) + ':' + appendZero(now.getSeconds());
   return time;
 }
 
