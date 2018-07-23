@@ -10,8 +10,19 @@ Zeu.js is JavaScript library featuring a collection of prebuilt visualization co
 
 ## Installation
 
+From lib
 ```html
 <script src="zeu.min.js"></script>
+```
+
+From npm
+```
+npm install zeu
+```
+
+From CDN
+```
+https://unpkg.com/zeu/lib/zeu.min.js
 ```
 
 ## Usage
