@@ -1,6 +1,6 @@
 {
   "name": "zeu",
-  "version": "0.0.1",
+  "version": "0.9.0",
   "description": "A JavaScript library for real-time visualization",
   "main": "lib/zeu.js",
   "scripts": {
