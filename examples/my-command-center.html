@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Standard Meta -->
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
 <title>My Command Center</title>
 <script src="../lib/zeu.js"></script>
 <style>
+html,
 body {
   font-family: Consolas, monaco, monospace;
   width: 100%;
@@ -26,14 +32,14 @@ body {
   border-top: 4px solid #fff;
   border-bottom: 4px solid #fff;
   width: 396px;
-  height: 800px;
+  height: 780px;
 }
 
 .col-2 {
   float: left;
   border: 4px solid #fff;
   width: 392px;
-  height: 800px;
+  height: 780px;
 }
 
 .col-3 {
@@ -42,7 +48,7 @@ body {
   border-top: 4px solid #fff;
   border-bottom: 4px solid #fff;
   width: 396px;
-  height: 800px;
+  height: 780px;
 }
 
 .panel {
@@ -99,6 +105,8 @@ body {
   border-left: 2px solid #0c87eb;
   border-right: 2px solid #0c87eb;
 }
+
+
 
 .server-grid {
   float: left;
@@ -164,17 +172,23 @@ body {
 .fan-chart-col {
   width: 99px;
   height: 99px;
+  text-align: center;
 }
 
 .fan-title {
   padding: 10px 0px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .fan-rpm {
-  margin-top: 30px;
+  margin-top: 10px;
   padding: 5px 0px;
   border-top: 4px solid #fff;
+  font-size: 18px;
+}
+
+.fan-bottom-panel {
+
 }
 
 .queue-col {
@@ -185,7 +199,6 @@ body {
 .queue-chart-col {
   width: 66px;
   height: 132px;
-  padding-top: 3px;
 }
 
 .queue-title {
@@ -198,6 +211,7 @@ body {
   margin: 0 auto;
   background-color: #0c87eb;
   color: #fff;
+  margin-bottom: 3px;
 }
 
 .capacity-col {
@@ -354,26 +368,38 @@ body {
         LIVE
       </div>
     </div>
-    <div>
+    <div class="fan-bottom-panel">
       <div class="pull-left fan-col">
         <div class="fan-title">FAN 1</div>
         <div id="round-fan-1" class="fan-chart-col"></div>
-        <div class="fan-rpm border-right"><span id="fan-speed-1" class="green">10</span> RPM</div>
+        <div class="fan-rpm">
+          <div id="fan-speed-1" class="green">10</div>
+          <div>RPM</div>
+        </div>
       </div>
       <div class="pull-left fan-col">
         <div class="fan-title">FAN 2</div>
         <div id="round-fan-2" class="fan-chart-col"></div>
-        <div class="fan-rpm border-right"><span id="fan-speed-2" class="green">11</span> RPM</div>
+        <div class="fan-rpm">
+          <div id="fan-speed-2" class="green">10</div>
+          <div>RPM</div>
+        </div>
       </div>
       <div class="pull-left fan-col">
         <div class="fan-title">FAN 3</div>
         <div id="round-fan-3" class="fan-chart-col"></div>
-        <div class="fan-rpm border-right"><span id="fan-speed-3" class="green">19</span> RPM</div>
+        <div class="fan-rpm">
+          <div id="fan-speed-3" class="green">10</div>
+          <div>RPM</div>
+        </div>
       </div>
       <div class="pull-left fan-col">
         <div class="fan-title">FAN 4</div>
         <div id="round-fan-4" class="fan-chart-col"></div>
-        <div class="fan-rpm"><span id="fan-speed-4" class="green">8</span> RPM</div>
+        <div class="fan-rpm">
+          <div id="fan-speed-4" class="green">10</div>
+          <div>RPM</div>
+        </div>
       </div>
 
       <div class="clear"></div>
@@ -393,8 +419,8 @@ body {
       </div>
     </div>
     <div class="border-bottom">
-      <div style="text-align: center; padding: 5px 0px 10px 0px;">
-        <div style="padding-top: 5px;">CURRENT TIME</div>
+      <div style="text-align: center; padding: 6px 0px 7px 0px;">
+        <div>CURRENT TIME</div>
         <div id="digital-clock" style="width: 185px; height: 50px; margin: 0 auto;"></div>
       </div>
       <div class="cluster-top">
@@ -430,7 +456,7 @@ body {
         LIVE
       </div>
     </div>
-    <div id="server-grid">
+    <div id="server-grid-panel">
     </div>
   </div>
 
@@ -489,7 +515,7 @@ body {
       </div>
     </div>
     <div class="border-bottom">
-      <div id="scroll-panel" style="overflow: hidden; width: 396px; height: 205px;"></div>
+      <div id="scroll-panel" style="overflow: hidden; width: 396px; height: 204px;"></div>
     </div>
 
     <!-- Capacity -->
@@ -583,7 +609,7 @@ var red = '#f44336';
 var white = '#fff';
 var black = '#000';
 
-zeu.Settings.fps = 30;
+zeu.Settings.fps = 60;
 
 var heartbeatConfig = {
   fontColor: white,
@@ -650,12 +676,15 @@ var doubleCircle3 = new zeu.DoubleCircle(document.getElementById('double-circle-
 var doubleCircle4 = new zeu.DoubleCircle(document.getElementById('double-circle-4'), doubleCircleConfig2);
 
 
-var serverGrid = document.getElementById('server-grid');
+var serverGrid = document.getElementById('server-grid-panel');
 var servers = ['V', 'W', 'X', 'Y', 'Z'];
 var serverTexts = [];
 for (var i = 0; i < servers.length; i++) {
   createServerGrid(servers[i]);
 }
+var clear = document.createElement('div');
+clear.style.cssText = 'clear: both;';
+serverGrid.appendChild(clear);
 
 function createServerGrid(v) {
   for (var i = 1; i <= 5; i++) {
@@ -663,7 +692,7 @@ function createServerGrid(v) {
     p.innerHTML = v + i;
     p.id = 'server-' + v + i;
     p.className = 'server-grid';
-    serverGrid.append(p);
+    serverGrid.appendChild(p);
 
     var blinkText = new zeu.BlinkText(document.getElementById(p.id))
     blinkText.blinkCss = 'color: white; background-color: ' + red + ';';
@@ -785,7 +814,7 @@ setInterval(function() {
   time.innerHTML = getCurrentTime();
   time.style.cssText = 'width: 100px; text-align: center; padding: 5px; float: left; color: white; background-color: ' +  color + ';';
   var value = document.createElement('div');
-  value.innerHTML = 'msg-' + getRandomInt(100, 900) + ' status ' + getRandomInt(0, 100);
+  value.innerHTML = 'msg-' + getRandomInt(100, 900) + ' incident ' + getRandomInt(0, 100);
   value.style.cssText = 'width: 250px; padding: 5px; float: left; margin-left: 10px; border-bottom: 1px solid ' + color + ';';
   var clear = document.createElement('div');
   clear.style.cssText = 'clear: both;';

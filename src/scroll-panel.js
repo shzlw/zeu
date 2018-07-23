@@ -22,10 +22,10 @@ export default class ScrollPanel {
     this._queue.push(boxDiv);
 
     if (this._isUp) {
-      this._div.prepend(boxDiv);
+      this._div.insertBefore(boxDiv, this._div.firstChild);
       this._div.scrollBottom = this._div.scrollHeight;
     } else {
-      this._div.append(boxDiv);
+      this._div.appendChild(boxDiv);
       this._div.scrollTop = this._div.scrollHeight;
     }
   }
