@@ -37,13 +37,13 @@ export default class DoubleCircle extends BaseCanvas {
   }
 
   drawFrame() {
-    this.clearAll();
-    this._ctx.save();
-    this.scale();
-
     let now = new Date();
     let outerAngle = Utility.getAngleByDate(this._outerSpeed, now);
     let innerAngle = -Utility.getAngleByDate(this._innerSpeed, now);
+
+    this.clearAll();
+    this._ctx.save();
+    this.scale();
 
     this._ctx.fillStyle = this._fontColor;
     this._ctx.fillText(this._text, 100, 100);

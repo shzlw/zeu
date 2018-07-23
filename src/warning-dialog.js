@@ -6,9 +6,10 @@ export default class WarningDialog {
     this._reasonText = Utility.has(options, 'reason') ? options.reason : '';
     this._interval = Utility.has(options, 'interval') ? options.interval : 1000;
 
-    let d = document.createElement('div');
+    // Dialog
+    let dailog = document.createElement('div');
 
-    let dialogCss = `
+    dailog.style.cssText = `
       position: fixed;
       top: 0;
       left: 0;
@@ -21,10 +22,9 @@ export default class WarningDialog {
       background-color: rgb(220, 53, 69, 0.8);
     `;
 
-    d.style.cssText = dialogCss;
-
     let panel = document.createElement('div');
-    let panelCss = `
+
+    panel.style.cssText = `
       width: 600px;
       height: 400px;
       position: relative;
@@ -48,8 +48,6 @@ export default class WarningDialog {
         #ffc107);
       animation: zeu-pole 1s linear infinite;
     `;
-
-    panel.style.cssText = panelCss;
 
     let innerPanel = document.createElement('div');
 
@@ -86,9 +84,10 @@ export default class WarningDialog {
 
     panel.appendChild(innerPanel);
 
-    d.appendChild(panel);
+    dailog.appendChild(panel);
 
-    this._dialog = d;
+    this._dialog = dailog;
+
     // Append dialog div to body
     let body = document.body || document.getElementsByTagName('body')[0];
 

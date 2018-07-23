@@ -2,7 +2,7 @@ import AnimationTimer from './animation-timer';
 
 class Settings {
   constructor() {
-    this._fps = 30;
+    this._fps = 60;
   }
 
   set fps(fps) {

@@ -37,10 +37,10 @@ Use a div as the base to create the component. Each component has its own recomm
 
 #### FPS
 
-Default fps is 30 for components using canvas.
+Default fps is 60 for components using canvas.
 
 ```javascript
-zeu.Settings.fps = 30;
+zeu.Settings.fps = 60;
 ```
 
 #### Bar Meter ([Example](https://shzlw.github.io/zeu/examples/bar-meter.html))

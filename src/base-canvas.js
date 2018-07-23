@@ -91,14 +91,6 @@ export default class BaseCanvas {
     return index;
   }
 
-  /*
-  animate2() {
-    this._animationTimer = setInterval(() => {
-      this.drawFrame();
-    }, 1000 / this._fps);
-  }
-  */
-
   drawFrame() {}
 
 }

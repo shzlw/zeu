@@ -6,12 +6,14 @@ export default class ScrollPanel {
   constructor(baseDiv, options) {
     this._div = baseDiv;
 
-    this._queue = [];
     let defaultCss = 'margin: 3px; padding: 3px; color: white; background-color: ' + COLOR.green + ';';
 
+    // Options
     this._defaultCss = Utility.has(options, 'defaultCss') ? options.defaultCss : defaultCss;
     this._isUp = Utility.has(options, 'isUp') ? options.isUp : true;;
     this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 20;
+
+    this._queue = [];
   }
 
   push(boxDiv) {
@@ -32,9 +34,9 @@ export default class ScrollPanel {
 
   pop() {
     if (this._queue.length > 0) {
-      let f = this._queue.shift();
+      let toBeRemoved = this._queue.shift();
 
-      this._div.removeChild(f);
+      this._div.removeChild(toBeRemoved);
     }
   }
 

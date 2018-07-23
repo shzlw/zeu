@@ -7,6 +7,7 @@ export default class MessageQueue extends BaseCanvas {
   constructor(baseDiv, options) {
     super(baseDiv, 100, 200);
 
+    // Options
     this._barWidth = Utility.has(options, 'barWidth') ? options.barWidth : 80;
     this._space = Utility.has(options, 'space') ? options.space : 5;
     this._barColor = Utility.has(options, 'barColor') ? options.barColor : COLOR.green;

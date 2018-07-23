@@ -11,7 +11,6 @@ export default class Heartbeat extends BaseCanvas {
     this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
     this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
 
-    // Affected by the FPS value. If FPS = 60, suggest to set vector = 1;
     this._vector = 2;
     this._queue = [];
     this._lastSec = 0;
@@ -21,6 +20,7 @@ export default class Heartbeat extends BaseCanvas {
     super.postConstructor();
     this._ctx.textAlign = 'center';
     this._ctx.font = '12px Arial';
+    // Start drawing the seconds
     this.drawSeconds();
   }
 
