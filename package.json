@@ -1,7 +1,7 @@
 {
   "name": "zeu",
   "version": "0.0.1",
-  "description": "zeu",
+  "description": "A JavaScript library for real-time visualization",
   "main": "lib/zeu.js",
   "scripts": {
     "build": "webpack --env dev && webpack --env build",
@@ -9,14 +9,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/shzlw/zeu"
+    "url": "https://github.com/shzlw/zeu.git"
   },
   "keywords": [
-    "zeu"
+    "zeu",
+    "visualization",
+    "chart"
   ],
   "author": "Zhonglu Wang",
   "license": "MIT",
   "homepage": "https://github.com/shzlw/zeu",
+  "bugs": {
+    "url": "https://github.com/shzlw/zeu/issues"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.51",
     "@babel/core": "^7.0.0-beta.51",

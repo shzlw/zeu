@@ -15,14 +15,13 @@ export default class Heartbeat extends BaseCanvas {
     this._vector = 2;
     this._queue = [];
     this._lastSec = 0;
-
-    this.drawSeconds();
   }
 
   postConstructor() {
     super.postConstructor();
     this._ctx.textAlign = 'center';
     this._ctx.font = '12px Arial';
+    this.drawSeconds();
   }
 
   beat() {
@@ -79,4 +78,29 @@ export default class Heartbeat extends BaseCanvas {
     }
     return n;
   }
+
+  set lineColor(lineColor) {
+    this._lineColor = lineColor;
+  }
+
+  get lineColor() {
+    return this._lineColor;
+  }
+
+  set fontColor(fontColor) {
+    this._fontColor = fontColor;
+  }
+
+  get fontColor() {
+    return this._fontColor;
+  }
+
+  set maxQueueCapacity(maxQueueCapacity) {
+    this._maxQueueCapacity = maxQueueCapacity;
+  }
+
+  get maxQueueCapacity() {
+    return this._maxQueueCapacity;
+  }
 }
+

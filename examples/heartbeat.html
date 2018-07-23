@@ -7,26 +7,66 @@
 </head>
 <body>
   <div class="container">
-    <h3>Normal</h3>
-    <div id="heartbeat-1" style="width: 200px; height: 100px;"></div>
+    <h3>Default Size</h3>
+    <pre><code>
+width: 300px; 
+height: 100px;
+    </code></pre>
 
-    <h3>Size x 2</h3>
-    <div id="heartbeat-2" style="width: 400px; height: 200px;"></div>
+    <h3>Default</h3>
+    <pre><code>
+var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'));
+setInterval(function() {
+  heartbeat1.beat();
+}, 1000);
+    </code></pre>
+    <div id="heartbeat-1" style="width: 300px; height: 100px;"></div>
+
+    <h3>Options</h3>
+    <pre><code>
+var heartbeat2 = new zeu.Heartbeat(
+document.getElementById('heartbeat-2'), {
+  lineColor: 'red',
+  fontColor: 'grey'
+});
+
+heartbeat2.lineColor = 'blue';
+heartbeat2.fontColor = 'green';
+
+setInterval(function() {
+  heartbeat2.beat();
+}, 1500);
+    </code></pre>
+    <div id="heartbeat-2" style="width: 300px; height: 100px;"></div>
+
+    <h3>Size X 2</h3>
+    <div id="heartbeat-3" style="width: 400px; height: 200px;"></div>
+
   </div>
 </div>
 
 <script type="text/javascript">
 
   var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'));
-  heartbeat1.startAnimation();
   setInterval(function() {
     heartbeat1.beat();
   }, 1000);
 
-  var heartbeat2 = new zeu.Heartbeat(document.getElementById('heartbeat-2'));
-  heartbeat2.startAnimation();
+  var heartbeat2 = new zeu.Heartbeat(
+    document.getElementById('heartbeat-2'), {
+      lineColor: 'red',
+      fontColor: 'grey'
+    });
+  heartbeat2.lineColor = 'blue';
+  heartbeat2.fontColor = 'green';
+
   setInterval(function() {
     heartbeat2.beat();
+  }, 1500);
+
+  var heartbeat3 = new zeu.Heartbeat(document.getElementById('heartbeat-3'));
+  setInterval(function() {
+    heartbeat3.beat();
   }, 1000);
 
 </script>

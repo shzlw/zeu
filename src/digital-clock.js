@@ -7,6 +7,7 @@ export default class DigitalClock extends BaseCanvas {
   constructor(baseDiv, options) {
     super(baseDiv, 370, 100);
 
+    // Options
     // Bar width
     this._bw = Utility.has(options, 'barWidth') ? options.barWidth : 4;
 
@@ -18,31 +19,12 @@ export default class DigitalClock extends BaseCanvas {
     this._numberColor = Utility.has(options, 'numberColor') ? options.numberColor : COLOR.green;
     this._dashColor = Utility.has(options, 'dashColor') ? options.dashColor : COLOR.grey;
     this._hourOffset = Utility.has(options, 'hourOffset') ? options.hourOffset : 0;
+
     this._timer = null;
   }
 
-  set numberColor(color) {
-    this._numberColor = color;
-  }
-
-  get numberColor() {
-    return this._numberColor;
-  }
-
-  set dashColor(color) {
-    this.dashColor = color;
-  }
-
-  get dashColor() {
-    return this.dashColor;
-  }
-
-  set hourOffset(hourOffset) {
-    this._hourOffset = hourOffset;
-  }
-
-  get hourOffset() {
-    return this._hourOffset;
+  postConstructor() {
+    this.tick();
   }
 
   tick() {
@@ -229,5 +211,21 @@ export default class DigitalClock extends BaseCanvas {
         break;
     }
     this._ctx.closePath();
+  }
+
+  set numberColor(numberColor) {
+    this._numberColor = numberColor;
+  }
+
+  get numberColor() {
+    return this._numberColor;
+  }
+
+  set dashColor(dashColor) {
+    this._dashColor = dashColor;
+  }
+
+  get dashColor() {
+    return this._dashColor;
   }
 }

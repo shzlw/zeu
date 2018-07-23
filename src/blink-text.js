@@ -36,6 +36,10 @@ export default class BlinkText {
 
   set interval(interval) {
     this._interval = interval;
+    if (this._blinkTimer != null) {
+      this.unblink();
+      this.blink();
+    }
   }
 
   get interval() {

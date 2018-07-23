@@ -7,6 +7,7 @@ export default class DoubleCircle extends BaseCanvas {
   constructor(baseDiv, options) {
     super(baseDiv, 200, 200);
 
+    // Options
     let outer = Utility.has(options, 'outer') ? options.outer : null;
 
     this._outerColor = Utility.has(outer, 'color') ? outer.color : COLOR.green;
@@ -24,7 +25,7 @@ export default class DoubleCircle extends BaseCanvas {
 
     this._isDot = Utility.has(options, 'isDot') ? options.isDot : true;
     this._dots = Utility.has(options, 'dots') ? options.dots : 30;
-    this._lineWidth = 10;
+    this._lineWidth = Utility.has(options, 'lineWidth') ? options.lineWidth : 10;
 
     this._interval = (Math.PI * 2) / this._dots;
   }

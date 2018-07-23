@@ -77,22 +77,6 @@ export default class BarMeter extends BaseCanvas {
     return Math.floor(this._value / (this._max - this._min) * 100);
   }
 
-  set min(min) {
-    this._min = min;
-  }
-
-  get min() {
-    return this._min;
-  }
-
-  set max(max) {
-    this._max = max;
-  }
-
-  get max() {
-    return this._max;
-  }
-
   set dashColor(dashColor) {
     this._dashColor = dashColor;
   }
@@ -107,14 +91,6 @@ export default class BarMeter extends BaseCanvas {
 
   get barColor() {
     return this._barColor;
-  }
-
-  set speed(speed) {
-    this._speed = speed;
-  }
-
-  get speed() {
-    return this._speed;
   }
 }
 

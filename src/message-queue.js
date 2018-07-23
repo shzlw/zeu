@@ -8,21 +8,13 @@ export default class MessageQueue extends BaseCanvas {
     super(baseDiv, 100, 200);
 
     this._barWidth = Utility.has(options, 'barWidth') ? options.barWidth : 80;
-    this._barHeight = Utility.has(options, 'barHeight') ? options.barHeight : 20;
-    this._vector = Utility.has(options, 'vector') ? options.vector : 5;
     this._space = Utility.has(options, 'space') ? options.space : 5;
     this._barColor = Utility.has(options, 'barColor') ? options.barColor : COLOR.green;
     this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
 
     this._queue = [];
-  }
-
-  set barColor(barColor) {
-    this._barColor = barColor;
-  }
-
-  get queueSize() {
-    return this._queue.length;
+    this._vector = 5;
+    this._barHeight = 20;
   }
 
   push() {
@@ -54,6 +46,7 @@ export default class MessageQueue extends BaseCanvas {
 
       // Move up
       if (currY <= q.y) {
+        // TODO: control the speed.
         q.y -= this._vector;
       }
 
@@ -64,6 +57,18 @@ export default class MessageQueue extends BaseCanvas {
     }
 
     this._ctx.restore();
+  }
+
+  set barColor(barColor) {
+    this._barColor = barColor;
+  }
+
+  get barColor() {
+    return this._barColor;
+  }
+
+  get queueSize() {
+    return this._queue.length;
   }
 }
 
