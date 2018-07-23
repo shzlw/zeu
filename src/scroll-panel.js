@@ -14,22 +14,6 @@ export default class ScrollPanel {
     this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 20;
   }
 
-  set isUp(isUp) {
-    this._isUp = isUp;
-  }
-
-  get isUp() {
-    return this._isUp;
-  }
-
-  set maxQueueCapacity(capacity) {
-    this._maxQueueCapacity = capacity;
-  }
-
-  get maxQueueCapacity() {
-    return this._maxQueueCapacity;
-  }
-
   push(boxDiv) {
     if (this._queue.length > this._maxQueueCapacity) {
       this.pop();
@@ -60,5 +44,21 @@ export default class ScrollPanel {
     boxDiv.innerHTML = text;
     boxDiv.style.cssText = css != null ? css : this._defaultCss;
     this.push(boxDiv);
+  }
+
+  set isUp(isUp) {
+    this._isUp = isUp;
+  }
+
+  get isUp() {
+    return this._isUp;
+  }
+
+  set maxQueueCapacity(capacity) {
+    this._maxQueueCapacity = capacity;
+  }
+
+  get maxQueueCapacity() {
+    return this._maxQueueCapacity;
   }
 }

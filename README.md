@@ -32,7 +32,7 @@ Default fps is 30 for components using canvas.
 zeu.Settings.fps = 30;
 ```
 
-#### Bar Meter
+#### Bar Meter ([Example](https://shzlw.github.io/zeu/examples/bar-meter.html))
 
 ```html
 <div id="bar-meter" style="width: 100px; height: 200px;"></div>
@@ -53,9 +53,7 @@ barMeter.dashColor = 'green';
 barMeter.barColor = 'blue';
 ```
 
-[Example](https://shzlw.github.io/zeu/examples/bar-meter.html)
-
-#### Blink Text
+#### Blink Text ([Example](https://shzlw.github.io/zeu/examples/blink-text.html))
 
 ```html
 <div id="blink-text"></div>
@@ -78,9 +76,7 @@ binkText.blink('NEW BLINK TEXT');
 binkText.unblink();
 ```
 
-[Example](https://shzlw.github.io/zeu/examples/blink-text.html)
-
-#### Digital Clock
+#### Digital Clock ([Example](https://shzlw.github.io/zeu/examples/digital-clock.html))
 
 ```html
 <div id="digital-clock" style="width: 370px; height: 100px;"></div>
@@ -101,9 +97,7 @@ digitalClock.numberColor = '#ff0000';
 digitalClock.dashColor = '#000';
 ```
 
-[Example](https://shzlw.github.io/zeu/examples/digital-clock.html)
-
-#### Double Circle
+#### Double Circle ([Example](https://shzlw.github.io/zeu/examples/double-circle.html))
 
 ```html
 <div id="double-circle" style="width: 200px; height: 200px;"></div>
@@ -148,9 +142,7 @@ var doubleCircleInLine = new zeu.DoubleCircle(
   });
 ```
 
-[Example](https://shzlw.github.io/zeu/examples/double-circle.html)
-
-#### Heatbeat
+#### Heatbeat ([Example](https://shzlw.github.io/zeu/examples/heartbeat.html))
 
 ```html
 <div id="heartbeat" style="width: 370px; height: 100px;"></div>
@@ -174,9 +166,7 @@ setInterval(function() {
 }, 1000);
 ```
 
-[Example](https://shzlw.github.io/zeu/examples/heartbeat.html)
-
-#### Message Queue
+#### Message Queue ([Example](https://shzlw.github.io/zeu/examples/message-queue.html))
 
 ```html
 <div id="message-queue" style="width: 100px; height: 200px;"></div>
@@ -199,9 +189,7 @@ messageQueue.push();
 messageQueue.pop();
 ```
 
-[Example](https://shzlw.github.io/zeu/examples/message-queue.html)
-
-#### Round Fan
+#### Round Fan ([Example](https://shzlw.github.io/zeu/examples/round-fan.html))
 
 ```html
 <div id="round-fan" style="width: 200px; height: 200px;"></div>
@@ -224,9 +212,7 @@ roundFan.off();
 roundFan.on();
 ```
 
-[Example](https://shzlw.github.io/zeu/examples/round-fan.html)
-
-#### Scroll Panel
+#### Scroll Panel ([Example](https://shzlw.github.io/zeu/examples/scroll-panel.html))
 
 ```html
 <div id="scroll-panel"></div>
@@ -248,9 +234,7 @@ var css = 'margin: 3px; padding: 3px; color: white; background-color: green;';
 scrollPanel2.pushText('value', css);
 ```
 
-[Example](https://shzlw.github.io/zeu/examples/scroll-panel.html)
-
-#### Volume Meter
+#### Volume Meter ([Example](https://shzlw.github.io/zeu/examples/volume-meter.html))
 
 ```html
 <div id="volume-meter" style="width: 100px; height: 200px;"></div>
@@ -271,9 +255,7 @@ volumeMeter.fontColor = 'green';
 volumeMeter.value = 100;
 ```
 
-[Example](https://shzlw.github.io/zeu/examples/volume-meter.html)
-
-#### Warning Dialog
+#### Warning Dialog ([Example](https://shzlw.github.io/zeu/examples/warning-dialog.html))
 
 ```javascript
 var warningDialog = new zeu.WarningDialog({ 
@@ -290,8 +272,6 @@ warningDialog.blink();
 // Hide the dialog
 warningDialog.unblink();
 ```
-
-[Example](https://shzlw.github.io/zeu/examples/warning-dialog.html)
 
 ## License
 
