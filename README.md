@@ -129,7 +129,7 @@ var doubleCircleWithDots = new zeu.DoubleCircle(
   });
 
 // Circle in line
-var doubleCircle2 = new zeu.DoubleCircle(
+var doubleCircleInLine = new zeu.DoubleCircle(
   document.getElementById('double-circle-in-line'), {
     isDot: false,
     lineWidth: 10,
@@ -152,9 +152,12 @@ var doubleCircle2 = new zeu.DoubleCircle(
 
 #### Heatbeat
 
+```html
+<div id="heartbeat" style="width: 370px; height: 100px;"></div>
+```
 ```javascript
 var heartbeat = new zeu.Heartbeat(
-  document.getElementById('component-id'), {
+  document.getElementById('heartbeat'), {
     lineColor: 'red',
     fontColor: 'grey'
   });
@@ -175,28 +178,97 @@ setInterval(function() {
 
 #### Message Queue
 
+```html
+<div id="message-queue" style="width: 100px; height: 200px;"></div>
+```
 ```javascript
+var messageQueue = new zeu.MessageQueue(
+  document.getElementById('message-queue'), {
+    barWidth: 60,
+    space: 20,
+    barColor: 'red',
+    maxQueueCapacity: 10
+  });
+
+messageQueue.barColor = '#008000';
+
+// Push a message
+messageQueue.push();
+
+// Pop a message
+messageQueue.pop();
 ```
 
 [Example](https://shzlw.github.io/zeu/examples/message-queue.html)
 
 #### Round Fan
 
+```html
+<div id="round-fan" style="width: 200px; height: 200px;"></div>
+```
 ```javascript
+var roundFan = new zeu.RoundFan(
+  document.getElementById('round-fan'), {
+    fanColor: 'blue',
+    centerColor: 'blue',
+    speed: 1
+  });
+roundFan.speed = 5;
+roundFan.fanColor = 'red';
+roundFan.centerColor = 'green';
+
+// Turn off the fan
+roundFan.off();
+
+// Turn on the fan
+roundFan.on();
 ```
 
 [Example](https://shzlw.github.io/zeu/examples/round-fan.html)
 
 #### Scroll Panel
 
+```html
+<div id="scroll-panel"></div>
+```
 ```javascript
+var scrollPanel1 = new zeu.ScrollPanel(
+  document.getElementById('scroll-panel'), {
+    isUp: true
+  });
+
+// Push a html element
+var message = document.createElement('div');
+message.innerHTML = 'value';
+message.style.cssText = 'margin: 10px; padding: 10px; color: white; background-color: green;';
+scrollPanel1.push(message);
+
+// Push a simple text
+var css = 'margin: 3px; padding: 3px; color: white; background-color: green;';
+scrollPanel2.pushText('value', css);
 ```
 
 [Example](https://shzlw.github.io/zeu/examples/scroll-panel.html)
 
 #### Volume Meter
 
+```html
+<div id="volume-meter" style="width: 100px; height: 200px;"></div>
+```
 ```javascript
+var volumeMeter = new zeu.VolumeMeter(
+  document.getElementById('volume-meter'), {
+    min: 0,
+    max: 200,
+    fillColor: 'green',
+    fontColor: 'black',
+    lineColor: 'black',
+    lineWidth: 5
+  });
+
+volumeMeter.fillColor = 'red';
+volumeMeter.fontColor = 'green';
+volumeMeter.value = 100;
 ```
 
 [Example](https://shzlw.github.io/zeu/examples/volume-meter.html)
@@ -204,6 +276,19 @@ setInterval(function() {
 #### Warning Dialog
 
 ```javascript
+var warningDialog = new zeu.WarningDialog({ 
+  interval: 5000,
+  reason: 'TEST'
+});
+
+warningDialog.reason = 'NEW WARNING MESSAGE';
+warningDialog.interval = 2000;
+
+// Display the dialog
+warningDialog.blink();
+
+// Hide the dialog
+warningDialog.unblink();
 ```
 
 [Example](https://shzlw.github.io/zeu/examples/warning-dialog.html)

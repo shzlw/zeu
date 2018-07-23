@@ -10,46 +10,58 @@
   <div class="container">
     <h3>Default Size</h3>
     <pre><code>
-width: 370px; 
-height: 100px;
+width: 100px; 
+height: 200px;
     </code></pre>
 
     <h3>Default</h3>
-    <div id="digital-clock-1" style="width: 370px; height: 100px;"></div>
-
-    <h3>Constructor</h3>
-    <pre><code>
-    </code></pre>
-    <div id="digital-clock-2" style="width: 370px; height: 100px; background-color: #000;"></div>
-
-    <h3>Setters</h3>
-    <pre><code>
-    </code></pre>
-    <div id="digital-clock-3" style="width: 370px; height: 100px;"></div>
-
-    <h3>Size X 2</h3>
-    <pre><code>
-    </code></pre>
-    <div id="digital-clock-4" style="width: 740px; height: 200px;"></div>
-
-
-
-
-
-    
-    <h3>Normal</h3>
     <div id="volume-meter-1" style="width: 100px; height: 200px;"></div>
+
+    <h3>Options</h3>
+    <pre><code>
+var volumeMeter2 = new zeu.VolumeMeter(
+  document.getElementById('volume-meter-2'), {
+    min: 0,
+    max: 200,
+    fillColor: 'green',
+    fontColor: 'black',
+    lineColor: 'black',
+    lineWidth: 5
+  });
+volumeMeter2.fillColor = 'red';
+volumeMeter2.fontColor = 'green';
+volumeMeter2.value = 50;
+    </code></pre>
+    <div id="volume-meter-2" style="width: 100px; height: 200px;"></div>
+  
+    <h3>Size X 2</h3>
+    <div id="volume-meter-3" style="width: 200px; height: 400px;"></div>
+
   </div>
 </div>
 
 <script type="text/javascript">
 
   var volumeMeter1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'));
-  volumeMeter1.startAnimation();
-  setInterval(function() {
-    volumeMeter1.value = getRandomInt(0, 100);
-  }, 1000);
 
+  var volumeMeter2 = new zeu.VolumeMeter(
+    document.getElementById('volume-meter-2'), {
+      min: 0,
+      max: 200,
+      fillColor: 'green',
+      fontColor: 'black',
+      lineColor: 'black',
+      lineWidth: 5
+    });
+  volumeMeter2.fillColor = 'red';
+  volumeMeter2.fontColor = 'green';
+  volumeMeter2.value = 100;
+
+  setInterval(function() {
+    volumeMeter2.value = getRandomInt(10, 190);
+  }, 2000);
+
+  var volumeMeter3 = new zeu.VolumeMeter(document.getElementById('volume-meter-3'));
 </script>
 </body>
 </html>

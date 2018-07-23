@@ -25,30 +25,6 @@ export default class RoundFan extends BaseCanvas {
     this.stopAnimation();
   }
 
-  set speed(speed) {
-    this._speed = speed;
-  }
-
-  get speed() {
-    return this._speed;
-  }
-
-  set centerColor(color) {
-    this._centerColor = color;
-  }
-
-  get centerColor() {
-    this._centerColor;
-  }
-
-  set fanColor(color) {
-    this._fanColor = color;
-  }
-
-  get fanColor() {
-    this._fanColor;
-  }
-
   drawFrame() {
     this.clearAll();
     this._ctx.save();
@@ -99,5 +75,29 @@ export default class RoundFan extends BaseCanvas {
     this._ctx.stroke();
 
     this._ctx.restore();
+  }
+
+  set speed(speed) {
+    this._speed = speed;
+  }
+
+  get speed() {
+    return this._speed;
+  }
+
+  set centerColor(color) {
+    this._centerColor = color;
+  }
+
+  get centerColor() {
+    this._centerColor;
+  }
+
+  set fanColor(color) {
+    this._fanColor = color;
+  }
+
+  get fanColor() {
+    this._fanColor;
   }
 }

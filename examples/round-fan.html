@@ -10,48 +10,53 @@
   <div class="container">
     <h3>Default Size</h3>
     <pre><code>
-width: 370px; 
-height: 100px;
+width: 200px;
+height: 200px;
     </code></pre>
 
     <h3>Default</h3>
-    <div id="digital-clock-1" style="width: 370px; height: 100px;"></div>
+    <div id="round-fan-1" style="width: 200px; height: 200px;"></div>
 
-    <h3>Constructor</h3>
+    <h3>Options</h3>
     <pre><code>
+var roundFan2 = new zeu.RoundFan(
+  document.getElementById('round-fan-2'), {
+    fanColor: 'blue',
+    centerColor: 'blue',
+    speed: 1
+  });
+roundFan2.speed = 5;
+roundFan2.fanColor = 'red';
+roundFan2.centerColor = 'green';
     </code></pre>
-    <div id="digital-clock-2" style="width: 370px; height: 100px; background-color: #000;"></div>
-
-    <h3>Setters</h3>
-    <pre><code>
-    </code></pre>
-    <div id="digital-clock-3" style="width: 370px; height: 100px;"></div>
+    <div id="round-fan-2" style="width: 200px; height: 200px;"></div>
 
     <h3>Size X 2</h3>
-    <pre><code>
-    </code></pre>
-    <div id="digital-clock-4" style="width: 740px; height: 200px;"></div>
-
-
-
-
-    
-    <h3>Fan</h3>
-    <div id="round-fan-1" style="width: 200px; height: 200px;"></div>
+    <div id="round-fan-3" style="width: 200px; height: 200px;"></div>
   </div>
 </div>
 
 <script type="text/javascript">
 
   var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'));
-  roundFan1.speed = 5;
-  roundFan1.on();
+
+  var roundFan2 = new zeu.RoundFan(
+    document.getElementById('round-fan-2'), {
+      fanColor: 'blue',
+      centerColor: 'blue',
+      speed: 1
+    });
+  roundFan2.speed = 5;
+  roundFan2.fanColor = 'red';
+  roundFan2.centerColor = 'green';
 
   setInterval(function() {
-    roundFan1.speed = getRandomInt(1, 5);
-    roundFan1.fanColor = getRandomColor();
-    roundFan1.centerColor = getRandomColor();
+    roundFan2.speed = getRandomInt(1, 5);
+    roundFan2.fanColor = getRandomColor();
+    roundFan2.centerColor = getRandomColor();
   }, 2000);
+
+  var roundFan3 = new zeu.RoundFan(document.getElementById('round-fan-3'));
 
 </script>
 </body>

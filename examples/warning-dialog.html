@@ -1,20 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Blink Text</title>
+<title>Warning Dialog</title>
 <script src="../lib/zeu.js"></script>
 <script src="examples.js"></script>
 <link rel="stylesheet" href="example.css">
 </head>
 <body>
+  <div class="container">
+    <h3>Default Size</h3>
+    <pre><code>
+Full page size
+    </code></pre>
+
+    <h3>Default</h3>
+    <pre><code>
+var warningDialog = new zeu.WarningDialog({ 
+  interval: 5000,
+  reason: 'TEST'
+});
+warningDialog.reason = 'NEW WARNING MESSAGE';
+warningDialog.interval = 2000;
+warningDialog.blink();
+    </code></pre>
+
+    <h3>Unblink</h3>
+    <pre><code>
+var warningDialog = new zeu.WarningDialog();
+warningDialog.reason = 'PLEASE CHECK YOUR SERVER!';
+warningDialog.blink();
+warningDialog.unblink();
+    </code></pre>
+
 </div>
 
 <script type="text/javascript">
 
-  var warningDialog = new zeu.WarningDialog({ interval: 50000 });
-  warningDialog.reason = 'PLEASE';
+  var warningDialog = new zeu.WarningDialog({ 
+    interval: 5000,
+    reason: 'TEST'
+  });
+  warningDialog.reason = 'NEW WARNING MESSAGE';
+  warningDialog.interval = 2000;
   warningDialog.blink();
-  //blinkDialog.unblink();
 
 </script>
 </body>

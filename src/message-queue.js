@@ -10,7 +10,7 @@ export default class MessageQueue extends BaseCanvas {
     this._barWidth = Utility.has(options, 'barWidth') ? options.barWidth : 80;
     this._space = Utility.has(options, 'space') ? options.space : 5;
     this._barColor = Utility.has(options, 'barColor') ? options.barColor : COLOR.green;
-    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
+    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 20;
 
     this._queue = [];
     this._vector = 5;

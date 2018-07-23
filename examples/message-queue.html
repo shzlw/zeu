@@ -19,18 +19,21 @@ height: 200px;
     </code></pre>
     <div id="message-queue-1" style="width: 100px; height: 200px;"></div>
 
-    <h3>Constructor</h3>
+    <h3>Options</h3>
     <pre><code>
+var messageQueue2 = new zeu.MessageQueue(
+  document.getElementById('message-queue-2'), {
+    barWidth: 60,
+    space: 20,
+    barColor: 'red',
+    maxQueueCapacity: 10
+  });
+messageQueue2.barColor = '#008000';
     </code></pre>
     <div id="message-queue-2" style="width: 370px; height: 100px;"></div>
 
-    <h3>Setters</h3>
-    <pre><code>
-    </code></pre>
-    <div id="message-queue-3" style="width: 370px; height: 100px;"></div>
-
     <h3>Size X 2</h3>
-    <div id="message-queue-4" style="width: 200px; height: 400px;"></div>
+    <div id="message-queue-3" style="width: 200px; height: 400px;"></div>
 
   </div>
 </div>
@@ -49,6 +52,8 @@ height: 200px;
       barColor: 'red',
       maxQueueCapacity: 10
     });
+  messageQueue2.barColor = '#008000';
+
   setInterval(function() {
     messageQueue2.push();
   }, 300);
@@ -60,15 +65,10 @@ height: 200px;
   var messageQueue3 = new zeu.MessageQueue(document.getElementById('message-queue-3'));
   setInterval(function() {
     messageQueue3.push();
-  }, 500);
-
-  var messageQueue4 = new zeu.MessageQueue(document.getElementById('message-queue-4'));
-  setInterval(function() {
-    messageQueue4.push();
   }, 300);
 
   setInterval(function() {
-    messageQueue4.pop();
+    messageQueue3.pop();
   }, 1000);
 </script>
 </body>

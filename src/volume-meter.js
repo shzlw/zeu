@@ -8,13 +8,13 @@ export default class VolumeMeter extends BaseCanvas {
   constructor(baseDiv, options) {
     super(baseDiv, 100, 200);
 
-    this._min = 0;
-    this._max = 100;
-    this._value = 50;
+    this._min = Utility.has(options, 'min') ? options.min : 0;
+    this._max = Utility.has(options, 'max') ? options.max : 100;
     this._fillColor = Utility.has(options, 'fillColor') ? options.fillColor : COLOR.green;
     this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
     this._lineColor = Utility.has(options, 'lineColor') ? options.lineColor : COLOR.black;
     this._speed = 3;
+    this._value = 50;
 
     this._lineWidth = Utility.has(options, 'lineWidth') ? options.lineWidth : 5;
 
@@ -85,5 +85,21 @@ export default class VolumeMeter extends BaseCanvas {
     this._ctx.stroke();
 
     this._ctx.restore();
+  }
+
+  set fillColor(fillColor) {
+    this._fillColor = fillColor;
+  }
+
+  get fillColor() {
+    return this._fillColor;
+  }
+
+  set fontColor(fontColor) {
+    this._fontColor = fontColor;
+  }
+
+  get fontColor() {
+    return this._fontColor;
   }
 }

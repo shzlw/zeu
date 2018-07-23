@@ -8,44 +8,42 @@
 </head>
 <body>
   <div class="container">
-    <h3>Default Size</h3>
+    <h3>Options - Up</h3>
     <pre><code>
-width: 370px; 
-height: 100px;
+var scrollPanel1 = new zeu.ScrollPanel(
+  document.getElementById('scroll-panel-1'), {
+    isUp: true
+  });
+
+setInterval(function() {
+  var message = document.createElement('div');
+  message.innerHTML = 'time_' + Date.now();
+  message.style.cssText = 'margin: 10px; padding: 10px; color: white; background-color: ' + getRandomColor() + ';';
+  scrollPanel1.push(message);
+}, 500);
     </code></pre>
-
-    <h3>Default</h3>
-    <div id="digital-clock-1" style="width: 370px; height: 100px;"></div>
-
-    <h3>Constructor</h3>
-    <pre><code>
-    </code></pre>
-    <div id="digital-clock-2" style="width: 370px; height: 100px; background-color: #000;"></div>
-
-    <h3>Setters</h3>
-    <pre><code>
-    </code></pre>
-    <div id="digital-clock-3" style="width: 370px; height: 100px;"></div>
-
-    <h3>Size X 2</h3>
-    <pre><code>
-    </code></pre>
-    <div id="digital-clock-4" style="width: 740px; height: 200px;"></div>
-
-
-
-    
-    <h3>Up</h3>
     <div id="scroll-panel-1" style="overflow: hidden; height: 320px; width: 300px; border: 1px solid #999;"></div>
 
-    <h3>Down</h3>
+    <h3>Options - Down</h3>
+    <pre><code>
+var scrollPanel2 = new zeu.ScrollPanel(document.getElementById('scroll-panel-2'));
+scrollPanel2.isUp = false;
+setInterval(function() {
+  var color = 'margin: 3px; padding: 3px; color: white; background-color: ' + getRandomColor() + ';';
+  scrollPanel2.pushText('time_' + Date.now(), color);
+}, 500);
+    </code></pre>
     <div id="scroll-panel-2" style="overflow: hidden; height: 500px; width: 500px;"></div>
+    
   </div>
 </div>
 
 <script type="text/javascript">
 
-  var scrollPanel1 = new zeu.ScrollPanel(document.getElementById('scroll-panel-1'));
+  var scrollPanel1 = new zeu.ScrollPanel(
+    document.getElementById('scroll-panel-1'), {
+      isUp: true
+    });
   setInterval(function() {
     var message = document.createElement('div');
     message.innerHTML = 'time_' + Date.now();

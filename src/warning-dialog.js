@@ -5,8 +5,6 @@ export default class WarningDialog {
   constructor(options) {
     this._reasonText = Utility.has(options, 'reason') ? options.reason : '';
     this._interval = Utility.has(options, 'interval') ? options.interval : 1000;
-    // let red = '#dc3545';
-    // let yellow = '#ffc107';
 
     let d = document.createElement('div');
 
@@ -120,11 +118,6 @@ export default class WarningDialog {
     this._blinkTimer = null;
   }
 
-  set reason(reason) {
-    this._reasonText = reason;
-    this._reason.innerHTML = this._reasonText;
-  }
-
   blink() {
     this._dialog.style.display = 'block';
 
@@ -145,5 +138,26 @@ export default class WarningDialog {
       clearInterval(this._blinkTimer);
       this._blinkTimer = null;
     }
+  }
+
+  set reason(reason) {
+    this._reasonText = reason;
+    this._reason.innerHTML = this._reasonText;
+  }
+
+  get reason() {
+    return this._reason;
+  }
+
+  set interval(interval) {
+    this._interval = interval;
+    if (this._blinkTimer != null) {
+      this.unblink();
+      this.blink();
+    }
+  }
+
+  get interval() {
+    return this._interval;
   }
 }
