@@ -29,7 +29,9 @@ https://unpkg.com/zeu/lib/zeu.min.js
 
 #### General
 
-Use a div as the base to create the component. Each component has its own recommended size.
+Use a div as the base to create the component.
+⋅⋅* Each component has its own recommended size. 
+⋅⋅* The scale changes based on the height of the outer div.
 
 ```html
 <div id="component-id" style="width: 200px; height: 100px;"></div>
@@ -153,7 +155,7 @@ var doubleCircleInLine = new zeu.DoubleCircle(
   });
 ```
 
-#### Heatbeat ([Example](https://shzlw.github.io/zeu/examples/heartbeat.html))
+#### Heartbeat ([Example](https://shzlw.github.io/zeu/examples/heartbeat.html))
 
 ```html
 <div id="heartbeat" style="width: 370px; height: 100px;"></div>
