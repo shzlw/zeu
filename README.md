@@ -30,8 +30,8 @@ https://unpkg.com/zeu/lib/zeu.min.js
 #### General
 
 Use a div as the base to create the component.
-⋅⋅* Each component has its own recommended size. 
-⋅⋅* The scale changes based on the height of the outer div.
+  - Each component has its own recommended size. 
+  - The scale changes based on the height of the outer div.
 
 ```html
 <div id="component-id" style="width: 200px; height: 100px;"></div>
