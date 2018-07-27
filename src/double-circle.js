@@ -22,6 +22,7 @@ export default class DoubleCircle extends BaseCanvas {
 
     this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.green;
     this._text = Utility.has(options, 'text') ? options.text : 'ON';
+    this._font = Utility.has(options, 'font') ? options.font : '20px Arial';
 
     this._isDot = Utility.has(options, 'isDot') ? options.isDot : true;
     this._dots = Utility.has(options, 'dots') ? options.dots : 30;
@@ -30,13 +31,10 @@ export default class DoubleCircle extends BaseCanvas {
     this._interval = (Math.PI * 2) / this._dots;
   }
 
-  postConstructor() {
-    super.postConstructor();
-    this._ctx.font = '20px Arial';
-    this._ctx.textAlign = 'center';
-  }
-
   drawFrame() {
+    this._ctx.font = this._font;
+    this._ctx.textAlign = 'center';
+
     let now = new Date();
     let outerAngle = Utility.getAngleByDate(this._outerSpeed, now);
     let innerAngle = -Utility.getAngleByDate(this._innerSpeed, now);
@@ -101,5 +99,13 @@ export default class DoubleCircle extends BaseCanvas {
     }
 
     this._ctx.restore();
+  }
+
+  set fontColor(fontColor) {
+    this._fontColor = fontColor;
+  }
+
+  set text(text) {
+    this._text = text;
   }
 }

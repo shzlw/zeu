@@ -18,8 +18,6 @@ export default class Heartbeat extends BaseCanvas {
 
   postConstructor() {
     super.postConstructor();
-    this._ctx.textAlign = 'center';
-    this._ctx.font = '12px Arial';
     // Start drawing the seconds
     this.drawSeconds();
   }
@@ -45,6 +43,9 @@ export default class Heartbeat extends BaseCanvas {
   }
 
   drawFrame() {
+    this._ctx.textAlign = 'center';
+    this._ctx.font = '12px Arial';
+
     this.clearAll();
     this._ctx.save();
     this.scale();

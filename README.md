@@ -133,6 +133,7 @@ var doubleCircleWithDots = new zeu.DoubleCircle(
     },
     fontColor: 'green',
     text: 'MIDDLE',
+    font: '30px Arial'
   });
 
 // Circle in line
@@ -152,7 +153,11 @@ var doubleCircleInLine = new zeu.DoubleCircle(
     },
     fontColor: 'green',
     text: 'MIDDLE',
+    font: 'italic bold 30px Arial'
   });
+
+  doubleCircleInLine.fontColor = 'red';
+  doubleCircleInLine.text = 'CHANGE!';
 ```
 
 #### Heartbeat ([Example](https://shzlw.github.io/zeu/examples/heartbeat.html))
