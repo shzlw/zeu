@@ -14,6 +14,7 @@ export default class Heartbeat extends BaseCanvas {
     this._vector = 2;
     this._queue = [];
     this._lastSec = 0;
+    this._timer = null;
   }
 
   postConstructor() {
@@ -22,12 +23,19 @@ export default class Heartbeat extends BaseCanvas {
     this.drawSeconds();
   }
 
+  destroy() {
+    if (this._timer != null) {
+      clearInterval(this._timer);
+    }
+    super.destroy();
+  }
+
   beat() {
     this._queue.push({ time: null, x: -30});
   }
 
   drawSeconds() {
-    setInterval(() => {
+    this._timer = setInterval(() => {
       if (this._queue.length >= this._maxQueueCapacity) {
         this._queue.shift();
       }

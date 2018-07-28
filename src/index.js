@@ -8,6 +8,7 @@ import BlinkText from './blink-text';
 import ScrollPanel from './scroll-panel';
 import MessageQueue from './message-queue';
 import DoubleCircle from './double-circle';
+import RoundRadar from './round-radar';
 import AnimationTimer from './animation-timer';
 import Settings from './settings';
 
@@ -21,6 +22,7 @@ export {
   DoubleCircle,
   WarningDialog,
   BlinkText,
+  RoundRadar,
   ScrollPanel,
   Settings
 };
