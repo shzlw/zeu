@@ -98,7 +98,7 @@ export default class DigitalClock extends BaseCanvas {
     this._ctx.moveTo(0, 0);
     this.vTopLeft();
     this.vBottomLeft();
-    this.vTopLeft();
+    this.vBottomRight();
     this.vTopRight();
     this.hTop();
     this.hMiddle();

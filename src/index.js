@@ -9,6 +9,8 @@ import ScrollPanel from './scroll-panel';
 import MessageQueue from './message-queue';
 import DoubleCircle from './double-circle';
 import RoundRadar from './round-radar';
+import RoundGauge from './round-gauge';
+import StopWatch from './stop-watch';
 import AnimationTimer from './animation-timer';
 import Settings from './settings';
 
@@ -23,6 +25,8 @@ export {
   WarningDialog,
   BlinkText,
   RoundRadar,
+  RoundGauge,
+  StopWatch,
   ScrollPanel,
   Settings
 };

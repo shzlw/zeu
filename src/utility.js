@@ -42,5 +42,12 @@ export default class Utility {
   static isDefined(o) {
     return o !== undefined && o !== null;
   }
+
+  static leftPadZero(n) {
+    if (n < 10) {
+      return '0' + n;
+    }
+    return n;
+  }
 }
 

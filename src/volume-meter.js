@@ -62,8 +62,10 @@ export default class VolumeMeter extends BaseCanvas {
     // Draw the filled part.
     this._ctx.fillRect(25, this._y, this._meterWidth, 190 - this._y);
 
-    if ((this._speed > 0 && this._y <= this._nextY) || (this._speed <= 0 && this._y >= this._nextY)) {
+    if ((this._speed > 0 && this._y < this._nextY) || (this._speed < 0 && this._y > this._nextY)) {
       this._y += this._speed;
+    } else if ((this._speed > 0 && this._y >= this._nextY) || (this._speed < 0 && this._y <= this._nextY)) {
+      this._y = this._nextY;
     }
 
     // Draw the border.

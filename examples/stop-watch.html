@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stop Watch</title>
+<script src="../lib/zeu.js"></script>
+<script src="examples.js"></script>
+<link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <div class="container">
+    <h3>Default Size</h3>
+    <pre><code>
+width: 370px; 
+height: 100px;
+    </code></pre>
+
+    <h3>Default</h3>
+    <div id="stop-watch-1" style="width: 500px; height: 100px;"></div>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <button id="reset">Reset</button>
+    <h3>Options</h3>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var stopWatch1 = new zeu.StopWatch(document.getElementById('stop-watch-1'));
+
+  document.getElementById("start").addEventListener("click", function() {
+    stopWatch1.start();
+  });
+
+  document.getElementById("stop").addEventListener("click", function() {
+    stopWatch1.stop();
+  });
+
+  document.getElementById("reset").addEventListener("click", function() {
+    stopWatch1.reset();
+  });
+
+</script>
+</body>
+</html>
