@@ -27,7 +27,9 @@ height: 200px;
   zeu.Settings.fps = 120;
 
   var roundGauge1 = new zeu.RoundGauge(document.getElementById('round-gauge-1'));
-
+  setInterval(function() {
+    roundGauge1.value = getRandomInt(1, 359);
+  }, 3000);
 
 </script>
 </body>

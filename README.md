@@ -45,6 +45,15 @@ Default fps is 60 for components using canvas.
 zeu.Settings.fps = 60;
 ```
 
+#### Components
+
+| Component | Example |
+| --------- | ------- |   
+| [Bar Meter](https://shzlw.github.io/zeu/examples/bar-meter.html) | |
+| [Blink Text](https://shzlw.github.io/zeu/examples/blink-text.html) | |
+| [Digital Clock](https://shzlw.github.io/zeu/examples/digital-clock.html) | |
+| [Double Circle](https://shzlw.github.io/zeu/examples/double-circle.html) | |
+
 #### Bar Meter ([Example](https://shzlw.github.io/zeu/examples/bar-meter.html))
 
 ```html

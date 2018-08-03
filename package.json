@@ -1,8 +1,10 @@
 {
   "name": "zeu",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "A JavaScript library for real-time visualization",
   "main": "lib/zeu.js",
+  "unpkg": "lib/zeu.js",
+  "jsdelivr": "lib/zeu.js",
   "scripts": {
     "build": "webpack --env dev && webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev"
