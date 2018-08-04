@@ -18,6 +18,7 @@ height: 200px;
     <div id="round-gauge-1" style="width: 200px; height: 200px;"></div>
 
     <h3>Options</h3>
+    <div id="round-gauge-2" style="width: 400px; height: 400px;"></div>
 
   </div>
 </div>
@@ -28,8 +29,26 @@ height: 200px;
 
   var roundGauge1 = new zeu.RoundGauge(document.getElementById('round-gauge-1'));
   setInterval(function() {
-    roundGauge1.value = getRandomInt(1, 359);
+    roundGauge1.value = getRandomInt(0, 100);
   }, 3000);
+
+  var roundGauge2 = new zeu.RoundGauge(
+    document.getElementById('round-gauge-2'), {
+      startValue: 0,
+      endValue: 1000,
+      startDegree: -240,
+      endDegree: 60,
+      isPercentage: true,
+      isHandArrow: true,
+      lineColor: 'grey',
+      handColor: 'red',
+      fontColor: 'green',
+      valueFont: '25px Arial'
+    });
+  setInterval(function() {
+    roundGauge2.value = getRandomInt(0, 1000);
+  }, 3000);
+
 
 </script>
 </body>
