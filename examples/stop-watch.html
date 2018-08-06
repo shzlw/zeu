@@ -18,6 +18,7 @@ height: 100px;
     <div id="stop-watch-1" style="width: 500px; height: 100px;"></div>
     <button id="start">Start</button>
     <button id="stop">Stop</button>
+    <button id="resume">Resume</button>
     <button id="reset">Reset</button>
     <h3>Options</h3>
 
@@ -34,6 +35,10 @@ height: 100px;
 
   document.getElementById("stop").addEventListener("click", function() {
     stopWatch1.stop();
+  });
+
+  document.getElementById("resume").addEventListener("click", function() {
+    stopWatch1.resume();
   });
 
   document.getElementById("reset").addEventListener("click", function() {

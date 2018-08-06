@@ -11,6 +11,16 @@ class AnimationTimer {
     this._fps = Settings._fps;
     this._fpsInterval = 1000 / this._fps;
     this._lastFrame = Date.now();
+
+    // Cross browser.
+    if (!window.requestAnimationFrame) {
+      window.requestAnimFrame = () => {
+        return window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame;
+      };
+    }
   }
 
   render() {

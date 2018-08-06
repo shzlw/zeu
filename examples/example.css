@@ -11,13 +11,33 @@ body {
   padding: 20px;
 }
 
+h1 {
+  margin-top: 0px;
+}
+
 h3 {
   margin: 10px 0px;
 }
 
 pre {
+  margin: 0px;
   padding: 0px 10px;
-  background: #e5e5e5;
   font-size: 14px;
   font-family: Consolas, monaco, monospace;
+  color: #F8F8FF;
+  background-color: #383838;
+}
+
+.sample {
+  float: left;
+  width: 400px;
+}
+
+.code {
+  float: left;
+  min-width: 400px;
+}
+
+.clear {
+  clear: both;
 }

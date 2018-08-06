@@ -37,10 +37,10 @@ setInterval(function() {
   heartbeat2.beat();
 }, 1500);
     </code></pre>
-    <div id="heartbeat-2" style="width: 300px; height: 100px;"></div>
+    <div id="heartbeat-2" style="width: 240px; height: 80px;"></div>
 
     <h3>Size X 2</h3>
-    <div id="heartbeat-3" style="width: 400px; height: 200px;"></div>
+    <div id="heartbeat-3" style="width: 1200px; height: 100px;"></div>
 
   </div>
 </div>
@@ -64,10 +64,12 @@ setInterval(function() {
     heartbeat2.beat();
   }, 1500);
 
-  var heartbeat3 = new zeu.Heartbeat(document.getElementById('heartbeat-3'));
+  var heartbeat3 = new zeu.Heartbeat(document.getElementById('heartbeat-3'), {
+    maxQueueCapacity: 100
+  });
   setInterval(function() {
     heartbeat3.beat();
-  }, 1000);
+  }, 200);
 
 </script>
 </body>

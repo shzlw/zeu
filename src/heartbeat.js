@@ -5,13 +5,13 @@ import { COLOR } from './color';
 export default class Heartbeat extends BaseCanvas {
 
   constructor(baseDiv, options) {
-    super(baseDiv, 300, 100);
+    super(baseDiv, baseDiv.clientWidth, 100);
 
     this._lineColor = Utility.has(options, 'lineColor') ? options.lineColor : COLOR.green;
     this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
     this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
 
-    this._vector = 2;
+    this._speed = 2;
     this._queue = [];
     this._lastSec = 0;
     this._timer = null;
@@ -31,6 +31,9 @@ export default class Heartbeat extends BaseCanvas {
   }
 
   beat() {
+    if (this._queue.length >= this._maxQueueCapacity) {
+      this._queue.shift();
+    }
     this._queue.push({ time: null, x: -30});
   }
 
@@ -41,7 +44,7 @@ export default class Heartbeat extends BaseCanvas {
       }
 
       let now = new Date();
-      let currSec = this.appendZero(now.getMinutes()) + ':' + this.appendZero(now.getSeconds());
+      let currSec = Utility.leftPadZero(now.getMinutes()) + ':' + Utility.leftPadZero(now.getSeconds());
 
       if (currSec !== this._lastSec) {
         this._queue.push({ time: currSec, x: -30});
@@ -58,6 +61,7 @@ export default class Heartbeat extends BaseCanvas {
     this._ctx.save();
     this.scale();
 
+    // Draw the pulse
     for (let i = 0; i < this._queue.length; i++) {
       let q = this._queue[i];
 
@@ -73,19 +77,14 @@ export default class Heartbeat extends BaseCanvas {
         this._ctx.closePath();
         this._ctx.fill();
       }
-      q.x += this._vector;
+      q.x += this._speed;
     }
+
+    // Draw the horizontal line
     this._ctx.fillStyle = this._lineColor;
-    this._ctx.fillRect(0, 50, 300, 2);
+    this._ctx.fillRect(0, 50, this._scaledWidth, 2);
 
     this._ctx.restore();
-  }
-
-  appendZero(n) {
-    if (n < 10) {
-      return '0' + n;
-    }
-    return n;
   }
 
   set lineColor(lineColor) {

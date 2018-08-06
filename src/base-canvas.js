@@ -42,6 +42,8 @@ export default class BaseCanvas {
     // Base scale on the height.
     let heightScale = this._div.clientHeight / this._defaultHeight;
 
+    // Width after being scaled.
+    this._scaledWidth = this._defaultWidth / heightScale;
     this._ctx.scale(heightScale, heightScale);
   }
 
@@ -86,7 +88,6 @@ export default class BaseCanvas {
         index = i;
         break;
       }
-
     }
     return index;
   }
