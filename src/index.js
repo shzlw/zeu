@@ -11,6 +11,7 @@ import DoubleCircle from './double-circle';
 import RoundRadar from './round-radar';
 import RoundGauge from './round-gauge';
 import StopWatch from './stop-watch';
+import TextMeter from './text-meter';
 import AnimationTimer from './animation-timer';
 import Settings from './settings';
 
@@ -27,6 +28,7 @@ export {
   RoundRadar,
   RoundGauge,
   StopWatch,
+  TextMeter,
   ScrollPanel,
   Settings
 };

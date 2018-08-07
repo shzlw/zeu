@@ -48,7 +48,7 @@ export default class VolumeMeter extends BaseCanvas {
   }
 
   get value() {
-    this._value;
+    return this._value;
   }
 
   drawFrame() {
@@ -62,11 +62,7 @@ export default class VolumeMeter extends BaseCanvas {
     // Draw the filled part.
     this._ctx.fillRect(25, this._y, this._meterWidth, 190 - this._y);
 
-    if ((this._speed > 0 && this._y < this._nextY) || (this._speed < 0 && this._y > this._nextY)) {
-      this._y += this._speed;
-    } else if ((this._speed > 0 && this._y >= this._nextY) || (this._speed < 0 && this._y <= this._nextY)) {
-      this._y = this._nextY;
-    }
+    this._y = Utility.getNextPos(this._y, this._nextY, this._speed);
 
     // Draw the border.
     this._ctx.rect(25, 10, this._meterWidth, this._meterHeight);

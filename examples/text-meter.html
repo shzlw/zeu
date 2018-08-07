@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Text Meter</title>
+<script src="../lib/zeu.js"></script>
+<script src="examples.js"></script>
+<link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <div class="container">
+    
+    <h1>Text Meter</h1>
+    <div>
+      <h3>Default</h3>
+      <div class="sample">
+        <div id="text-meter-1" style="width: 200px; height: 100px;"></div>
+      </div>
+      <div class="code">
+        <pre><code>
+code
+        </code></pre>
+      </div>
+      <div class="clear"></div>
+    </div>
+
+    <div>
+      <h3>Options</h3>
+      <div class="sample">
+        sample
+      </div>
+      <div class="code">
+        <pre><code>
+code
+        </code></pre>
+      </div>
+      <div class="clear"></div>
+    </div>
+    
+
+
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var textMeter1 = new zeu.TextMeter(document.getElementById('text-meter-1'));
+  setInterval(function() {
+    textMeter1.value = getRandomInt(0, 100);
+  }, 2000);
+
+</script>
+</body>
+</html>

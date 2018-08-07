@@ -49,5 +49,12 @@ export default class Utility {
     }
     return n;
   }
+
+  static getNextPos(curr, dest, speed) {
+    if ((speed > 0 && curr < dest) || (speed < 0 && curr > dest)) {
+      return curr + speed;
+    }
+    return dest;
+  }
 }
 
