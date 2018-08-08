@@ -14,12 +14,12 @@ export default class MessageQueue extends BaseCanvas {
     this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 20;
 
     this._queue = [];
-    this._vector = 5;
+    this._speed = 5;
     this._barHeight = 20;
   }
 
   push() {
-    if (this._queue.length > this._maxQueueCapacity) {
+    if (this._queue.length >= this._maxQueueCapacity) {
       this.pop();
     }
 
@@ -46,9 +46,10 @@ export default class MessageQueue extends BaseCanvas {
       let currY = (this._barHeight + this._space) * i + this._space;
 
       // Move up
-      if (currY <= q.y) {
-        // TODO: control the speed.
-        q.y -= this._vector;
+      if (currY < q.y) {
+        q.y -= this._speed;
+      } else {
+        q.y = currY;
       }
 
       this._ctx.beginPath();

@@ -18,14 +18,12 @@ export default class VolumeMeter extends BaseCanvas {
 
     this._speed = 3;
     this._value = 50;
-    this._margin = 40;
     this._meterWidth = 50;
     this._meterHeight = 180;
 
     // Ignore line width totally.
     this._y = this._meterHeight - ((this._value / (this._max - this._min)) * this._meterHeight) + 10;
     this._nextY = this._y;
-
   }
 
   postConstructor() {
@@ -35,13 +33,7 @@ export default class VolumeMeter extends BaseCanvas {
 
   set value(n) {
     if (n >= this._min || n <= this._max) {
-      if (n < this._value) {
-        // Move down
-        this._speed = Math.abs(this._speed);
-      } else {
-        // Move up
-        this._speed = -Math.abs(this._speed);
-      }
+      this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);
       this._nextY = this._meterHeight - ((n / (this._max - this._min)) * this._meterHeight) + 10;
       this._value = n;
     }

@@ -26,7 +26,7 @@ code
     <div>
       <h3>Options</h3>
       <div class="sample">
-        sample
+        <div id="text-meter-2" style="width: 400px; height: 50px;"></div>
       </div>
       <div class="code">
         <pre><code>
@@ -35,8 +35,6 @@ code
       </div>
       <div class="clear"></div>
     </div>
-    
-
 
   </div>
 </div>
@@ -45,8 +43,21 @@ code
 
   var textMeter1 = new zeu.TextMeter(document.getElementById('text-meter-1'));
   setInterval(function() {
-    textMeter1.value = getRandomInt(0, 100);
+    textMeter1.percentageValue = getRandomInt(0, 100);
   }, 2000);
+  
+  var textMeter2 = new zeu.TextMeter(
+    document.getElementById('text-meter-2'), {
+      percentageValue: 50,
+      fillColor: '#00FFFF',
+      bgColor: 'black',
+      lineColor: 'black',
+      lineWidth: 20
+    });
+  setInterval(function() {
+    textMeter2.percentageValue = getRandomInt(0, 100);
+  }, 2000);
+  
 
 </script>
 </body>

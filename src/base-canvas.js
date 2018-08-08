@@ -26,6 +26,12 @@ export default class BaseCanvas {
     this._lineColor = COLOR.grey;
     this._fillColor = COLOR.green;
 
+    // Base scale on the height.
+    this._heightScale = this._div.clientHeight / this._defaultHeight;
+
+    // Width after being scaled.
+    this._scaledWidth = this._defaultWidth / this._heightScale;
+
     this.postConstructor();
   }
 
@@ -39,12 +45,7 @@ export default class BaseCanvas {
   }
 
   scale() {
-    // Base scale on the height.
-    let heightScale = this._div.clientHeight / this._defaultHeight;
-
-    // Width after being scaled.
-    this._scaledWidth = this._defaultWidth / heightScale;
-    this._ctx.scale(heightScale, heightScale);
+    this._ctx.scale(this._heightScale, this._heightScale);
   }
 
   clearAll() {
