@@ -14,10 +14,10 @@ export default class SpeedCircle extends BaseComponent {
 
   setOptions(options) {
     this._speed = Utility.has(options, 'speed') ? options.speed : 0.5;
-    this._color1 = Utility.has(options, 'color1') ? options.color1 : COLOR.black;
-    this._color2 = Utility.has(options, 'color2') ? options.color2 : COLOR.black;
-    this._color3 = Utility.has(options, 'color3') ? options.color3 : COLOR.black;
-    this._color4 = Utility.has(options, 'color4') ? options.color4 : COLOR.black;
+    this._color1 = Utility.has(options, 'color1') ? options.color1 : COLOR.red;
+    this._color2 = Utility.has(options, 'color2') ? options.color2 : COLOR.yellow;
+    this._color3 = Utility.has(options, 'color3') ? options.color3 : COLOR.blue;
+    this._color4 = Utility.has(options, 'color4') ? options.color4 : COLOR.grey;
     this._textColor = Utility.has(options, 'textColor') ? options.textColor : COLOR.black;
     this._textValue = Utility.has(options, 'textValue') ? options.textValue : 'ABCD';
   }
@@ -114,5 +114,33 @@ export default class SpeedCircle extends BaseComponent {
     this._ctx.fillStyle = this._textColor;
     this._ctx.fillText(this._textValue, 100, 110);
     this._ctx.restore();
+  }
+
+  set speed(n) {
+    this._speed = n;
+  }
+
+  set color1(s) {
+    this._color1 = s;
+  }
+
+  set color2(s) {
+    this._color2 = s;
+  }
+
+  set color3(s) {
+    this._color3 = s;
+  }
+
+  set color4(s) {
+    this._color4 = s;
+  }
+
+  set textColor(s) {
+    this._textColor = s;
+  }
+
+  set textValue(s) {
+    this._textValue = s;
   }
 }

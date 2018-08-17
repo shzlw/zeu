@@ -7,7 +7,6 @@ import WarningDialog from './warning-dialog';
 import BlinkText from './blink-text';
 import ScrollPanel from './scroll-panel';
 import MessageQueue from './message-queue';
-import DoubleCircle from './double-circle';
 import RoundRadar from './round-radar';
 import RoundGauge from './round-gauge';
 import StopWatch from './stop-watch';
@@ -24,17 +23,16 @@ export {
   VolumeMeter,
   Heartbeat,
   MessageQueue,
-  DoubleCircle,
   WarningDialog,
   BlinkText,
   RoundRadar,
   RoundGauge,
   StopWatch,
-  TextMeter,
   ScrollPanel,
   Settings,
   // v1.0.0
-  SpeedCircle
+  SpeedCircle,
+  TextMeter
 };
 
 // Fire up window.requestAnimationFrame()
