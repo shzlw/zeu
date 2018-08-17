@@ -14,6 +14,8 @@ import StopWatch from './stop-watch';
 import TextMeter from './text-meter';
 import AnimationTimer from './animation-timer';
 import Settings from './settings';
+// v1.0.0
+import SpeedCircle from './speed-circle';
 
 export {
   BarMeter,
@@ -30,7 +32,9 @@ export {
   StopWatch,
   TextMeter,
   ScrollPanel,
-  Settings
+  Settings,
+  // v1.0.0
+  SpeedCircle
 };
 
 // Fire up window.requestAnimationFrame()

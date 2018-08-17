@@ -13,27 +13,15 @@
     <div>
       <h3>Default</h3>
       <div class="sample">
-        <div id="text-meter-1" style="width: 200px; height: 100px;"></div>
+        <canvas id="text-meter-1" width="400" height="100"></canvas>
       </div>
-      <div class="code">
-        <pre><code>
-code
-        </code></pre>
-      </div>
-      <div class="clear"></div>
     </div>
 
     <div>
       <h3>Options</h3>
       <div class="sample">
-        <div id="text-meter-2" style="width: 400px; height: 50px;"></div>
+        <div id="text-meter-2" style="width: 400px; height: 50px; border: 5px solid blue;"></div>
       </div>
-      <div class="code">
-        <pre><code>
-code
-        </code></pre>
-      </div>
-      <div class="clear"></div>
     </div>
 
   </div>
@@ -43,9 +31,10 @@ code
 
   var textMeter1 = new zeu.TextMeter(document.getElementById('text-meter-1'));
   setInterval(function() {
-    textMeter1.percentageValue = getRandomInt(0, 100);
-  }, 2000);
+    textMeter1.setPercentageValue(getRandomInt(0, 100), 'test');
+  }, 1000);
   
+  /*
   var textMeter2 = new zeu.TextMeter(
     document.getElementById('text-meter-2'), {
       percentageValue: 50,
@@ -55,9 +44,9 @@ code
       lineWidth: 20
     });
   setInterval(function() {
-    textMeter2.percentageValue = getRandomInt(0, 100);
+    textMeter2.percentageValue(getRandomInt(0, 100));
   }, 2000);
-  
+  */
 
 </script>
 </body>

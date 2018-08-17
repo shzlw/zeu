@@ -1,46 +1,39 @@
-import BaseCanvas from './base-canvas';
+
 import Utility from './utility';
+import BaseComponent from './base-component';
 import { COLOR } from './color';
 
-export default class DoubleCircle extends BaseCanvas {
+export default class SpeedCircle extends BaseComponent {
 
-  constructor(baseDiv, options) {
-    super(baseDiv, 200, 200);
+  constructor(canvas, options) {
+    super(canvas, options, 0, 0, 200, 200);
 
-    // TODO: pass in width, height for canvas.
-    // circle color [] 4 color
-
-    // Options
-    let outer = Utility.has(options, 'circle') ? options.outer : null;
-
-    this._outerColor = Utility.has(outer, 'color') ? outer.color : COLOR.green;
-    this._outerSpeed = Utility.has(outer, 'speed') ? outer.speed : 0.5;
-    this._outerRadius = Utility.has(outer, 'radius') ? outer.radius : 90;
-
-    let inner = Utility.has(options, 'inner') ? options.inner : null;
-
-    this._innerColor = Utility.has(inner, 'color') ? inner.color : COLOR.red;
-    this._innerSpeed = Utility.has(inner, 'speed') ? inner.speed : 0.2;
-    this._innerRadius = Utility.has(inner, 'radius') ? inner.radius : 70;
-
-    this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.green;
-    this._text = Utility.has(options, 'text') ? options.text : 'ABCD';
     this._font = '28px Arial';
     this._degree = 0;
   }
 
-  drawFrame() {
-    this._degree = Utility.getNextAngleByDegree(this._degree, this._outerSpeed);
+  setOptions(options) {
+    this._speed = Utility.has(options, 'speed') ? options.speed : 0.5;
+    this._color1 = Utility.has(options, 'color1') ? options.color1 : COLOR.black;
+    this._color2 = Utility.has(options, 'color2') ? options.color2 : COLOR.black;
+    this._color3 = Utility.has(options, 'color3') ? options.color3 : COLOR.black;
+    this._color4 = Utility.has(options, 'color4') ? options.color4 : COLOR.black;
+    this._textColor = Utility.has(options, 'textColor') ? options.textColor : COLOR.black;
+    this._textValue = Utility.has(options, 'textValue') ? options.textValue : 'ABCD';
+  }
+
+  drawObject() {
+    this._degree = Utility.getNextAngleByDegree(this._degree, this._speed);
 
     const clockWiseAngle = Utility.getAngleByDegree(this._degree);
 
-    this.clearAll();
+    this.clear();
     this._ctx.save();
     this.scale();
     this._ctx.translate(100, 100);
     this._ctx.rotate(clockWiseAngle);
     // Draw bar circle 1.
-    this._ctx.strokeStyle = this._outerColor;
+    this._ctx.strokeStyle = this._color1;
     this._ctx.lineWidth = 10;
     let space = 0.02;
     let len = 0.5;
@@ -58,8 +51,8 @@ export default class DoubleCircle extends BaseCanvas {
       end = start + len;
     }
 
-    // Draw line circle 2.
-    this._ctx.fillStyle = this._innerColor;
+    // Draw dot circle 3.
+    this._ctx.fillStyle = this._color3;
     for (let i = 0; i < 360; i = i + 9) {
       let a = Utility.getAngleByDegree(i);
 
@@ -78,9 +71,9 @@ export default class DoubleCircle extends BaseCanvas {
     this._ctx.translate(100, 100);
     this._ctx.rotate(-clockWiseAngle);
 
-    // Draw round dot circle 3.
+    // Draw bar circle 2.
     this._ctx.lineWidth = 6;
-    this._ctx.fillStyle = this._innerColor;
+    this._ctx.strokeStyle = this._color2;
     for (let i = 0; i < 360; i = i + 8) {
       let a = Utility.getAngleByDegree(i);
 
@@ -99,6 +92,7 @@ export default class DoubleCircle extends BaseCanvas {
 
     // Draw bar circle 4.
     this._ctx.lineWidth = 5;
+    this._ctx.strokeStyle = this._color4;
     len = (2 - (12 * space)) / 12;
     start = 0;
     end = len;
@@ -117,16 +111,8 @@ export default class DoubleCircle extends BaseCanvas {
     // Draw the text in the middle.
     this._ctx.font = this._font;
     this._ctx.textAlign = 'center';
-    this._ctx.fillStyle = this._fontColor;
-    this._ctx.fillText(this._text, 100, 110);
+    this._ctx.fillStyle = this._textColor;
+    this._ctx.fillText(this._textValue, 100, 110);
     this._ctx.restore();
-  }
-
-  set fontColor(fontColor) {
-    this._fontColor = fontColor;
-  }
-
-  set text(text) {
-    this._text = text;
   }
 }

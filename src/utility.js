@@ -26,6 +26,13 @@ export default class Utility {
     return ((speed * Math.PI) / 6) * date.getSeconds() + ((speed * Math.PI) / 6000) * date.getMilliseconds();
   }
 
+  static getNextAngleByDegree(degree, speed) {
+    if (degree >= 360) {
+      return 0;
+    }
+    return degree + speed;
+  }
+
   static getAngleByDegree(degree) {
     return degree * Math.PI / 180;
   }
@@ -55,6 +62,19 @@ export default class Utility {
       return curr + speed;
     }
     return dest;
+  }
+
+  static shuffleArray(a) {
+    let j = 0;
+    let temp = 0;
+
+    for (let i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      temp = a[i];
+      a[i] = a[j];
+      a[j] = temp;
+    }
+    return a;
   }
 }
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Speed Circle</title>
+<script src="../lib/zeu.js"></script>
+<script src="examples.js"></script>
+<link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <div class="container">
+    <h3>Default Size</h3>
+    <pre><code>
+width: 200px; 
+height: 200px;
+    </code></pre>
+
+    <h3>Default</h3>
+    <pre><code>
+var doubleCircle1 = new zeu.SpeedCircle(document.getElementById('double-circle-1'));
+    </code></pre>
+    <canvas id="speed-circle-1" width="400" height="400" style="width: 400px; height: 400px;
+    border: 1px solid red;"></canvas>
+
+   
+</div>
+
+<script type="text/javascript">
+
+  var s1 = new zeu.SpeedCircle(document.getElementById('speed-circle-1'),
+  {
+    speed: 0.1,
+    color1: 'red',
+    color2: 'green',
+    color3: 'yellow',
+    color4: 'blue',
+    textValue: 'TEST',
+    textColor: 'orange'
+  });
+  s1.scaleByHeight(400);
+  s1.blink();
+
+</script>
+</body>
+</html>

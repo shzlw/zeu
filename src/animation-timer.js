@@ -44,13 +44,10 @@ class AnimationTimer {
         }, 0);
         */
 
-        drawFrameObj.func.call(drawFrameObj.self);
+        drawFrameObj.func.call();
       }
-
     }
-
   }
-
 }
 
 export default new AnimationTimer();
