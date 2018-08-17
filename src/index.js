@@ -13,13 +13,11 @@ import StopWatch from './stop-watch';
 import TextMeter from './text-meter';
 import AnimationTimer from './animation-timer';
 import Settings from './settings';
-// v1.0.0
 import SpeedCircle from './speed-circle';
 
 export {
   BarMeter,
   DigitalClcok,
-  RoundFan,
   VolumeMeter,
   Heartbeat,
   MessageQueue,
@@ -32,7 +30,8 @@ export {
   Settings,
   // v1.0.0
   SpeedCircle,
-  TextMeter
+  TextMeter,
+  RoundFan
 };
 
 // Fire up window.requestAnimationFrame()

@@ -15,7 +15,7 @@ height: 200px;
     </code></pre>
 
     <h3>Default</h3>
-    <div id="round-fan-1" style="width: 200px; height: 200px;"></div>
+    <canvas id="round-fan-1" width="400" height="400"></canvas>
 
     <h3>Options</h3>
     <pre><code>
@@ -39,25 +39,8 @@ roundFan2.centerColor = 'green';
 <script type="text/javascript">
 
   var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'));
-
-  var roundFan2 = new zeu.RoundFan(
-    document.getElementById('round-fan-2'), {
-      fanColor: 'blue',
-      centerColor: 'blue',
-      speed: 1
-    });
-  roundFan2.speed = 5;
-  roundFan2.fanColor = 'red';
-  roundFan2.centerColor = 'green';
-
-  setInterval(function() {
-    roundFan2.speed = getRandomInt(1, 5);
-    roundFan2.fanColor = getRandomColor();
-    roundFan2.centerColor = getRandomColor();
-  }, 2000);
-
-  var roundFan3 = new zeu.RoundFan(document.getElementById('round-fan-3'));
-
+  roundFan1.speed = 10;
+  roundFan1.scaleTo(2, 2);
 </script>
 </body>
 </html>

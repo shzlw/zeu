@@ -13,7 +13,7 @@
     <div>
       <h3>Default</h3>
       <div class="sample">
-        <canvas id="text-meter-1" width="400" height="100"></canvas>
+        <canvas id="text-meter-1" width="1200" height="200"></canvas>
       </div>
     </div>
 
@@ -29,10 +29,15 @@
 
 <script type="text/javascript">
 
-  var textMeter1 = new zeu.TextMeter(document.getElementById('text-meter-1'));
+  var textMeter1 = new zeu.TextMeter(document.getElementById('text-meter-1'),
+  {
+    viewWidth: 600
+  });
   setInterval(function() {
     textMeter1.setPercentageValue(getRandomInt(0, 100), 'test');
   }, 3000);
+  textMeter1.scaleByHeight(200);
+
   
   /*
   var textMeter2 = new zeu.TextMeter(

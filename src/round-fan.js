@@ -1,57 +1,30 @@
-import BaseCanvas from './base-canvas';
 import { COLOR } from './color';
 import Utility from './utility';
+import BaseComponent from './base-component';
 
-export default class RoundFan extends BaseCanvas {
+export default class RoundFan extends BaseComponent {
 
-  constructor(baseDiv, options) {
-    super(baseDiv, 200, 200);
+  constructor(canvas, options) {
+    super(canvas, options, 0, 0, 200, 200);
 
-    // Options
+    this._degree = 0;
+  }
+
+  setOptions(options) {
     this._fanColor = Utility.has(options, 'fanColor') ? options.fanColor : COLOR.green;
-    this._centerColor = Utility.has(options, 'centerColor') ? options.centerColor : '#FFFFFF';
+    this._centerColor = Utility.has(options, 'centerColor') ? options.centerColor : COLOR.white;
     this._speed = Utility.has(options, 'speed') ? options.speed : 1;
   }
 
-  postConstructor() {
-    super.postConstructor();
-    this._ctx.globalCompositeOperation = 'destination-over';
-  }
+  drawObject() {
+    this._degree = Utility.getNextAngleByDegree(this._degree, this._speed);
+    const angle = Utility.getAngleByDegree(this._degree);
 
-  on() {
-    this.startAnimation();
-  }
-
-  off() {
-    this.stopAnimation();
-  }
-
-  drawFrame() {
-    let now = new Date();
-    let angle = Utility.getAngleByDate(this._speed, now);
-
-    this.clearAll();
+    this.clear();
     this._ctx.save();
     this.scale();
-
     this._ctx.translate(100, 100);
     this._ctx.rotate(angle);
-
-    this._ctx.strokeStyle = this._centerColor;
-    this._ctx.beginPath();
-    this._ctx.arc(0, 0, 10, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this._centerColor;
-    this._ctx.fill();
-
-    this._ctx.beginPath();
-    this._ctx.arc(0, 0, 30, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this._fanColor;
-    this._ctx.fill();
-
-    this._ctx.beginPath();
-    this._ctx.arc(0, 0, 35, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this._centerColor;
-    this._ctx.fill();
 
     this._ctx.beginPath();
     this._ctx.moveTo(0, 0);
@@ -74,32 +47,47 @@ export default class RoundFan extends BaseCanvas {
 
     this._ctx.fillStyle = this._fanColor;
     this._ctx.fill();
-    this._ctx.stroke();
+    this._ctx.closePath();
+
+    this._ctx.beginPath();
+    this._ctx.arc(0, 0, 35, 0, 2 * Math.PI);
+    this._ctx.fillStyle = this._centerColor;
+    this._ctx.fill();
+    this._ctx.closePath();
+
+    this._ctx.beginPath();
+    this._ctx.arc(0, 0, 30, 0, 2 * Math.PI);
+    this._ctx.fillStyle = this._fanColor;
+    this._ctx.fill();
+    this._ctx.closePath();
+
+    this._ctx.strokeStyle = this._centerColor;
+    this._ctx.beginPath();
+    this._ctx.arc(0, 0, 10, 0, 2 * Math.PI);
+    this._ctx.fillStyle = this._centerColor;
+    this._ctx.fill();
+    this._ctx.closePath();
 
     this._ctx.restore();
   }
 
-  set speed(speed) {
-    this._speed = speed;
+  on() {
+    this.startAnimation();
   }
 
-  get speed() {
-    return this._speed;
+  off() {
+    this.stopAnimation();
   }
 
-  set centerColor(color) {
-    this._centerColor = color;
+  set fanColor(s) {
+    this._fanColor = s;
   }
 
-  get centerColor() {
-    this._centerColor;
+  set centerColor(s) {
+    this._centerColor = s;
   }
 
-  set fanColor(color) {
-    this._fanColor = color;
-  }
-
-  get fanColor() {
-    this._fanColor;
+  set speed(n) {
+    this._speed = n;
   }
 }

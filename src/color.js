@@ -9,7 +9,8 @@ let COLOR = {
   blue: '#007bfb',
   yellow: '#ffc108',
   cyan: '#17a2b9',
-  grey: '#6c757e'
+  grey: '#6c757e',
+  green: '#28a748'
 };
 
 export { COLOR };

@@ -13,16 +13,17 @@ export default class BaseComponent {
     // Scale parameters used in scale()
     this._scaleX = 1;
     this._scaleY = 1;
+    this._overrideScaleX = false;
 
-    // The width and height used to draw the component.
-    this._viewWidth = viewWidth !== null ? viewWidth : canvas.width;
-    this._viewHeight = viewHeight !== null ? viewHeight : canvas.height;
     // Current X value (Left 0 to right)
     this._x = viewX;
 
     // Current Y value (Top 0 to bottom)
     this._y = viewY;
 
+    // The width and height used to draw the component.
+    this._viewWidth = viewWidth;
+    this._viewHeight = viewHeight;
     // Acutal width and height of the component based on scales.
     this._width = this._scaleX * this._viewWidth;
     this._height = this._scaleY * this._viewHeight;
@@ -166,7 +167,6 @@ export default class BaseComponent {
     this._scaleY = y;
     this._width = this._scaleX * this._viewWidth;
     this._height = this._scaleY * this._viewHeight;
-
     return this;
   }
 
@@ -175,7 +175,6 @@ export default class BaseComponent {
     this._scaleX = this._scaleY;
     this._width = this._scaleX * this._viewWidth;
     this._height = this._scaleY * this._viewHeight;
-
     return this;
   }
 
@@ -201,5 +200,13 @@ export default class BaseComponent {
 
   get movementQueue() {
     return this._movementQueue;
+  }
+
+  get viewWidth() {
+    return this._viewWidth;
+  }
+
+  get viewHeight() {
+    return this._viewHeight;
   }
 }

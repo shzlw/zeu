@@ -4,6 +4,7 @@
 <title>Heartbeat</title>
 <script src="../lib/zeu.js"></script>
 <link rel="stylesheet" href="example.css">
+<script src="examples.js"></script>
 </head>
 <body>
   <div class="container">
@@ -20,7 +21,7 @@ setInterval(function() {
   heartbeat1.beat();
 }, 1000);
     </code></pre>
-    <div id="heartbeat-1" style="width: 300px; height: 100px;"></div>
+    <canvas id="heartbeat-1" width="1200" height="200"></canvas>
 
     <h3>Options</h3>
     <pre><code>
@@ -37,39 +38,24 @@ setInterval(function() {
   heartbeat2.beat();
 }, 1500);
     </code></pre>
-    <div id="heartbeat-2" style="width: 240px; height: 80px;"></div>
+    <canvas id="heartbeat-2" style="width: 240px; height: 80px;"></canvas>
 
     <h3>Size X 2</h3>
-    <div id="heartbeat-3" style="width: 1200px; height: 100px;"></div>
+    <canvas id="heartbeat-3" style="width: 1200px; height: 100px;"></canvas>
 
   </div>
 </div>
 
 <script type="text/javascript">
 
-  var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'));
-  setInterval(function() {
-    heartbeat1.beat();
-  }, 1000);
-
-  var heartbeat2 = new zeu.Heartbeat(
-    document.getElementById('heartbeat-2'), {
-      lineColor: 'red',
-      fontColor: 'grey'
-    });
-  heartbeat2.lineColor = 'blue';
-  heartbeat2.fontColor = 'green';
-
-  setInterval(function() {
-    heartbeat2.beat();
-  }, 1500);
-
-  var heartbeat3 = new zeu.Heartbeat(document.getElementById('heartbeat-3'), {
-    maxQueueCapacity: 100
+  var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'),
+  {
+    viewWidth: 600
   });
   setInterval(function() {
-    heartbeat3.beat();
+    heartbeat1.beat(getRandomColor(), getRandomInt(0, 5));
   }, 200);
+  heartbeat1.scaleByHeight(200);
 
 </script>
 </body>

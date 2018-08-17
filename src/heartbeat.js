@@ -1,20 +1,27 @@
-import BaseCanvas from './base-canvas';
 import Utility from './utility';
 import { COLOR } from './color';
+import BaseComponent from './base-component';
 
-export default class Heartbeat extends BaseCanvas {
+/**
+ * Allow override width
+ * view height: 100
+ */
+export default class Heartbeat extends BaseComponent {
 
-  constructor(baseDiv, options) {
-    super(baseDiv, baseDiv.clientWidth, 100);
+  constructor(canvas, options) {
+    const viewWidth = Utility.has(options, 'viewWidth') ? options.viewWidth : 200;
 
-    this._lineColor = Utility.has(options, 'lineColor') ? options.lineColor : COLOR.green;
-    this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
-    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
+    super(canvas, options, 0, 0, viewWidth, 100);
 
-    this._speed = 2;
     this._queue = [];
     this._lastSec = 0;
     this._timer = null;
+  }
+
+  setOptions(options) {
+    this._speed = Utility.has(options, 'speed') ? options.speed : 2;
+    this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
+    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
   }
 
   postConstructor() {
@@ -30,11 +37,19 @@ export default class Heartbeat extends BaseCanvas {
     super.destroy();
   }
 
-  beat() {
+  beat(color, size) {
+    const beatColor = Utility.isDefined(color) ? color : COLOR.green;
+    const beatSize = Utility.isDefined(size) ? size : 0;
+
     if (this._queue.length >= this._maxQueueCapacity) {
       this._queue.shift();
     }
-    this._queue.push({ time: null, x: -30});
+    this._queue.push({
+      time: null,
+      x: -30,
+      color: beatColor,
+      size: beatSize
+    });
   }
 
   drawSeconds() {
@@ -53,13 +68,17 @@ export default class Heartbeat extends BaseCanvas {
     }, 1000);
   }
 
-  drawFrame() {
+  drawObject() {
     this._ctx.textAlign = 'center';
     this._ctx.font = '12px Arial';
 
-    this.clearAll();
+    this.clear();
     this._ctx.save();
     this.scale();
+
+    // Draw the horizontal line
+    this._ctx.fillStyle = this._fontColor;
+    this._ctx.fillRect(0, 50, this._viewWidth, 2);
 
     // Draw the pulse
     for (let i = 0; i < this._queue.length; i++) {
@@ -68,21 +87,21 @@ export default class Heartbeat extends BaseCanvas {
       if (q.time != null) {
         this._ctx.fillStyle = this._fontColor;
         this._ctx.fillText(q.time, q.x, 90);
+        this._ctx.beginPath();
+        this._ctx.fillStyle = this._fontColor;
+        this._ctx.fillRect(q.x - 1, 45, 2, 12);
+        this._ctx.closePath();
       } else {
-        this._ctx.fillStyle = this._lineColor;
+        this._ctx.fillStyle = q.color;
         this._ctx.beginPath();
         this._ctx.moveTo(q.x - 10, 50);
-        this._ctx.quadraticCurveTo(q.x - 5, -20, q.x, 50);
-        this._ctx.quadraticCurveTo(q.x + 5, 100, q.x + 10, 50);
+        this._ctx.quadraticCurveTo(q.x - 5, -20 + q.size * 10, q.x, 50);
+        this._ctx.quadraticCurveTo(q.x + 5, 100 - q.size * 5, q.x + 10, 50);
         this._ctx.closePath();
         this._ctx.fill();
       }
       q.x += this._speed;
     }
-
-    // Draw the horizontal line
-    this._ctx.fillStyle = this._lineColor;
-    this._ctx.fillRect(0, 50, this._scaledWidth, 2);
 
     this._ctx.restore();
   }
@@ -91,16 +110,8 @@ export default class Heartbeat extends BaseCanvas {
     this._lineColor = lineColor;
   }
 
-  get lineColor() {
-    return this._lineColor;
-  }
-
   set fontColor(fontColor) {
     this._fontColor = fontColor;
-  }
-
-  get fontColor() {
-    return this._fontColor;
   }
 
   set maxQueueCapacity(maxQueueCapacity) {

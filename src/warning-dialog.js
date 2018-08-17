@@ -1,5 +1,8 @@
 import Utility from './utility';
 
+/**
+ * Div based
+ */
 export default class WarningDialog {
 
   constructor(options) {

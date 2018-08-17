@@ -3,16 +3,22 @@ import { COLOR } from './color';
 import Utility from './utility';
 import BaseComponent from './base-component';
 
+/**
+ * Allow override width
+ * default view height 100
+ */
 export default class TextMeter extends BaseComponent {
 
   constructor(canvas, options) {
-    super(canvas, options, 0, 0, null, 100);
+    const viewWidth = Utility.has(options, 'viewWidth') ? options.viewWidth : 200;
+
+    super(canvas, options, 0, 0, viewWidth, 100);
 
     this._lineWidth = 5;
     this._arrowWidth = 30;
     this._pctHeight = 30;
     this._actualPctHeight = this._pctHeight - this._lineWidth / 2;
-    this._meterWidth = this._width - 2 * this._arrowWidth;
+    this._meterWidth = this._viewWidth - 2 * this._arrowWidth;
     this._meterHeight = 100 - this._pctHeight - this._lineWidth / 2;
     this._middleBarHeight = this._meterHeight / 2 + this._pctHeight;
 
@@ -22,7 +28,7 @@ export default class TextMeter extends BaseComponent {
     this._arrow = null;
     this._arrowSpeed = 0.6;
     this._leftArrowX = -5;
-    this._rightArrowX = this._width + 5;
+    this._rightArrowX = this._viewWidth + 5;
   }
 
   setOptions(options) {
@@ -68,7 +74,7 @@ export default class TextMeter extends BaseComponent {
 
     this._ctx.fillStyle = this._bgColor;
     this._ctx.font = '50px Arial';
-    this._ctx.fillText(this._displayValue, this._width / 2, 80);
+    this._ctx.fillText(this._displayValue, this._viewWidth / 2, 80);
 
     this._ctx.fillStyle = this._fillColor;
     this._ctx.fillRect(this._arrowWidth, this._pctHeight, this._barX - this._arrowWidth, this._meterHeight);
@@ -80,15 +86,15 @@ export default class TextMeter extends BaseComponent {
 
     // Draw right half text
     this._ctx.beginPath();
-    this._ctx.rect(this._barX, this._pctHeight, this._width - this._barX - this._arrowWidth, this._meterHeight);
+    this._ctx.rect(this._barX, this._pctHeight, this._viewWidth - this._barX - this._arrowWidth, this._meterHeight);
     this._ctx.clip();
 
     this._ctx.fillStyle = this._fillColor;
     this._ctx.font = '50px Arial';
-    this._ctx.fillText(this._displayValue, this._width / 2, 80);
+    this._ctx.fillText(this._displayValue, this._viewWidth / 2, 80);
 
     this._ctx.fillStyle = this._bgColor;
-    this._ctx.fillRect(this._barX, this._pctHeight, this._width - this._barX - this._arrowWidth, this._meterHeight);
+    this._ctx.fillRect(this._barX, this._pctHeight, this._viewWidth - this._barX - this._arrowWidth, this._meterHeight);
 
     this._ctx.restore();
     this._ctx.save();
@@ -137,10 +143,10 @@ export default class TextMeter extends BaseComponent {
   }
 
   drawLeftArrow() {
-    if (this._leftArrowX <= -3) {
+    if (this._leftArrowX <= 0) {
       this._leftArrowX = this._arrowWidth - 3;
     } else {
-      this._leftArrowX = Utility.getNextPos(this._leftArrowX, -3, -this._arrowSpeed);
+      this._leftArrowX = Utility.getNextPos(this._leftArrowX, 0, -this._arrowSpeed);
     }
 
     this._ctx.beginPath();
@@ -153,10 +159,10 @@ export default class TextMeter extends BaseComponent {
   }
 
   drawRightArrow() {
-    if (this._rightArrowX >= (this._width + 3)) {
+    if (this._rightArrowX >= this._viewWidth) {
       this._rightArrowX = this._arrowWidth + 3 + this._meterWidth;
     } else {
-      this._rightArrowX = Utility.getNextPos(this._rightArrowX, this._width + 3, this._arrowSpeed);
+      this._rightArrowX = Utility.getNextPos(this._rightArrowX, this._viewWidth, this._arrowSpeed);
     }
     this._ctx.beginPath();
     this._ctx.fillStyle = this._arrowColor;
