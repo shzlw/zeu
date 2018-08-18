@@ -23,12 +23,12 @@ export default class TextBox extends BaseComponent {
   }
 
   setOptions(options) {
-    this._textValue = 'ABCDEF';
-    this._textColor = COLOR.white;
-    this._textBgColor = COLOR.blue;
-    this._bgColor = 'rgba(0, 0, 0, 0.03)';
-    this._borderColor = COLOR.blue;
-    this._waveColor = COLOR.green;
+    this._textValue = Utility.has(options, 'textValue') ? options.textValue : '';
+    this._textColor = Utility.has(options, 'textColor') ? options.textColor : COLOR.white;
+    this._textBgColor = Utility.has(options, 'textBgColor') ? options.textBgColor : COLOR.blue;
+    this._bgColor = Utility.has(options, 'bgColor') ? options.bgColor : 'rgba(0, 0, 0, 0.01)';
+    this._borderColor = Utility.has(options, 'borderColor') ? options.borderColor : COLOR.blue;
+    this._waveColor = Utility.has(options, 'waveColor') ? options.waveColor : COLOR.blue;
   }
 
   drawObject() {
@@ -94,9 +94,28 @@ export default class TextBox extends BaseComponent {
     this._ctx.restore();
   }
 
-  set textValue(val) {
-    this._textValue = val;
+  set textValue(s) {
+    this._textValue = s;
     this._isWaveOn = true;
   }
 
+  set textColor(s) {
+    this._textColor = s;
+  }
+
+  set textBgColor(s) {
+    this._textBgColor = s;
+  }
+
+  set bgColor(s) {
+    this._bgColor = s;
+  }
+
+  set borderColor(s) {
+    this._borderColor = s;
+  }
+
+  set waveColor(s) {
+    this._waveColor = s;
+  }
 }

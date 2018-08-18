@@ -8,7 +8,7 @@ export default class SpeedCircle extends BaseComponent {
   constructor(canvas, options) {
     super(canvas, options, 0, 0, 200, 200);
 
-    this._font = '28px Arial';
+    this._font = '25px Arial';
     this._degree = 0;
   }
 
@@ -19,7 +19,7 @@ export default class SpeedCircle extends BaseComponent {
     this._color3 = Utility.has(options, 'color3') ? options.color3 : COLOR.blue;
     this._color4 = Utility.has(options, 'color4') ? options.color4 : COLOR.grey;
     this._textColor = Utility.has(options, 'textColor') ? options.textColor : COLOR.black;
-    this._textValue = Utility.has(options, 'textValue') ? options.textValue : 'ABCD';
+    this._textValue = Utility.has(options, 'textValue') ? options.textValue : '';
   }
 
   drawObject() {
@@ -34,7 +34,7 @@ export default class SpeedCircle extends BaseComponent {
     this._ctx.rotate(clockWiseAngle);
     // Draw bar circle 1.
     this._ctx.strokeStyle = this._color1;
-    this._ctx.lineWidth = 10;
+    this._ctx.lineWidth = 8;
     let space = 0.02;
     let len = 0.5;
     let start = 0;
@@ -56,8 +56,8 @@ export default class SpeedCircle extends BaseComponent {
     for (let i = 0; i < 360; i = i + 9) {
       let a = Utility.getAngleByDegree(i);
 
-      let x = 60 * Math.cos(a);
-      let y = 60 * Math.sin(a);
+      let x = 64 * Math.cos(a);
+      let y = 64 * Math.sin(a);
 
       this._ctx.beginPath();
       this._ctx.arc(x, y, 3, 0, Math.PI * 2);
@@ -77,11 +77,11 @@ export default class SpeedCircle extends BaseComponent {
     for (let i = 0; i < 360; i = i + 8) {
       let a = Utility.getAngleByDegree(i);
 
-      const x1 = 66 * Math.cos(a);
-      const y1 = 66 * Math.sin(a);
+      const x1 = 70 * Math.cos(a);
+      const y1 = 70 * Math.sin(a);
 
-      let x2 = 81 * Math.cos(a);
-      let y2 = 81 * Math.sin(a);
+      let x2 = 83 * Math.cos(a);
+      let y2 = 83 * Math.sin(a);
 
       this._ctx.beginPath();
       this._ctx.moveTo(x1, y1);
@@ -98,7 +98,7 @@ export default class SpeedCircle extends BaseComponent {
     end = len;
     for (let i = 0; i < 12; i++) {
       this._ctx.beginPath();
-      this._ctx.arc(0, 0, 52, Math.PI * start, Math.PI * end);
+      this._ctx.arc(0, 0, 56, Math.PI * start, Math.PI * end);
       this._ctx.stroke();
       this._ctx.closePath();
       start = end + space;

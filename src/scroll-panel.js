@@ -1,6 +1,9 @@
 import Utility from './utility';
 import { COLOR } from './color';
 
+/**
+ * Div based
+ */
 export default class ScrollPanel {
 
   constructor(baseDiv, options) {

@@ -12,7 +12,8 @@ export default class RoundFan extends BaseComponent {
 
   setOptions(options) {
     this._fanColor = Utility.has(options, 'fanColor') ? options.fanColor : COLOR.green;
-    this._centerColor = Utility.has(options, 'centerColor') ? options.centerColor : COLOR.white;
+    this._centerColor = Utility.has(options, 'centerColor') ? options.centerColor : COLOR.blue;
+    this._centerBgColor = Utility.has(options, 'centerBgColor') ? options.centerBgColor : COLOR.white;
     this._speed = Utility.has(options, 'speed') ? options.speed : 1;
   }
 
@@ -51,20 +52,20 @@ export default class RoundFan extends BaseComponent {
 
     this._ctx.beginPath();
     this._ctx.arc(0, 0, 35, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this._centerColor;
+    this._ctx.fillStyle = this._centerBgColor;
     this._ctx.fill();
     this._ctx.closePath();
 
     this._ctx.beginPath();
     this._ctx.arc(0, 0, 30, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this._fanColor;
+    this._ctx.fillStyle = this._centerColor;
     this._ctx.fill();
     this._ctx.closePath();
 
     this._ctx.strokeStyle = this._centerColor;
     this._ctx.beginPath();
     this._ctx.arc(0, 0, 10, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this._centerColor;
+    this._ctx.fillStyle = this._centerBgColor;
     this._ctx.fill();
     this._ctx.closePath();
 

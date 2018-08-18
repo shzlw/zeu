@@ -1,46 +1,39 @@
-import BaseCanvas from './base-canvas';
 import Utility from './utility';
 import { COLOR } from './color';
+import BaseComponent from './base-component';
 
-export default class MessageQueue extends BaseCanvas {
+/**
+ * flexiable width, height
+ */
+export default class MessageQueue extends BaseComponent {
 
-  constructor(baseDiv, options) {
-    super(baseDiv, 100, 200);
+  constructor(canvas, options) {
+    const viewWidth = Utility.has(options, 'viewWidth') ? options.viewWidth : 100;
+    const viewHeight = Utility.has(options, 'viewHeight') ? options.viewHeight : 200;
 
-    // Options
-    this._barWidth = Utility.has(options, 'barWidth') ? options.barWidth : 80;
-    this._space = Utility.has(options, 'space') ? options.space : 5;
-    this._barColor = Utility.has(options, 'barColor') ? options.barColor : COLOR.green;
-    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 20;
+    super(canvas, options, 0, 0, viewWidth, viewHeight);
 
     this._queue = [];
-    this._speed = 5;
-    this._barHeight = 20;
+    this._arcWidth = 10;
   }
 
-  push() {
-    if (this._queue.length >= this._maxQueueCapacity) {
-      this.pop();
-    }
-
-    this._queue.push({
-      x: (100 - this._barWidth) / 2,
-      y: 220
-    });
+  setOptions(options) {
+    this._barHeight = Utility.has(options, 'barHeight') ? options.barHeight : 20;
+    this._speed = Utility.has(options, 'speed') ? options.speed : 5;
+    this._space = Utility.has(options, 'space') ? options.space : 5;
+    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 20;
   }
 
-  pop() {
-    if (this._queue.length > 0) {
-      this._queue.shift();
-    }
-  }
-
-  drawFrame() {
-    this.clearAll();
+  drawObject() {
+    this.clear();
     this._ctx.save();
     this.scale();
 
-    for (let i = 0; i < this._queue.length; i++) {
+    // Bars can be seen in the view
+    const bars = Math.floor(this._viewHeight / (this._barHeight + this._space));
+    const drawQueueSize = Math.min(this._queue.length, bars);
+
+    for (let i = 0; i < drawQueueSize; i++) {
       let q = this._queue[i];
 
       let currY = (this._barHeight + this._space) * i + this._space;
@@ -53,20 +46,45 @@ export default class MessageQueue extends BaseCanvas {
       }
 
       this._ctx.beginPath();
-      this._ctx.fillStyle = this._barColor;
-      this._ctx.fillRect(q.x, q.y, this._barWidth, this._barHeight);
+      this._ctx.fillStyle = q.color;
+      this._ctx.fillRect(q.x, q.y, this._viewWidth - 2 * (this._arcWidth + q.space), this._barHeight);
+      this._ctx.closePath();
+      this._ctx.beginPath();
+      this._ctx.moveTo(q.x, q.y);
+      this._ctx.quadraticCurveTo(q.x - this._arcWidth, q.y + this._barHeight / 2, q.x, q.y + this._barHeight);
+      this._ctx.fill();
+      this._ctx.closePath();
+      this._ctx.beginPath();
+      this._ctx.moveTo(this._viewWidth - this._arcWidth - q.space, q.y);
+      this._ctx.quadraticCurveTo(this._viewWidth - q.space, q.y + this._barHeight / 2,
+        this._viewWidth - this._arcWidth - q.space, q.y + this._barHeight);
+      this._ctx.fill();
       this._ctx.closePath();
     }
 
     this._ctx.restore();
   }
 
-  set barColor(barColor) {
-    this._barColor = barColor;
+  push(param) {
+    const barColor = Utility.has(param, 'color') ? param.color : COLOR.blue;
+    const barSpace = Utility.has(param, 'space') ? param.space : 0;
+
+    if (this._queue.length >= this._maxQueueCapacity) {
+      this.pop();
+    }
+
+    this._queue.push({
+      x: this._arcWidth + barSpace,
+      y: this._viewHeight + this._barHeight,
+      color: barColor,
+      space: barSpace
+    });
   }
 
-  get barColor() {
-    return this._barColor;
+  pop() {
+    if (this._queue.length > 0) {
+      this._queue.shift();
+    }
   }
 
   get queueSize() {

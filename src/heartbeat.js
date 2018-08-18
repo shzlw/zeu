@@ -106,16 +106,12 @@ export default class Heartbeat extends BaseComponent {
     this._ctx.restore();
   }
 
-  set lineColor(lineColor) {
-    this._lineColor = lineColor;
+  set fontColor(s) {
+    this._fontColor = s;
   }
 
-  set fontColor(fontColor) {
-    this._fontColor = fontColor;
-  }
-
-  set maxQueueCapacity(maxQueueCapacity) {
-    this._maxQueueCapacity = maxQueueCapacity;
+  set maxQueueCapacity(n) {
+    this._maxQueueCapacity = n;
   }
 
   get maxQueueCapacity() {

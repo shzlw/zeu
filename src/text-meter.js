@@ -42,23 +42,6 @@ export default class TextMeter extends BaseComponent {
     this._percentageBgColor = Utility.has(options, 'percentageBgColor') ? options.percentageBgColor : COLOR.black;
   }
 
-  setPercentageValue(value, displayValue) {
-    if (value >= 0 || value <= 100) {
-      if (value < this._percentageValue) {
-        this._speed = -Math.abs(this._speed);
-        this._arrow = 'left';
-      } else if (value > this._percentageValue) {
-        this._speed = Math.abs(this._speed);
-        this._arrow = 'right';
-      } else {
-        this._arrow = null;
-      }
-      this._percentageValue = Math.floor(value);
-      this._displayValue = displayValue;
-      this._nextBarX = (this._percentageValue / 100) * this._meterWidth + this._arrowWidth;
-    }
-  }
-
   drawObject() {
     this._ctx.textAlign = 'center';
 
@@ -173,8 +156,20 @@ export default class TextMeter extends BaseComponent {
     this._ctx.closePath();
   }
 
-  set percentageValue(n) {
-    this._percentageValue = n;
+  set percentageValue(value) {
+    if (value >= 0 || value <= 100) {
+      if (value < this._percentageValue) {
+        this._speed = -Math.abs(this._speed);
+        this._arrow = 'left';
+      } else if (value > this._percentageValue) {
+        this._speed = Math.abs(this._speed);
+        this._arrow = 'right';
+      } else {
+        this._arrow = null;
+      }
+      this._percentageValue = Math.floor(value);
+      this._nextBarX = (this._percentageValue / 100) * this._meterWidth + this._arrowWidth;
+    }
   }
 
   set displayValue(s) {

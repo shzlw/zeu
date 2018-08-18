@@ -30,8 +30,8 @@ export default class BaseComponent {
 
     this._display = true;
 
-    // Queue that stores animation movements.
-    this._movementQueue = [];
+    // Event queue that stores animation movements like 'move', 'scale', 'display' and etc.
+    this._eventQueue = [];
 
     // Bind the drawFrame function.
     this.drawFrame = this.drawFrame.bind(this);
@@ -52,14 +52,16 @@ export default class BaseComponent {
 
   drawFrame() {
     // Check movement
-    if (this._movementQueue.length > 0) {
-      const move = this._movementQueue[0];
+    if (this._eventQueue.length > 0) {
+      const event = this._eventQueue[0];
 
-      if (this._x === move.destX && this._y === move.destY) {
-        this._movementQueue.shift();
-      } else {
-        this._x = Utility.getNextPos(this._x, move.destX, move.speedX);
-        this._y = Utility.getNextPos(this._y, move.destY, move.speedY);
+      if (event.type === 'move') {
+        if (this._x === event.destX && this._y === event.destY) {
+          this._eventQueue.shift();
+        } else {
+          this._x = Utility.getNextPos(this._x, event.destX, event.speedX);
+          this._y = Utility.getNextPos(this._y, event.destY, event.speedY);
+        }
       }
     }
 
@@ -140,19 +142,28 @@ export default class BaseComponent {
     let srcX = this._x;
     let srcY = this._y;
 
-    if (this._movementQueue.length > 0) {
-      srcX = this._movementQueue[this._movementQueue.length - 1].destX;
-      srcY = this._movementQueue[this._movementQueue.length - 1].destY;
+    // Find last move event.
+    for (let i = this._eventQueue.length; i >= 0; i--) {
+      const event = this._eventQueue[i];
+
+      if (event.type === 'move') {
+        srcX = event.destX;
+        srcY = event.destY;
+        break;
+      }
     }
 
     // Calculate the speed.
-    const sX = Math.abs(destX - srcX) / (duration / 60);
-    const sY = Math.abs(destY - srcY) / (duration / 60);
+    // TODO: use the fps intead of 60
+    const speed = duration / 60;
+    const sX = Math.abs(destX - srcX) / speed;
+    const sY = Math.abs(destY - srcY) / speed;
     const speedX = destX > srcX ? sX : -sX;
     const speedY = destY > srcY ? sY : -sY;
 
     // Push the movement to the queue.
-    this._movementQueue.push({
+    this._eventQueue.push({
+      type: 'move',
       destX: destX,
       destY: destY,
       speedX: speedX,
@@ -198,8 +209,8 @@ export default class BaseComponent {
     return this._ctx;
   }
 
-  get movementQueue() {
-    return this._movementQueue;
+  get eventQueue() {
+    return this._eventQueue;
   }
 
   get viewWidth() {

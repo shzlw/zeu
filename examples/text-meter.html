@@ -31,10 +31,11 @@
 
   var textMeter1 = new zeu.TextMeter(document.getElementById('text-meter-1'),
   {
-    viewWidth: 600
+    viewWidth: 600,
+    displayValue: 'TEST'
   });
   setInterval(function() {
-    textMeter1.setPercentageValue(getRandomInt(0, 100), 'test');
+    textMeter1.percentageValue = getRandomInt(0, 100);
   }, 3000);
   textMeter1.scaleByHeight(200);
 
