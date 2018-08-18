@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Text Meter</title>
+<script src="../lib/zeu.js"></script>
+<script src="examples.js"></script>
+<link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <div class="container">
+    
+    <h1>Text Meter</h1>
+    <div>
+      <h3>Default</h3>
+      <div class="sample">
+        <canvas id="text-box-1" width="400" height="200"></canvas>
+      </div>
+    </div>
+
+    <div>
+      <h3>Options</h3>
+      <div class="sample">
+        <div id="text-meter-2" style="width: 400px; height: 50px; border: 5px solid blue;"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  var textMeter1 = new zeu.TextBox(document.getElementById('text-box-1'));
+  textMeter1.scaleTo(0.5, 0.5);
+  setInterval(function() {
+    textMeter1.textValue = getRandomInt(0, 100);
+  }, 2000);
+  
+  /*
+  var textMeter2 = new zeu.TextMeter(
+    document.getElementById('text-meter-2'), {
+      percentageValue: 50,
+      fillColor: '#00FFFF',
+      bgColor: 'black',
+      lineColor: 'black',
+      lineWidth: 20
+    });
+  setInterval(function() {
+    textMeter2.percentageValue(getRandomInt(0, 100));
+  }, 2000);
+  */
+
+</script>
+</body>
+</html>

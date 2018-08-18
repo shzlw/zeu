@@ -14,6 +14,7 @@ import TextMeter from './text-meter';
 import AnimationTimer from './animation-timer';
 import Settings from './settings';
 import SpeedCircle from './speed-circle';
+import TextBox from './text-box';
 
 export {
   BarMeter,
@@ -31,7 +32,8 @@ export {
   // v1.0.0
   SpeedCircle,
   TextMeter,
-  RoundFan
+  RoundFan,
+  TextBox
 };
 
 // Fire up window.requestAnimationFrame()

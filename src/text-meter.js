@@ -59,7 +59,7 @@ export default class TextMeter extends BaseComponent {
     }
   }
 
-  drawFrame() {
+  drawObject() {
     this._ctx.textAlign = 'center';
 
     this.clear();
