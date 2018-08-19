@@ -10,11 +10,15 @@ export default class RoundFan extends BaseComponent {
     this._degree = 0;
   }
 
-  setOptions(options) {
-    this._fanColor = Utility.has(options, 'fanColor') ? options.fanColor : COLOR.green;
-    this._centerColor = Utility.has(options, 'centerColor') ? options.centerColor : COLOR.blue;
-    this._centerBgColor = Utility.has(options, 'centerBgColor') ? options.centerBgColor : COLOR.white;
-    this._speed = Utility.has(options, 'speed') ? options.speed : 1;
+  setOptions(options = {}) {
+    const center = options.center || {};
+
+    this._fanColor = options.fanColor || COLOR.green;
+
+    this._centerColor = center.color || COLOR.blue;
+    this._centerBgColor = center.bgColor || COLOR.white;
+
+    this._speed = options.speed || 1;
   }
 
   drawObject() {
@@ -70,14 +74,6 @@ export default class RoundFan extends BaseComponent {
     this._ctx.closePath();
 
     this._ctx.restore();
-  }
-
-  on() {
-    this.startAnimation();
-  }
-
-  off() {
-    this.stopAnimation();
   }
 
   set fanColor(s) {

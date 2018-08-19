@@ -9,8 +9,8 @@ import BaseComponent from './base-component';
  */
 export default class TextMeter extends BaseComponent {
 
-  constructor(canvas, options) {
-    const viewWidth = Utility.has(options, 'viewWidth') ? options.viewWidth : 200;
+  constructor(canvas, options = {}) {
+    const viewWidth = options.viewWidth || 200;
 
     super(canvas, options, 0, 0, viewWidth, 100);
 
@@ -31,15 +31,21 @@ export default class TextMeter extends BaseComponent {
     this._rightArrowX = this._viewWidth + 5;
   }
 
-  setOptions(options) {
-    this._percentageValue = Utility.has(options, 'percentageValue') ? options.percentageValue : 0;
-    this._displayValue = Utility.has(options, 'displayValue') ? options.displayValue : '';
-    this._speed = Utility.has(options, 'speed') ? options.speed : 5;
-    this._fillColor = Utility.has(options, 'fillColor') ? options.fillColor : COLOR.red;
-    this._bgColor = Utility.has(options, 'bgColor') ? options.bgColor : COLOR.lightGrey;
-    this._lineColor = Utility.has(options, 'lineColor') ? options.lineColor : COLOR.lightGreen;
-    this._arrowColor = Utility.has(options, 'arrowColor') ? options.arrowColor : COLOR.blue;
-    this._percentageBgColor = Utility.has(options, 'percentageBgColor') ? options.percentageBgColor : COLOR.black;
+  setOptions(options = {}) {
+    const bar = options.bar || {};
+    const marker = options.marker || {};
+
+    this._percentageValue = marker.value || 0;
+    this._displayValue = marker.displayValue || '';
+    this._percentageBgColor = marker.bgColor || COLOR.black;
+    this._markerFontColor = marker.fontColor || COLOR.white;
+
+    this._speed = bar.speed || 5;
+    this._fillColor = bar.fillColor || COLOR.red;
+    this._bgColor = bar.bgColor || COLOR.lightGrey;
+    this._lineColor = bar.borderColor || COLOR.lightGreen;
+
+    this._arrowColor = options.arrowColor || COLOR.blue;
   }
 
   drawObject() {
@@ -96,7 +102,7 @@ export default class TextMeter extends BaseComponent {
     this._ctx.fillStyle = this._percentageBgColor;
 
     this._ctx.fillRect(this._barX - 25, 0, 50, this._actualPctHeight);
-    this._ctx.fillStyle = 'white';
+    this._ctx.fillStyle = this._markerFontColor;
     this._ctx.font = '16px Arial';
     this._ctx.fillText(this._percentageValue + '%', this._barX, 20);
 

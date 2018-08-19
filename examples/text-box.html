@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Text Meter</title>
-<script src="../lib/zeu.js"></script>
+<script src="../dist/zeu.js"></script>
 <script src="examples.js"></script>
 <link rel="stylesheet" href="example.css">
 </head>
@@ -29,7 +29,15 @@
 
 <script type="text/javascript">
 
-  var textMeter1 = new zeu.TextBox(document.getElementById('text-box-1'));
+  var textMeter1 = new zeu.TextBox(document.getElementById('text-box-1'), {
+    text: {
+      fontColor: 'red',
+      bgColor: 'black',
+      value: 'TEST'
+    },
+    borderColor: 'orange',
+    waveColor: 'blue'
+  });
   textMeter1.scaleTo(2, 2);
   setInterval(function() {
     textMeter1.textValue = getRandomInt(0, 100);

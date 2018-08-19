@@ -19,8 +19,8 @@ export default class VolumeMeter extends BaseComponent {
     // Used only if the value is out of range.
     this._actualValue = 0;
 
-    this._barY = this._viewHeight - ((this._value / (this._maxValue - this._minValue)) * this._meterHeight) -
-      this._numberHeight;
+    this._barY = this._viewHeight - (((this._value - this._minValue) /
+      (this._maxValue - this._minValue)) * this._meterHeight) - this._numberHeight;
     this._nextBarY = this._barY;
 
     // TODO: move this blink function to base component?
@@ -68,7 +68,7 @@ export default class VolumeMeter extends BaseComponent {
       const graident = this._ctx.createLinearGradient(this._viewWidth / 2, this._barY,
         this._viewWidth / 2, this._meterHeight + this._numberHeight);
 
-      graident.addColorStop(0, this._fillColor);
+      graident.addColorStop(0, this._barFillColor);
       graident.addColorStop(1, 'white');
       this._ctx.fillStyle = graident;
     } else {
@@ -191,7 +191,8 @@ export default class VolumeMeter extends BaseComponent {
     }
 
     this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);
-    this._nextBarY = this._viewHeight - ((n / (this._maxValue - this._minValue)) * this._meterHeight) -
+    this._nextBarY = this._viewHeight - (((n - this._minValue) /
+      (this._maxValue - this._minValue)) * this._meterHeight) -
       this._numberHeight;
     this._value = n;
   }

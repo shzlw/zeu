@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Speed Circle</title>
-<script src="../lib/zeu.js"></script>
+<script src="../dist/zeu.js"></script>
 <script src="examples.js"></script>
 <link rel="stylesheet" href="example.css">
 </head>
@@ -28,13 +28,26 @@ var doubleCircle1 = new zeu.SpeedCircle(document.getElementById('double-circle-1
 
   var s1 = new zeu.SpeedCircle(document.getElementById('speed-circle-1'),
   {
-    speed: 0.5,
-    color1: 'red',
-    color2: 'green',
-    color3: 'yellow',
-    color4: 'blue',
-    textValue: 'ABCDEF',
-    textColor: 'orange'
+    text: {
+      value: 'TEST',
+      color: 'orange'
+    },
+    circle1: {
+      speed: 1,
+      color: 'red'
+    },
+    circle2: {
+      speed: 2,
+      color: 'blue'
+    },
+    circle3: {
+      speed: 3,
+      color: 'yellow'
+    },
+    circle4: {
+      speed: 4,
+      color: 'green'
+    }
   });
   s1.scaleByHeight(400);
 

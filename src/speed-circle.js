@@ -9,29 +9,51 @@ export default class SpeedCircle extends BaseComponent {
     super(canvas, options, 0, 0, 200, 200);
 
     this._font = '25px Arial';
-    this._degree = 0;
+    this._degree1 = 0;
+    this._degree2 = 0;
+    this._degree3 = 0;
+    this._degree4 = 0;
   }
 
-  setOptions(options) {
-    this._speed = Utility.has(options, 'speed') ? options.speed : 0.5;
-    this._color1 = Utility.has(options, 'color1') ? options.color1 : COLOR.red;
-    this._color2 = Utility.has(options, 'color2') ? options.color2 : COLOR.yellow;
-    this._color3 = Utility.has(options, 'color3') ? options.color3 : COLOR.blue;
-    this._color4 = Utility.has(options, 'color4') ? options.color4 : COLOR.grey;
-    this._textColor = Utility.has(options, 'textColor') ? options.textColor : COLOR.black;
-    this._textValue = Utility.has(options, 'textValue') ? options.textValue : '';
+  setOptions(options = {}) {
+    const c1 = options.circle1 || {};
+    const c2 = options.circle2 || {};
+    const c3 = options.circle3 || {};
+    const c4 = options.circle4 || {};
+    const text = options.text || {};
+
+    this._speed1 = c1.speed || 0.5;
+    this._color1 = c1.color || COLOR.red;
+
+    this._speed2 = c2.speed || -0.5;
+    this._color2 = c2.color || COLOR.yellow;
+
+    this._speed3 = c3.speed || 0.5;
+    this._color3 = c3.color || COLOR.blue;
+
+    this._speed4 = c4.speed || -0.5;
+    this._color4 = c4.color || COLOR.grey;
+
+    this._textColor = text.color || COLOR.green;
+    this._textValue = text.value || '';
   }
 
   drawObject() {
-    this._degree = Utility.getNextAngleByDegree(this._degree, this._speed);
+    this._degree1 = Utility.getNextAngleByDegree(this._degree1, this._speed1);
+    this._degree2 = Utility.getNextAngleByDegree(this._degree2, this._speed2);
+    this._degree3 = Utility.getNextAngleByDegree(this._degree3, this._speed3);
+    this._degree4 = Utility.getNextAngleByDegree(this._degree4, this._speed4);
 
-    const clockWiseAngle = Utility.getAngleByDegree(this._degree);
+    const a1 = Utility.getAngleByDegree(this._degree1);
+    const a2 = Utility.getAngleByDegree(this._degree2);
+    const a3 = Utility.getAngleByDegree(this._degree3);
+    const a4 = Utility.getAngleByDegree(this._degree4);
 
     this.clear();
     this._ctx.save();
     this.scale();
     this._ctx.translate(100, 100);
-    this._ctx.rotate(clockWiseAngle);
+    this._ctx.rotate(a1);
     // Draw bar circle 1.
     this._ctx.strokeStyle = this._color1;
     this._ctx.lineWidth = 8;
@@ -51,6 +73,12 @@ export default class SpeedCircle extends BaseComponent {
       end = start + len;
     }
 
+    this._ctx.restore();
+    this._ctx.save();
+    this.scale();
+    this._ctx.translate(100, 100);
+    this._ctx.rotate(a3);
+
     // Draw dot circle 3.
     this._ctx.fillStyle = this._color3;
     for (let i = 0; i < 360; i = i + 9) {
@@ -69,7 +97,7 @@ export default class SpeedCircle extends BaseComponent {
     this._ctx.save();
     this.scale();
     this._ctx.translate(100, 100);
-    this._ctx.rotate(-clockWiseAngle);
+    this._ctx.rotate(a2);
 
     // Draw bar circle 2.
     this._ctx.lineWidth = 6;
@@ -89,6 +117,12 @@ export default class SpeedCircle extends BaseComponent {
       this._ctx.closePath();
       this._ctx.stroke();
     }
+
+    this._ctx.restore();
+    this._ctx.save();
+    this.scale();
+    this._ctx.translate(100, 100);
+    this._ctx.rotate(a4);
 
     // Draw bar circle 4.
     this._ctx.lineWidth = 5;

@@ -42,13 +42,37 @@ volumeMeter2.value = 50;
 
 <script type="text/javascript">
 
-  var v1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'));
+  var v1 = new zeu.VolumeMeter(
+    document.getElementById('volume-meter-1'), 
+    {
+      min: {
+        fontColor: 'red',
+        value: -100,
+        bgColor: 'black'
+      },
+      max: {
+        fontColor: 'red',
+        value: 200,
+        bgColor: 'black'
+      },
+      bar: {
+        borderColor: 'black',
+        fillColor: '#123456',
+        graident: true,
+        speed: 5
+      },
+      marker: {
+        bgColor: 'green',
+        fontColor: 'blue'
+      },
+      value: 100
+    });
   v1.scaleTo(2, 2);
   // v1.value = 50;
   
   setInterval(function() {
-    v1.value = getRandomInt(101, 101);
-  }, 1000);
+    v1.value = getRandomInt(-200, 300);
+  }, 3000);
   
   
 </script>

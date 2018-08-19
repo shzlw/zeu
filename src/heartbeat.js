@@ -8,8 +8,8 @@ import BaseComponent from './base-component';
  */
 export default class Heartbeat extends BaseComponent {
 
-  constructor(canvas, options) {
-    const viewWidth = Utility.has(options, 'viewWidth') ? options.viewWidth : 200;
+  constructor(canvas, options = {}) {
+    const viewWidth = options.viewWidth || 200;
 
     super(canvas, options, 0, 0, viewWidth, 100);
 
@@ -18,10 +18,10 @@ export default class Heartbeat extends BaseComponent {
     this._timer = null;
   }
 
-  setOptions(options) {
-    this._speed = Utility.has(options, 'speed') ? options.speed : 2;
-    this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
-    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
+  setOptions(options = {}) {
+    this._speed = options.speed || 2;
+    this._fontColor = options.fontColor || COLOR.black;
+    this._maxQueueCapacity = options.maxQueueCapacity || 30;
   }
 
   postConstructor() {
@@ -37,9 +37,9 @@ export default class Heartbeat extends BaseComponent {
     super.destroy();
   }
 
-  beat(color, size) {
-    const beatColor = Utility.isDefined(color) ? color : COLOR.green;
-    const beatSize = Utility.isDefined(size) ? size : 0;
+  beat(params = {}) {
+    const beatColor = params.color || COLOR.green;
+    const beatSpace = params.space || 0;
 
     if (this._queue.length >= this._maxQueueCapacity) {
       this._queue.shift();
@@ -48,7 +48,7 @@ export default class Heartbeat extends BaseComponent {
       time: null,
       x: -30,
       color: beatColor,
-      size: beatSize
+      space: beatSpace
     });
   }
 
@@ -95,8 +95,8 @@ export default class Heartbeat extends BaseComponent {
         this._ctx.fillStyle = q.color;
         this._ctx.beginPath();
         this._ctx.moveTo(q.x - 10, 50);
-        this._ctx.quadraticCurveTo(q.x - 5, -20 + q.size * 10, q.x, 50);
-        this._ctx.quadraticCurveTo(q.x + 5, 100 - q.size * 5, q.x + 10, 50);
+        this._ctx.quadraticCurveTo(q.x - 5, -20 + q.space * 2, q.x, 50);
+        this._ctx.quadraticCurveTo(q.x + 5, 100 - q.space * 1, q.x + 10, 50);
         this._ctx.closePath();
         this._ctx.fill();
       }

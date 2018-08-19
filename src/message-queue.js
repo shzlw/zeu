@@ -1,4 +1,3 @@
-import Utility from './utility';
 import { COLOR } from './color';
 import BaseComponent from './base-component';
 
@@ -7,9 +6,9 @@ import BaseComponent from './base-component';
  */
 export default class MessageQueue extends BaseComponent {
 
-  constructor(canvas, options) {
-    const viewWidth = Utility.has(options, 'viewWidth') ? options.viewWidth : 100;
-    const viewHeight = Utility.has(options, 'viewHeight') ? options.viewHeight : 200;
+  constructor(canvas, options = {}) {
+    const viewWidth = options.viewWidth || 100;
+    const viewHeight = options.viewHeight || 200;
 
     super(canvas, options, 0, 0, viewWidth, viewHeight);
 
@@ -17,11 +16,11 @@ export default class MessageQueue extends BaseComponent {
     this._arcWidth = 10;
   }
 
-  setOptions(options) {
-    this._barHeight = Utility.has(options, 'barHeight') ? options.barHeight : 20;
-    this._speed = Utility.has(options, 'speed') ? options.speed : 5;
-    this._space = Utility.has(options, 'space') ? options.space : 5;
-    this._maxQueueCapacity = Utility.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 20;
+  setOptions(options = {}) {
+    this._barHeight = options.barHeight || 20;
+    this._speed = options.speed || 5;
+    this._space = options.space || 5;
+    this._maxQueueCapacity = options.maxQueueCapacity || 20;
   }
 
   drawObject() {
@@ -65,9 +64,9 @@ export default class MessageQueue extends BaseComponent {
     this._ctx.restore();
   }
 
-  push(param) {
-    const barColor = Utility.has(param, 'color') ? param.color : COLOR.blue;
-    const barSpace = Utility.has(param, 'space') ? param.space : 0;
+  push(param = {}) {
+    const barColor = param.color || COLOR.blue;
+    const barSpace = param.space || 0;
 
     if (this._queue.length >= this._maxQueueCapacity) {
       this.pop();

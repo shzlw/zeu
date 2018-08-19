@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Heartbeat</title>
-<script src="../lib/zeu.js"></script>
+<script src="../dist/zeu.js"></script>
 <link rel="stylesheet" href="example.css">
 <script src="examples.js"></script>
 </head>
@@ -21,7 +21,7 @@ setInterval(function() {
   heartbeat1.beat();
 }, 1000);
     </code></pre>
-    <canvas id="heartbeat-1" width="1200" height="200"></canvas>
+    <canvas id="heartbeat-1" width="800" height="200"></canvas>
 
     <h3>Options</h3>
     <pre><code>
@@ -50,10 +50,10 @@ setInterval(function() {
 
   var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'),
   {
-    viewWidth: 600
+    viewWidth: 800
   });
   setInterval(function() {
-    heartbeat1.beat(getRandomColor(), getRandomInt(0, 5));
+    heartbeat1.beat({color: getRandomColor(), space: getRandomInt(0, 20)});
   }, 200);
   heartbeat1.scaleByHeight(200);
 

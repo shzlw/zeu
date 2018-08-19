@@ -1735,12 +1735,14 @@ var Heartbeat =
 function (_BaseComponent) {
   _inherits(Heartbeat, _BaseComponent);
 
-  function Heartbeat(canvas, options) {
+  function Heartbeat(canvas) {
     var _this;
+
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, Heartbeat);
 
-    var viewWidth = _utility.default.has(options, 'viewWidth') ? options.viewWidth : 200;
+    var viewWidth = options.viewWidth || 200;
     _this = _possibleConstructorReturn(this, (Heartbeat.__proto__ || Object.getPrototypeOf(Heartbeat)).call(this, canvas, options, 0, 0, viewWidth, 100));
     _this._queue = [];
     _this._lastSec = 0;
@@ -1750,10 +1752,11 @@ function (_BaseComponent) {
 
   _createClass(Heartbeat, [{
     key: "setOptions",
-    value: function setOptions(options) {
-      this._speed = _utility.default.has(options, 'speed') ? options.speed : 2;
-      this._fontColor = _utility.default.has(options, 'fontColor') ? options.fontColor : _color.COLOR.black;
-      this._maxQueueCapacity = _utility.default.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 30;
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      this._speed = options.speed || 2;
+      this._fontColor = options.fontColor || _color.COLOR.black;
+      this._maxQueueCapacity = options.maxQueueCapacity || 30;
     }
   }, {
     key: "postConstructor",
@@ -1774,9 +1777,10 @@ function (_BaseComponent) {
     }
   }, {
     key: "beat",
-    value: function beat(color, size) {
-      var beatColor = _utility.default.isDefined(color) ? color : _color.COLOR.green;
-      var beatSize = _utility.default.isDefined(size) ? size : 0;
+    value: function beat() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var beatColor = params.color || _color.COLOR.green;
+      var beatSpace = params.space || 0;
 
       if (this._queue.length >= this._maxQueueCapacity) {
         this._queue.shift();
@@ -1786,7 +1790,7 @@ function (_BaseComponent) {
         time: null,
         x: -30,
         color: beatColor,
-        size: beatSize
+        space: beatSpace
       });
     }
   }, {
@@ -1851,9 +1855,9 @@ function (_BaseComponent) {
 
           this._ctx.moveTo(q.x - 10, 50);
 
-          this._ctx.quadraticCurveTo(q.x - 5, -20 + q.size * 10, q.x, 50);
+          this._ctx.quadraticCurveTo(q.x - 5, -20 + q.space * 2, q.x, 50);
 
-          this._ctx.quadraticCurveTo(q.x + 5, 100 - q.size * 5, q.x + 10, 50);
+          this._ctx.quadraticCurveTo(q.x + 5, 100 - q.space * 1, q.x + 10, 50);
 
           this._ctx.closePath();
 
@@ -2054,8 +2058,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _utility = _interopRequireDefault(__webpack_require__(/*! ./utility */ "./src/utility.js"));
-
 var _color = __webpack_require__(/*! ./color */ "./src/color.js");
 
 var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ./base-component */ "./src/base-component.js"));
@@ -2086,13 +2088,15 @@ var MessageQueue =
 function (_BaseComponent) {
   _inherits(MessageQueue, _BaseComponent);
 
-  function MessageQueue(canvas, options) {
+  function MessageQueue(canvas) {
     var _this;
+
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, MessageQueue);
 
-    var viewWidth = _utility.default.has(options, 'viewWidth') ? options.viewWidth : 100;
-    var viewHeight = _utility.default.has(options, 'viewHeight') ? options.viewHeight : 200;
+    var viewWidth = options.viewWidth || 100;
+    var viewHeight = options.viewHeight || 200;
     _this = _possibleConstructorReturn(this, (MessageQueue.__proto__ || Object.getPrototypeOf(MessageQueue)).call(this, canvas, options, 0, 0, viewWidth, viewHeight));
     _this._queue = [];
     _this._arcWidth = 10;
@@ -2101,11 +2105,12 @@ function (_BaseComponent) {
 
   _createClass(MessageQueue, [{
     key: "setOptions",
-    value: function setOptions(options) {
-      this._barHeight = _utility.default.has(options, 'barHeight') ? options.barHeight : 20;
-      this._speed = _utility.default.has(options, 'speed') ? options.speed : 5;
-      this._space = _utility.default.has(options, 'space') ? options.space : 5;
-      this._maxQueueCapacity = _utility.default.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 20;
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      this._barHeight = options.barHeight || 20;
+      this._speed = options.speed || 5;
+      this._space = options.space || 5;
+      this._maxQueueCapacity = options.maxQueueCapacity || 20;
     }
   }, {
     key: "drawObject",
@@ -2162,9 +2167,10 @@ function (_BaseComponent) {
     }
   }, {
     key: "push",
-    value: function push(param) {
-      var barColor = _utility.default.has(param, 'color') ? param.color : _color.COLOR.blue;
-      var barSpace = _utility.default.has(param, 'space') ? param.space : 0;
+    value: function push() {
+      var param = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var barColor = param.color || _color.COLOR.blue;
+      var barSpace = param.space || 0;
 
       if (this._queue.length >= this._maxQueueCapacity) {
         this.pop();
@@ -2255,11 +2261,13 @@ function (_BaseComponent) {
 
   _createClass(RoundFan, [{
     key: "setOptions",
-    value: function setOptions(options) {
-      this._fanColor = _utility.default.has(options, 'fanColor') ? options.fanColor : _color.COLOR.green;
-      this._centerColor = _utility.default.has(options, 'centerColor') ? options.centerColor : _color.COLOR.blue;
-      this._centerBgColor = _utility.default.has(options, 'centerBgColor') ? options.centerBgColor : _color.COLOR.white;
-      this._speed = _utility.default.has(options, 'speed') ? options.speed : 1;
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var center = options.center || {};
+      this._fanColor = options.fanColor || _color.COLOR.green;
+      this._centerColor = center.color || _color.COLOR.blue;
+      this._centerBgColor = center.bgColor || _color.COLOR.white;
+      this._speed = options.speed || 1;
     }
   }, {
     key: "drawObject",
@@ -2341,16 +2349,6 @@ function (_BaseComponent) {
       this._ctx.closePath();
 
       this._ctx.restore();
-    }
-  }, {
-    key: "on",
-    value: function on() {
-      this.startAnimation();
-    }
-  }, {
-    key: "off",
-    value: function off() {
-      this.stopAnimation();
     }
   }, {
     key: "fanColor",
@@ -2929,27 +2927,48 @@ function (_BaseComponent) {
 
     _this = _possibleConstructorReturn(this, (SpeedCircle.__proto__ || Object.getPrototypeOf(SpeedCircle)).call(this, canvas, options, 0, 0, 200, 200));
     _this._font = '25px Arial';
-    _this._degree = 0;
+    _this._degree1 = 0;
+    _this._degree2 = 0;
+    _this._degree3 = 0;
+    _this._degree4 = 0;
     return _this;
   }
 
   _createClass(SpeedCircle, [{
     key: "setOptions",
-    value: function setOptions(options) {
-      this._speed = _utility.default.has(options, 'speed') ? options.speed : 0.5;
-      this._color1 = _utility.default.has(options, 'color1') ? options.color1 : _color.COLOR.red;
-      this._color2 = _utility.default.has(options, 'color2') ? options.color2 : _color.COLOR.yellow;
-      this._color3 = _utility.default.has(options, 'color3') ? options.color3 : _color.COLOR.blue;
-      this._color4 = _utility.default.has(options, 'color4') ? options.color4 : _color.COLOR.grey;
-      this._textColor = _utility.default.has(options, 'textColor') ? options.textColor : _color.COLOR.black;
-      this._textValue = _utility.default.has(options, 'textValue') ? options.textValue : '';
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var c1 = options.circle1 || {};
+      var c2 = options.circle2 || {};
+      var c3 = options.circle3 || {};
+      var c4 = options.circle4 || {};
+      var text = options.text || {};
+      this._speed1 = c1.speed || 0.5;
+      this._color1 = c1.color || _color.COLOR.red;
+      this._speed2 = c2.speed || -0.5;
+      this._color2 = c2.color || _color.COLOR.yellow;
+      this._speed3 = c3.speed || 0.5;
+      this._color3 = c3.color || _color.COLOR.blue;
+      this._speed4 = c4.speed || -0.5;
+      this._color4 = c4.color || _color.COLOR.grey;
+      this._textColor = text.color || _color.COLOR.green;
+      this._textValue = text.value || '';
     }
   }, {
     key: "drawObject",
     value: function drawObject() {
-      this._degree = _utility.default.getNextAngleByDegree(this._degree, this._speed);
+      this._degree1 = _utility.default.getNextAngleByDegree(this._degree1, this._speed1);
+      this._degree2 = _utility.default.getNextAngleByDegree(this._degree2, this._speed2);
+      this._degree3 = _utility.default.getNextAngleByDegree(this._degree3, this._speed3);
+      this._degree4 = _utility.default.getNextAngleByDegree(this._degree4, this._speed4);
 
-      var clockWiseAngle = _utility.default.getAngleByDegree(this._degree);
+      var a1 = _utility.default.getAngleByDegree(this._degree1);
+
+      var a2 = _utility.default.getAngleByDegree(this._degree2);
+
+      var a3 = _utility.default.getAngleByDegree(this._degree3);
+
+      var a4 = _utility.default.getAngleByDegree(this._degree4);
 
       this.clear();
 
@@ -2959,7 +2978,7 @@ function (_BaseComponent) {
 
       this._ctx.translate(100, 100);
 
-      this._ctx.rotate(clockWiseAngle); // Draw bar circle 1.
+      this._ctx.rotate(a1); // Draw bar circle 1.
 
 
       this._ctx.strokeStyle = this._color1;
@@ -2981,7 +3000,17 @@ function (_BaseComponent) {
         start = end + space;
         len /= 1.7;
         end = start + len;
-      } // Draw dot circle 3.
+      }
+
+      this._ctx.restore();
+
+      this._ctx.save();
+
+      this.scale();
+
+      this._ctx.translate(100, 100);
+
+      this._ctx.rotate(a3); // Draw dot circle 3.
 
 
       this._ctx.fillStyle = this._color3;
@@ -3009,7 +3038,7 @@ function (_BaseComponent) {
 
       this._ctx.translate(100, 100);
 
-      this._ctx.rotate(-clockWiseAngle); // Draw bar circle 2.
+      this._ctx.rotate(a2); // Draw bar circle 2.
 
 
       this._ctx.lineWidth = 6;
@@ -3032,7 +3061,17 @@ function (_BaseComponent) {
         this._ctx.closePath();
 
         this._ctx.stroke();
-      } // Draw bar circle 4.
+      }
+
+      this._ctx.restore();
+
+      this._ctx.save();
+
+      this.scale();
+
+      this._ctx.translate(100, 100);
+
+      this._ctx.rotate(a4); // Draw bar circle 4.
 
 
       this._ctx.lineWidth = 5;
@@ -3323,12 +3362,14 @@ var TextBox =
 function (_BaseComponent) {
   _inherits(TextBox, _BaseComponent);
 
-  function TextBox(canvas, options) {
+  function TextBox(canvas) {
     var _this;
+
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, TextBox);
 
-    var viewWidth = _utility.default.has(options, 'viewWidth') ? options.viewWidth : 200;
+    var viewWidth = options.viewWidth || 200;
     _this = _possibleConstructorReturn(this, (TextBox.__proto__ || Object.getPrototypeOf(TextBox)).call(this, canvas, options, 0, 0, viewWidth, 100));
     _this._borderWidth = 8;
     _this._borderHeight = 30;
@@ -3341,13 +3382,15 @@ function (_BaseComponent) {
 
   _createClass(TextBox, [{
     key: "setOptions",
-    value: function setOptions(options) {
-      this._textValue = _utility.default.has(options, 'textValue') ? options.textValue : '';
-      this._textColor = _utility.default.has(options, 'textColor') ? options.textColor : _color.COLOR.white;
-      this._textBgColor = _utility.default.has(options, 'textBgColor') ? options.textBgColor : _color.COLOR.blue;
-      this._bgColor = _utility.default.has(options, 'bgColor') ? options.bgColor : 'rgba(0, 0, 0, 0.01)';
-      this._borderColor = _utility.default.has(options, 'borderColor') ? options.borderColor : _color.COLOR.blue;
-      this._waveColor = _utility.default.has(options, 'waveColor') ? options.waveColor : _color.COLOR.blue;
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var text = options.text || {};
+      this._textValue = text.value || '';
+      this._textColor = text.fontColor || _color.COLOR.white;
+      this._textBgColor = text.bgColor || _color.COLOR.blue;
+      this._bgColor = options.bgColor || 'rgba(0, 0, 0, 0.01)';
+      this._borderColor = options.borderColor || _color.COLOR.blue;
+      this._waveColor = options.waveColor || _color.COLOR.blue;
     }
   }, {
     key: "drawObject",
@@ -3359,30 +3402,7 @@ function (_BaseComponent) {
 
       this._ctx.save();
 
-      this.scale(); // Draw the border.
-      // Top left
-
-      this._ctx.fillStyle = this._borderColor;
-
-      this._ctx.fillRect(0, 0, this._borderHeight, this._borderWidth);
-
-      this._ctx.fillRect(0, 0, this._borderWidth, this._borderHeight); // Bottom left
-
-
-      this._ctx.fillRect(0, this._viewHeight - this._borderHeight, this._borderWidth, this._borderHeight);
-
-      this._ctx.fillRect(0, this._viewHeight - this._borderWidth, this._borderHeight, this._borderWidth); // Top right
-
-
-      this._ctx.fillRect(this._viewWidth - this._borderHeight, 0, this._borderHeight, this._borderWidth);
-
-      this._ctx.fillRect(this._viewWidth - this._borderWidth, 0, this._borderWidth, this._borderHeight); // Bottom right
-
-
-      this._ctx.fillRect(this._viewWidth - this._borderHeight, this._viewHeight - this._borderWidth, this._borderHeight, this._borderWidth);
-
-      this._ctx.fillRect(this._viewWidth - this._borderWidth, this._viewHeight - this._borderHeight, this._borderWidth, this._borderHeight); // Draw wave line
-
+      this.scale(); // Draw wave line
 
       if (this._isWaveOn) {
         var waveWidth = 1;
@@ -3407,7 +3427,30 @@ function (_BaseComponent) {
 
           this._waveY = _utility.default.getNextPos(this._waveY, this._viewHeight / 2 + waveWidth, this._waveSpeed);
         }
-      } // Draw background rect.
+      } // Draw the border.
+      // Top left
+
+
+      this._ctx.fillStyle = this._borderColor;
+
+      this._ctx.fillRect(0, 0, this._borderHeight, this._borderWidth);
+
+      this._ctx.fillRect(0, 0, this._borderWidth, this._borderHeight); // Bottom left
+
+
+      this._ctx.fillRect(0, this._viewHeight - this._borderHeight, this._borderWidth, this._borderHeight);
+
+      this._ctx.fillRect(0, this._viewHeight - this._borderWidth, this._borderHeight, this._borderWidth); // Top right
+
+
+      this._ctx.fillRect(this._viewWidth - this._borderHeight, 0, this._borderHeight, this._borderWidth);
+
+      this._ctx.fillRect(this._viewWidth - this._borderWidth, 0, this._borderWidth, this._borderHeight); // Bottom right
+
+
+      this._ctx.fillRect(this._viewWidth - this._borderHeight, this._viewHeight - this._borderWidth, this._borderHeight, this._borderWidth);
+
+      this._ctx.fillRect(this._viewWidth - this._borderWidth, this._viewHeight - this._borderHeight, this._borderWidth, this._borderHeight); // Draw background rect.
 
 
       this._ctx.fillStyle = this._textBgColor;
@@ -3517,12 +3560,14 @@ var TextMeter =
 function (_BaseComponent) {
   _inherits(TextMeter, _BaseComponent);
 
-  function TextMeter(canvas, options) {
+  function TextMeter(canvas) {
     var _this;
+
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, TextMeter);
 
-    var viewWidth = _utility.default.has(options, 'viewWidth') ? options.viewWidth : 200;
+    var viewWidth = options.viewWidth || 200;
     _this = _possibleConstructorReturn(this, (TextMeter.__proto__ || Object.getPrototypeOf(TextMeter)).call(this, canvas, options, 0, 0, viewWidth, 100));
     _this._lineWidth = 5;
     _this._arrowWidth = 30;
@@ -3542,15 +3587,19 @@ function (_BaseComponent) {
 
   _createClass(TextMeter, [{
     key: "setOptions",
-    value: function setOptions(options) {
-      this._percentageValue = _utility.default.has(options, 'percentageValue') ? options.percentageValue : 0;
-      this._displayValue = _utility.default.has(options, 'displayValue') ? options.displayValue : '';
-      this._speed = _utility.default.has(options, 'speed') ? options.speed : 5;
-      this._fillColor = _utility.default.has(options, 'fillColor') ? options.fillColor : _color.COLOR.red;
-      this._bgColor = _utility.default.has(options, 'bgColor') ? options.bgColor : _color.COLOR.lightGrey;
-      this._lineColor = _utility.default.has(options, 'lineColor') ? options.lineColor : _color.COLOR.lightGreen;
-      this._arrowColor = _utility.default.has(options, 'arrowColor') ? options.arrowColor : _color.COLOR.blue;
-      this._percentageBgColor = _utility.default.has(options, 'percentageBgColor') ? options.percentageBgColor : _color.COLOR.black;
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var bar = options.bar || {};
+      var marker = options.marker || {};
+      this._percentageValue = marker.value || 0;
+      this._displayValue = marker.displayValue || '';
+      this._percentageBgColor = marker.bgColor || _color.COLOR.black;
+      this._markerFontColor = marker.fontColor || _color.COLOR.white;
+      this._speed = bar.speed || 5;
+      this._fillColor = bar.fillColor || _color.COLOR.red;
+      this._bgColor = bar.bgColor || _color.COLOR.lightGrey;
+      this._lineColor = bar.borderColor || _color.COLOR.lightGreen;
+      this._arrowColor = options.arrowColor || _color.COLOR.blue;
     }
   }, {
     key: "drawObject",
@@ -3623,7 +3672,7 @@ function (_BaseComponent) {
 
       this._ctx.fillRect(this._barX - 25, 0, 50, this._actualPctHeight);
 
-      this._ctx.fillStyle = 'white';
+      this._ctx.fillStyle = this._markerFontColor;
       this._ctx.font = '16px Arial';
 
       this._ctx.fillText(this._percentageValue + '%', this._barX, 20);
@@ -3954,7 +4003,7 @@ function (_BaseComponent) {
     _this._numberStart = (_this._viewWidth - _this._meterWidth - _this._lineWidth) / 2; // Used only if the value is out of range.
 
     _this._actualValue = 0;
-    _this._barY = _this._viewHeight - _this._value / (_this._maxValue - _this._minValue) * _this._meterHeight - _this._numberHeight;
+    _this._barY = _this._viewHeight - (_this._value - _this._minValue) / (_this._maxValue - _this._minValue) * _this._meterHeight - _this._numberHeight;
     _this._nextBarY = _this._barY; // TODO: move this blink function to base component?
 
     _this._lastBlink = 0;
@@ -4002,7 +4051,7 @@ function (_BaseComponent) {
       if (this._isGraident) {
         var graident = this._ctx.createLinearGradient(this._viewWidth / 2, this._barY, this._viewWidth / 2, this._meterHeight + this._numberHeight);
 
-        graident.addColorStop(0, this._fillColor);
+        graident.addColorStop(0, this._barFillColor);
         graident.addColorStop(1, 'white');
         this._ctx.fillStyle = graident;
       } else {
@@ -4148,7 +4197,7 @@ function (_BaseComponent) {
       }
 
       this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);
-      this._nextBarY = this._viewHeight - n / (this._maxValue - this._minValue) * this._meterHeight - this._numberHeight;
+      this._nextBarY = this._viewHeight - (n - this._minValue) / (this._maxValue - this._minValue) * this._meterHeight - this._numberHeight;
       this._value = n;
     }
   }]);

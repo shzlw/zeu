@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Round Fan</title>
-<script src="../lib/zeu.js"></script>
+<script src="../dist/zeu.js"></script>
 <script src="examples.js"></script>
 <link rel="stylesheet" href="example.css">
 </head>
@@ -38,8 +38,15 @@ roundFan2.centerColor = 'green';
 
 <script type="text/javascript">
 
-  var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'));
-  roundFan1.speed = 10;
+  var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'), {
+    fanColor: 'green',
+    center: {
+      color: 'white',
+      bgColor: 'green'
+    },
+    speed: 1
+  });
+  roundFan1.speed = 1;
   roundFan1.scaleTo(2, 2);
 </script>
 </body>
