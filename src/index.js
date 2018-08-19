@@ -3,9 +3,6 @@ import DigitalClcok from './digital-clock';
 import RoundFan from './round-fan';
 import VolumeMeter from './volume-meter';
 import Heartbeat from './heartbeat';
-import WarningDialog from './warning-dialog';
-import BlinkText from './blink-text';
-import ScrollPanel from './scroll-panel';
 import MessageQueue from './message-queue';
 import RoundRadar from './round-radar';
 import RoundGauge from './round-gauge';
@@ -15,6 +12,10 @@ import AnimationTimer from './animation-timer';
 import Settings from './settings';
 import SpeedCircle from './speed-circle';
 import TextBox from './text-box';
+
+import WarningDialog from './div/warning-dialog';
+import BlinkText from './div/blink-text';
+import ScrollPanel from './div/scroll-panel';
 
 export {
   BarMeter,

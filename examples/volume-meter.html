@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Volume Meter</title>
-<script src="../lib/zeu.js"></script>
+<script src="../dist/zeu.js"></script>
 <script src="examples.js"></script>
 <link rel="stylesheet" href="example.css">
 </head>
@@ -15,7 +15,7 @@ height: 200px;
     </code></pre>
 
     <h3>Default</h3>
-    <div id="volume-meter-1" style="width: 100px; height: 200px;"></div>
+    <canvas id="volume-meter-1" width="200" height="400" style="border: 1px solid blue;"></canvas>
 
     <h3>Options</h3>
     <pre><code>
@@ -42,26 +42,15 @@ volumeMeter2.value = 50;
 
 <script type="text/javascript">
 
-  var volumeMeter1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'));
-
-  var volumeMeter2 = new zeu.VolumeMeter(
-    document.getElementById('volume-meter-2'), {
-      min: 0,
-      max: 200,
-      fillColor: 'green',
-      fontColor: 'black',
-      lineColor: 'black',
-      lineWidth: 5
-    });
-  volumeMeter2.fillColor = 'red';
-  volumeMeter2.fontColor = 'green';
-  volumeMeter2.value = 100;
-
+  var v1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'));
+  v1.scaleTo(2, 2);
+  // v1.value = 50;
+  
   setInterval(function() {
-    volumeMeter2.value = getRandomInt(10, 190);
-  }, 2000);
-
-  var volumeMeter3 = new zeu.VolumeMeter(document.getElementById('volume-meter-3'));
+    v1.value = getRandomInt(101, 101);
+  }, 1000);
+  
+  
 </script>
 </body>
 </html>

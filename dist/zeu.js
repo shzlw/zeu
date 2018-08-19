@@ -522,8 +522,7 @@ function () {
     this._ctx = this._canvas.getContext('2d'); // Scale parameters used in scale()
 
     this._scaleX = 1;
-    this._scaleY = 1;
-    this._overrideScaleX = false; // Current X value (Left 0 to right)
+    this._scaleY = 1; // Current X value (Left 0 to right)
 
     this._x = viewX; // Current Y value (Top 0 to bottom)
 
@@ -751,104 +750,6 @@ function () {
 }();
 
 exports.default = BaseComponent;
-module.exports = exports["default"];
-
-/***/ }),
-
-/***/ "./src/blink-text.js":
-/*!***************************!*\
-  !*** ./src/blink-text.js ***!
-  \***************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _utility = _interopRequireDefault(__webpack_require__(/*! ./utility */ "./src/utility.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-/**
- * Div based
- */
-var BlinkText =
-/*#__PURE__*/
-function () {
-  function BlinkText(baseDiv, options) {
-    _classCallCheck(this, BlinkText);
-
-    this._div = baseDiv;
-    this._defaultCss = baseDiv.style.cssText;
-    this._blinkTimer = null; // Options
-
-    this._interval = _utility.default.has(options, 'interval') ? options.interval : 500;
-    this._blinkCss = _utility.default.has(options, 'blinkCss') ? options.blinkCss : 'color: white; background-color: red;';
-  }
-
-  _createClass(BlinkText, [{
-    key: "blink",
-    value: function blink(message) {
-      var _this = this;
-
-      if (message != null) {
-        this._div.innerHTML = message;
-      }
-
-      if (this._blinkTimer == null) {
-        this._blinkTimer = setInterval(function () {
-          var currCss = _this._div.style.cssText !== _this._defaultCss ? _this._defaultCss : _this._blinkCss;
-          _this._div.style.cssText = currCss;
-        }, this._interval);
-      }
-    }
-  }, {
-    key: "unblink",
-    value: function unblink() {
-      if (this._blinkTimer != null) {
-        clearInterval(this._blinkTimer);
-        this._blinkTimer = null;
-        this._div.style.cssText = this._defaultCss;
-      }
-    }
-  }, {
-    key: "interval",
-    set: function set(interval) {
-      this._interval = interval;
-
-      if (this._blinkTimer != null) {
-        this.unblink();
-        this.blink();
-      }
-    },
-    get: function get() {
-      return this._interval;
-    }
-  }, {
-    key: "blinkCss",
-    set: function set(blinkCss) {
-      this._blinkCss = blinkCss;
-    },
-    get: function get() {
-      return this._blinkCss;
-    }
-  }]);
-
-  return BlinkText;
-}();
-
-exports.default = BlinkText;
 module.exports = exports["default"];
 
 /***/ }),
@@ -1421,6 +1322,344 @@ module.exports = exports["default"];
 
 /***/ }),
 
+/***/ "./src/div/blink-text.js":
+/*!*******************************!*\
+  !*** ./src/div/blink-text.js ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _utility = _interopRequireDefault(__webpack_require__(/*! ./../utility */ "./src/utility.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/**
+ * Div based
+ */
+var BlinkText =
+/*#__PURE__*/
+function () {
+  function BlinkText(baseDiv, options) {
+    _classCallCheck(this, BlinkText);
+
+    this._div = baseDiv;
+    this._defaultCss = baseDiv.style.cssText;
+    this._blinkTimer = null; // Options
+
+    this._interval = _utility.default.has(options, 'interval') ? options.interval : 500;
+    this._blinkCss = _utility.default.has(options, 'blinkCss') ? options.blinkCss : 'color: white; background-color: red;';
+  }
+
+  _createClass(BlinkText, [{
+    key: "blink",
+    value: function blink(message) {
+      var _this = this;
+
+      if (message != null) {
+        this._div.innerHTML = message;
+      }
+
+      if (this._blinkTimer == null) {
+        this._blinkTimer = setInterval(function () {
+          var currCss = _this._div.style.cssText !== _this._defaultCss ? _this._defaultCss : _this._blinkCss;
+          _this._div.style.cssText = currCss;
+        }, this._interval);
+      }
+    }
+  }, {
+    key: "unblink",
+    value: function unblink() {
+      if (this._blinkTimer != null) {
+        clearInterval(this._blinkTimer);
+        this._blinkTimer = null;
+        this._div.style.cssText = this._defaultCss;
+      }
+    }
+  }, {
+    key: "interval",
+    set: function set(interval) {
+      this._interval = interval;
+
+      if (this._blinkTimer != null) {
+        this.unblink();
+        this.blink();
+      }
+    },
+    get: function get() {
+      return this._interval;
+    }
+  }, {
+    key: "blinkCss",
+    set: function set(blinkCss) {
+      this._blinkCss = blinkCss;
+    },
+    get: function get() {
+      return this._blinkCss;
+    }
+  }]);
+
+  return BlinkText;
+}();
+
+exports.default = BlinkText;
+module.exports = exports["default"];
+
+/***/ }),
+
+/***/ "./src/div/scroll-panel.js":
+/*!*********************************!*\
+  !*** ./src/div/scroll-panel.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _utility = _interopRequireDefault(__webpack_require__(/*! ./../utility */ "./src/utility.js"));
+
+var _color = __webpack_require__(/*! ./../color */ "./src/color.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/**
+ * Div based
+ */
+var ScrollPanel =
+/*#__PURE__*/
+function () {
+  function ScrollPanel(baseDiv, options) {
+    _classCallCheck(this, ScrollPanel);
+
+    this._div = baseDiv;
+    var defaultCss = 'margin: 3px; padding: 3px; color: white; background-color: ' + _color.COLOR.green + ';'; // Options
+
+    this._defaultCss = _utility.default.has(options, 'defaultCss') ? options.defaultCss : defaultCss;
+    this._isUp = _utility.default.has(options, 'isUp') ? options.isUp : true;
+    ;
+    this._maxQueueCapacity = _utility.default.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 20;
+    this._queue = [];
+  }
+
+  _createClass(ScrollPanel, [{
+    key: "push",
+    value: function push(boxDiv) {
+      if (this._queue.length > this._maxQueueCapacity) {
+        this.pop();
+      }
+
+      this._queue.push(boxDiv);
+
+      if (this._isUp) {
+        this._div.insertBefore(boxDiv, this._div.firstChild);
+
+        this._div.scrollBottom = this._div.scrollHeight;
+      } else {
+        this._div.appendChild(boxDiv);
+
+        this._div.scrollTop = this._div.scrollHeight;
+      }
+    }
+  }, {
+    key: "pop",
+    value: function pop() {
+      if (this._queue.length > 0) {
+        var toBeRemoved = this._queue.shift();
+
+        this._div.removeChild(toBeRemoved);
+      }
+    }
+  }, {
+    key: "pushText",
+    value: function pushText(text, css) {
+      var boxDiv = document.createElement('div');
+      boxDiv.innerHTML = text;
+      boxDiv.style.cssText = css != null ? css : this._defaultCss;
+      this.push(boxDiv);
+    }
+  }, {
+    key: "isUp",
+    set: function set(isUp) {
+      this._isUp = isUp;
+    },
+    get: function get() {
+      return this._isUp;
+    }
+  }, {
+    key: "maxQueueCapacity",
+    set: function set(capacity) {
+      this._maxQueueCapacity = capacity;
+    },
+    get: function get() {
+      return this._maxQueueCapacity;
+    }
+  }]);
+
+  return ScrollPanel;
+}();
+
+exports.default = ScrollPanel;
+module.exports = exports["default"];
+
+/***/ }),
+
+/***/ "./src/div/warning-dialog.js":
+/*!***********************************!*\
+  !*** ./src/div/warning-dialog.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _utility = _interopRequireDefault(__webpack_require__(/*! ./../utility */ "./src/utility.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/**
+ * Div based
+ */
+var WarningDialog =
+/*#__PURE__*/
+function () {
+  function WarningDialog(options) {
+    _classCallCheck(this, WarningDialog);
+
+    this._reasonText = _utility.default.has(options, 'reason') ? options.reason : '';
+    this._interval = _utility.default.has(options, 'interval') ? options.interval : 1000; // Dialog
+
+    var dailog = document.createElement('div');
+    dailog.style.cssText = "\n      position: fixed;\n      top: 0;\n      left: 0;\n      margin: 0;\n      padding: 0;\n      width: 100%;\n      height: 100%;\n      z-index: 100;\n      display: none;\n      background-color: rgb(220, 53, 69, 0.8);\n    ";
+    var panel = document.createElement('div');
+    panel.style.cssText = "\n      width: 600px;\n      height: 400px;\n      position: relative;\n      top: 50%;\n      left: 50%;\n      margin-top: -200px; \n      margin-left: -300px;\n      text-align: center;\n      padding: 20px;\n      border: 20px solid #dc3545;\n      box-sizing: border-box;\n      background-size: 80px 80px;\n      background-image: linear-gradient(\n        45deg, \n        #dc3545 25%, \n        #ffc107 25%, \n        #ffc107 50%, \n        #dc3545 50%, \n        #dc3545 75%, \n        #ffc107 75%, \n        #ffc107);\n      animation: zeu-pole 1s linear infinite;\n    ";
+    var innerPanel = document.createElement('div');
+    innerPanel.style.cssText = "\n      margin: 0 auto;\n    ";
+    var warning = document.createElement('div');
+    warning.innerHTML = 'WARNING';
+    warning.style.cssText = "\n      height: 100px; \n      background-color: #dc3545;\n      line-height: 100px;\n      font-size: 50px;\n      font-weight: bold;\n      color: #fff;\n    ";
+    this._reason = document.createElement('div');
+    this._reason.innerHTML = this._reasonText;
+    this._reason.style.cssText = "\n      height: 180px;\n      background-color: rgb(220, 53, 69, 0.9);\n      font-size: 30px;\n      color: #fff;\n      padding: 10px;\n      border-left: 20px solid #dc3545;\n      border-right: 20px solid #dc3545;\n      border-bottom: 20px solid #dc3545;\n    ";
+    innerPanel.appendChild(warning);
+    innerPanel.appendChild(this._reason);
+    panel.appendChild(innerPanel);
+    dailog.appendChild(panel);
+    this._dialog = dailog; // Append dialog div to body
+
+    var body = document.body || document.getElementsByTagName('body')[0];
+    body.appendChild(this._dialog); // Append style to head
+
+    var zeuPole = "\n    @keyframes zeu-pole {\n      from { background-position: 0 0; }\n      to { background-position: 160px 80px; }\n    }\n    ";
+    var head = document.head || document.getElementsByTagName('head')[0];
+    var style = document.createElement('style');
+    style.type = 'text/css';
+
+    if (style.styleSheet) {
+      style.styleSheet.cssText = zeuPole;
+    } else {
+      style.appendChild(document.createTextNode(zeuPole));
+    }
+
+    head.appendChild(style);
+    this._blinkTimer = null;
+  }
+
+  _createClass(WarningDialog, [{
+    key: "blink",
+    value: function blink() {
+      var _this = this;
+
+      this._dialog.style.display = 'block';
+
+      if (this._blinkTimer == null) {
+        this._blinkTimer = setInterval(function () {
+          if (_this._dialog.style.display !== 'block') {
+            _this._dialog.style.display = 'block';
+          } else {
+            _this._dialog.style.display = 'none';
+          }
+        }, this._interval);
+      }
+    }
+  }, {
+    key: "unblink",
+    value: function unblink() {
+      this._dialog.style.display = 'none';
+
+      if (this._blinkTimer != null) {
+        clearInterval(this._blinkTimer);
+        this._blinkTimer = null;
+      }
+    }
+  }, {
+    key: "reason",
+    set: function set(reason) {
+      this._reasonText = reason;
+      this._reason.innerHTML = this._reasonText;
+    },
+    get: function get() {
+      return this._reason;
+    }
+  }, {
+    key: "interval",
+    set: function set(interval) {
+      this._interval = interval;
+
+      if (this._blinkTimer != null) {
+        this.unblink();
+        this.blink();
+      }
+    },
+    get: function get() {
+      return this._interval;
+    }
+  }]);
+
+  return WarningDialog;
+}();
+
+exports.default = WarningDialog;
+module.exports = exports["default"];
+
+/***/ }),
+
 /***/ "./src/global.js":
 /*!***********************!*\
   !*** ./src/global.js ***!
@@ -1692,24 +1931,6 @@ Object.defineProperty(exports, "Heartbeat", {
     return _heartbeat.default;
   }
 });
-Object.defineProperty(exports, "WarningDialog", {
-  enumerable: true,
-  get: function get() {
-    return _warningDialog.default;
-  }
-});
-Object.defineProperty(exports, "BlinkText", {
-  enumerable: true,
-  get: function get() {
-    return _blinkText.default;
-  }
-});
-Object.defineProperty(exports, "ScrollPanel", {
-  enumerable: true,
-  get: function get() {
-    return _scrollPanel.default;
-  }
-});
 Object.defineProperty(exports, "MessageQueue", {
   enumerable: true,
   get: function get() {
@@ -1758,6 +1979,24 @@ Object.defineProperty(exports, "TextBox", {
     return _textBox.default;
   }
 });
+Object.defineProperty(exports, "WarningDialog", {
+  enumerable: true,
+  get: function get() {
+    return _warningDialog.default;
+  }
+});
+Object.defineProperty(exports, "BlinkText", {
+  enumerable: true,
+  get: function get() {
+    return _blinkText.default;
+  }
+});
+Object.defineProperty(exports, "ScrollPanel", {
+  enumerable: true,
+  get: function get() {
+    return _scrollPanel.default;
+  }
+});
 
 var _barMeter = _interopRequireDefault(__webpack_require__(/*! ./bar-meter */ "./src/bar-meter.js"));
 
@@ -1768,12 +2007,6 @@ var _roundFan = _interopRequireDefault(__webpack_require__(/*! ./round-fan */ ".
 var _volumeMeter = _interopRequireDefault(__webpack_require__(/*! ./volume-meter */ "./src/volume-meter.js"));
 
 var _heartbeat = _interopRequireDefault(__webpack_require__(/*! ./heartbeat */ "./src/heartbeat.js"));
-
-var _warningDialog = _interopRequireDefault(__webpack_require__(/*! ./warning-dialog */ "./src/warning-dialog.js"));
-
-var _blinkText = _interopRequireDefault(__webpack_require__(/*! ./blink-text */ "./src/blink-text.js"));
-
-var _scrollPanel = _interopRequireDefault(__webpack_require__(/*! ./scroll-panel */ "./src/scroll-panel.js"));
 
 var _messageQueue = _interopRequireDefault(__webpack_require__(/*! ./message-queue */ "./src/message-queue.js"));
 
@@ -1792,6 +2025,12 @@ var _settings = _interopRequireDefault(__webpack_require__(/*! ./settings */ "./
 var _speedCircle = _interopRequireDefault(__webpack_require__(/*! ./speed-circle */ "./src/speed-circle.js"));
 
 var _textBox = _interopRequireDefault(__webpack_require__(/*! ./text-box */ "./src/text-box.js"));
+
+var _warningDialog = _interopRequireDefault(__webpack_require__(/*! ./div/warning-dialog */ "./src/div/warning-dialog.js"));
+
+var _blinkText = _interopRequireDefault(__webpack_require__(/*! ./div/blink-text */ "./src/div/blink-text.js"));
+
+var _scrollPanel = _interopRequireDefault(__webpack_require__(/*! ./div/scroll-panel */ "./src/div/scroll-panel.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2583,114 +2822,6 @@ function (_BaseCanvas) {
 }(_baseCanvas.default);
 
 exports.default = RoundRadar;
-module.exports = exports["default"];
-
-/***/ }),
-
-/***/ "./src/scroll-panel.js":
-/*!*****************************!*\
-  !*** ./src/scroll-panel.js ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _utility = _interopRequireDefault(__webpack_require__(/*! ./utility */ "./src/utility.js"));
-
-var _color = __webpack_require__(/*! ./color */ "./src/color.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-/**
- * Div based
- */
-var ScrollPanel =
-/*#__PURE__*/
-function () {
-  function ScrollPanel(baseDiv, options) {
-    _classCallCheck(this, ScrollPanel);
-
-    this._div = baseDiv;
-    var defaultCss = 'margin: 3px; padding: 3px; color: white; background-color: ' + _color.COLOR.green + ';'; // Options
-
-    this._defaultCss = _utility.default.has(options, 'defaultCss') ? options.defaultCss : defaultCss;
-    this._isUp = _utility.default.has(options, 'isUp') ? options.isUp : true;
-    ;
-    this._maxQueueCapacity = _utility.default.has(options, 'maxQueueCapacity') ? options.maxQueueCapacity : 20;
-    this._queue = [];
-  }
-
-  _createClass(ScrollPanel, [{
-    key: "push",
-    value: function push(boxDiv) {
-      if (this._queue.length > this._maxQueueCapacity) {
-        this.pop();
-      }
-
-      this._queue.push(boxDiv);
-
-      if (this._isUp) {
-        this._div.insertBefore(boxDiv, this._div.firstChild);
-
-        this._div.scrollBottom = this._div.scrollHeight;
-      } else {
-        this._div.appendChild(boxDiv);
-
-        this._div.scrollTop = this._div.scrollHeight;
-      }
-    }
-  }, {
-    key: "pop",
-    value: function pop() {
-      if (this._queue.length > 0) {
-        var toBeRemoved = this._queue.shift();
-
-        this._div.removeChild(toBeRemoved);
-      }
-    }
-  }, {
-    key: "pushText",
-    value: function pushText(text, css) {
-      var boxDiv = document.createElement('div');
-      boxDiv.innerHTML = text;
-      boxDiv.style.cssText = css != null ? css : this._defaultCss;
-      this.push(boxDiv);
-    }
-  }, {
-    key: "isUp",
-    set: function set(isUp) {
-      this._isUp = isUp;
-    },
-    get: function get() {
-      return this._isUp;
-    }
-  }, {
-    key: "maxQueueCapacity",
-    set: function set(capacity) {
-      this._maxQueueCapacity = capacity;
-    },
-    get: function get() {
-      return this._maxQueueCapacity;
-    }
-  }]);
-
-  return ScrollPanel;
-}();
-
-exports.default = ScrollPanel;
 module.exports = exports["default"];
 
 /***/ }),
@@ -3777,7 +3908,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _baseCanvas = _interopRequireDefault(__webpack_require__(/*! ./base-canvas */ "./src/base-canvas.js"));
+var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ./base-component */ "./src/base-component.js"));
 
 var _color = __webpack_require__(/*! ./color */ "./src/color.js");
 
@@ -3801,268 +3932,231 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-// TODO: MinMaxMeter?
 var VolumeMeter =
 /*#__PURE__*/
-function (_BaseCanvas) {
-  _inherits(VolumeMeter, _BaseCanvas);
+function (_BaseComponent) {
+  _inherits(VolumeMeter, _BaseComponent);
 
-  function VolumeMeter(baseDiv, options) {
+  function VolumeMeter(canvas) {
     var _this;
+
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, VolumeMeter);
 
-    _this = _possibleConstructorReturn(this, (VolumeMeter.__proto__ || Object.getPrototypeOf(VolumeMeter)).call(this, baseDiv, 100, 200)); // Options
-
-    _this._min = _utility.default.has(options, 'min') ? options.min : 0;
-    _this._max = _utility.default.has(options, 'max') ? options.max : 100;
-    _this._fillColor = _utility.default.has(options, 'fillColor') ? options.fillColor : _color.COLOR.green;
-    _this._fontColor = _utility.default.has(options, 'fontColor') ? options.fontColor : _color.COLOR.black;
-    _this._lineColor = _utility.default.has(options, 'lineColor') ? options.lineColor : _color.COLOR.black;
+    var viewHeight = options.viewWidth || 200;
+    _this = _possibleConstructorReturn(this, (VolumeMeter.__proto__ || Object.getPrototypeOf(VolumeMeter)).call(this, canvas, options, 0, 0, 100, viewHeight));
     _this._lineWidth = 3;
-    _this._isGraident = true;
-    _this._speed = 3;
-    _this._value = 50;
-    _this._meterWidth = 50;
-    _this._meterHeight = 160; // Ignore line width totally.
+    _this._numberHeight = 20;
+    _this._minMax = 'min';
+    _this._meterWidth = _this._viewWidth / 2;
+    _this._meterHeight = _this._viewHeight - 2 * _this._numberHeight;
+    _this._numberStart = (_this._viewWidth - _this._meterWidth - _this._lineWidth) / 2; // Used only if the value is out of range.
 
-    _this._y = _this._meterHeight - _this._value / (_this._max - _this._min) * _this._meterHeight + 10;
-    _this._nextY = _this._y;
+    _this._actualValue = 0;
+    _this._barY = _this._viewHeight - _this._value / (_this._maxValue - _this._minValue) * _this._meterHeight - _this._numberHeight;
+    _this._nextBarY = _this._barY; // TODO: move this blink function to base component?
+
+    _this._lastBlink = 0;
+    _this.drawMarker = _this.drawMarker.bind(_this);
+    _this.drawMin = _this.drawMin.bind(_this);
+    _this.drawMax = _this.drawMax.bind(_this);
     return _this;
   }
+  /**
+   * @param {*} options
+   */
+
 
   _createClass(VolumeMeter, [{
-    key: "drawFrame",
-    value: function drawFrame() {
-      this.clearAll();
+    key: "setOptions",
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var min = options.min || {};
+      var max = options.max || {};
+      var bar = options.bar || {};
+      var marker = options.markder || {};
+      this._minFontColor = min.fontColor || _color.COLOR.white;
+      this._minValue = min.value || 0;
+      this._minBgColor = min.bgColor || _color.COLOR.red;
+      this._maxFontColor = max.fontColor || _color.COLOR.white;
+      this._maxValue = max.value || 100;
+      this._maxBgColor = max.bgColor || _color.COLOR.blue;
+      this._barBorderColor = bar.borderColor || _color.COLOR.black;
+      this._barFillColor = bar.fillColor || _color.COLOR.green;
+      this._isGraident = bar.graident || false;
+      this._speed = bar.speed || 5;
+      this._markerBgColor = marker.bgColor || _color.COLOR.yellow;
+      this._markerFontColor = marker.fontColor || _color.COLOR.white;
+      this._value = options.value || 0;
+    }
+  }, {
+    key: "drawObject",
+    value: function drawObject() {
+      this.clear();
 
       this._ctx.save();
 
-      this.scale();
-
-      this._ctx.moveTo(0, 0);
-
-      this._ctx.beginPath();
+      this.scale(); // Handle graident fill color.
 
       if (this._isGraident) {
-        var graident = this._ctx.createLinearGradient(100, this._y, 10, 190);
+        var graident = this._ctx.createLinearGradient(this._viewWidth / 2, this._barY, this._viewWidth / 2, this._meterHeight + this._numberHeight);
 
         graident.addColorStop(0, this._fillColor);
         graident.addColorStop(1, 'white');
         this._ctx.fillStyle = graident;
       } else {
-        this._ctx.fillStyle = this._fillColor;
+        this._ctx.fillStyle = this._barFillColor;
       } // Draw the filled part.
 
 
-      this._ctx.fillRect(25, this._y, this._meterWidth, 190 - this._y);
+      this._ctx.beginPath();
 
-      this._y = _utility.default.getNextPos(this._y, this._nextY, this._speed); // Draw the border.
+      this._ctx.fillRect((this._viewWidth - this._meterWidth) / 2, this._barY, this._meterWidth, this._viewHeight - this._barY - this._numberHeight); // this._ctx.fillRect(0, this._barY, 10, 10);
 
-      this._ctx.rect(25, 10, this._meterWidth, this._meterHeight);
+
+      this._ctx.closePath(); // Draw the border.
+
+
+      this._ctx.beginPath();
 
       this._ctx.lineWidth = this._lineWidth;
-      this._ctx.strokeStyle = this._lineColor;
-      this._ctx.textAlign = 'center'; // Draw max number.
+      this._ctx.strokeStyle = this._barBorderColor;
 
-      this._ctx.fillStyle = 'red';
-
-      this._ctx.fillRect(20, 0, 60, 20);
-
-      this._ctx.fillStyle = 'white';
-
-      this._ctx.fillText(this._max, 50, 15); // Draw min number.
-
-
-      this._ctx.fillStyle = 'green';
-
-      this._ctx.fillRect(20, this._meterHeight + 15, 60, 20);
-
-      this._ctx.fillStyle = 'white';
-
-      this._ctx.fillText(this._min, 50, this._meterHeight + 30); // Draw value.
-
-
-      this._ctx.fillStyle = 'pink';
-
-      this._ctx.fillRect(this._meterWidth + 30, this._y - 10, 20, 20);
-
-      this._ctx.fillRect(0, this._y, 80, 3);
-
-      this._ctx.fillStyle = 'white';
-
-      this._ctx.fillText(this._value, this._meterWidth + 35, this._y);
+      this._ctx.rect((this._viewWidth - this._meterWidth) / 2, this._numberHeight, this._meterWidth, this._meterHeight);
 
       this._ctx.stroke();
 
-      this._ctx.restore();
+      this._ctx.closePath(); // Draw value.
+
+
+      if (this._minMax === 'max') {
+        this.drawMin();
+        this.drawMarker();
+        this._lastBlink = this.blink(this.drawMax, this._lastBlink, 500);
+      } else if (this._minMax === 'min') {
+        this.drawMax();
+        this.drawMarker();
+        this._lastBlink = this.blink(this.drawMin, this._lastBlink, 500);
+      } else if (this._minMax === 'more' || this._minMax === 'less') {
+        this.drawMin();
+        this.drawMax();
+        this._lastBlink = this.blink(this.drawMarker, this._lastBlink, 500);
+      } else {
+        this.drawMin();
+        this.drawMax();
+        this.drawMarker();
+      }
+
+      this._ctx.restore(); // Calculate the Y value.
+
+
+      this._barY = _utility.default.getNextPos(this._barY, this._nextBarY, this._speed);
+    }
+  }, {
+    key: "blink",
+    value: function blink(blinkFunc, lastBlink, duration) {
+      var now = Date.now();
+
+      if (now - lastBlink < duration) {
+        blinkFunc.call();
+        return lastBlink;
+      } else if (now - lastBlink < duration * 2) {
+        return lastBlink;
+      }
+
+      return now;
+    }
+  }, {
+    key: "drawMin",
+    value: function drawMin() {
+      this._ctx.textAlign = 'center';
+      this._ctx.font = '15px Arial';
+
+      this._ctx.beginPath();
+
+      this._ctx.fillStyle = this._minBgColor;
+
+      this._ctx.fillRect(this._numberStart, this._viewHeight - this._numberHeight - this._lineWidth / 2, this._meterWidth + this._lineWidth, this._numberHeight + this._lineWidth / 2);
+
+      this._ctx.fillStyle = this._minFontColor;
+
+      this._ctx.fillText(this._minValue, this._meterWidth, this._meterHeight + this._numberHeight + 15);
+
+      this._ctx.closePath();
+    }
+  }, {
+    key: "drawMax",
+    value: function drawMax() {
+      this._ctx.textAlign = 'center';
+      this._ctx.font = '15px Arial';
+
+      this._ctx.beginPath();
+
+      this._ctx.fillStyle = this._maxBgColor;
+
+      this._ctx.fillRect(this._numberStart, 0, this._meterWidth + this._lineWidth, this._numberHeight + this._lineWidth / 2);
+
+      this._ctx.fillStyle = this._maxFontColor;
+
+      this._ctx.fillText(this._maxValue, this._meterWidth, this._numberHeight - 4);
+
+      this._ctx.closePath();
+    }
+  }, {
+    key: "drawMarker",
+    value: function drawMarker() {
+      this._ctx.beginPath();
+
+      this._ctx.font = '10px Arial';
+      this._ctx.fillStyle = this._markerBgColor; // Draw value rect.
+
+      this._ctx.fillRect(this._numberStart + this._meterWidth + this._lineWidth, this._barY - 8, this._viewWidth - (this._numberStart + this._meterWidth + this._lineWidth), 16); // Draw value line.
+
+
+      this._ctx.fillRect(0, this._barY - this._lineWidth / 2, this._numberStart + this._meterWidth + this._lineWidth, this._lineWidth);
+
+      this._ctx.fillStyle = this._markerFontColor;
+      var text = this._minMax === 'more' || this._minMax === 'less' ? this._actualValue : this._value;
+
+      this._ctx.fillText(text, (this._viewWidth - this._meterWidth) / 4 * 3 + this._meterWidth, this._barY + 4);
+
+      this._ctx.stroke();
+
+      this._ctx.closePath();
     }
   }, {
     key: "value",
-    set: function set(n) {
-      if (n >= this._min || n <= this._max) {
-        this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);
-        this._nextY = this._meterHeight - n / (this._max - this._min) * this._meterHeight + 10;
-        this._value = n;
+    set: function set(value) {
+      var n = value;
+      this._actualValue = n;
+
+      if (n > this._maxValue) {
+        this._minMax = 'more';
+        n = this._maxValue;
+      } else if (n < this._minValue) {
+        this._minMax = 'less';
+        n = this._minValue;
+      } else {
+        if (n === this._minValue) {
+          this._minMax = 'min';
+        } else if (n === this._maxValue) {
+          this._minMax = 'max';
+        } else {
+          this._minMax = 'normal';
+        }
       }
-    },
-    get: function get() {
-      return this._value;
-    }
-  }, {
-    key: "fillColor",
-    set: function set(fillColor) {
-      this._fillColor = fillColor;
-    },
-    get: function get() {
-      return this._fillColor;
-    }
-  }, {
-    key: "fontColor",
-    set: function set(fontColor) {
-      this._fontColor = fontColor;
-    },
-    get: function get() {
-      return this._fontColor;
+
+      this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);
+      this._nextBarY = this._viewHeight - n / (this._maxValue - this._minValue) * this._meterHeight - this._numberHeight;
+      this._value = n;
     }
   }]);
 
   return VolumeMeter;
-}(_baseCanvas.default);
+}(_baseComponent.default);
 
 exports.default = VolumeMeter;
-module.exports = exports["default"];
-
-/***/ }),
-
-/***/ "./src/warning-dialog.js":
-/*!*******************************!*\
-  !*** ./src/warning-dialog.js ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _utility = _interopRequireDefault(__webpack_require__(/*! ./utility */ "./src/utility.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-/**
- * Div based
- */
-var WarningDialog =
-/*#__PURE__*/
-function () {
-  function WarningDialog(options) {
-    _classCallCheck(this, WarningDialog);
-
-    this._reasonText = _utility.default.has(options, 'reason') ? options.reason : '';
-    this._interval = _utility.default.has(options, 'interval') ? options.interval : 1000; // Dialog
-
-    var dailog = document.createElement('div');
-    dailog.style.cssText = "\n      position: fixed;\n      top: 0;\n      left: 0;\n      margin: 0;\n      padding: 0;\n      width: 100%;\n      height: 100%;\n      z-index: 100;\n      display: none;\n      background-color: rgb(220, 53, 69, 0.8);\n    ";
-    var panel = document.createElement('div');
-    panel.style.cssText = "\n      width: 600px;\n      height: 400px;\n      position: relative;\n      top: 50%;\n      left: 50%;\n      margin-top: -200px; \n      margin-left: -300px;\n      text-align: center;\n      padding: 20px;\n      border: 20px solid #dc3545;\n      box-sizing: border-box;\n      background-size: 80px 80px;\n      background-image: linear-gradient(\n        45deg, \n        #dc3545 25%, \n        #ffc107 25%, \n        #ffc107 50%, \n        #dc3545 50%, \n        #dc3545 75%, \n        #ffc107 75%, \n        #ffc107);\n      animation: zeu-pole 1s linear infinite;\n    ";
-    var innerPanel = document.createElement('div');
-    innerPanel.style.cssText = "\n      margin: 0 auto;\n    ";
-    var warning = document.createElement('div');
-    warning.innerHTML = 'WARNING';
-    warning.style.cssText = "\n      height: 100px; \n      background-color: #dc3545;\n      line-height: 100px;\n      font-size: 50px;\n      font-weight: bold;\n      color: #fff;\n    ";
-    this._reason = document.createElement('div');
-    this._reason.innerHTML = this._reasonText;
-    this._reason.style.cssText = "\n      height: 180px;\n      background-color: rgb(220, 53, 69, 0.9);\n      font-size: 30px;\n      color: #fff;\n      padding: 10px;\n      border-left: 20px solid #dc3545;\n      border-right: 20px solid #dc3545;\n      border-bottom: 20px solid #dc3545;\n    ";
-    innerPanel.appendChild(warning);
-    innerPanel.appendChild(this._reason);
-    panel.appendChild(innerPanel);
-    dailog.appendChild(panel);
-    this._dialog = dailog; // Append dialog div to body
-
-    var body = document.body || document.getElementsByTagName('body')[0];
-    body.appendChild(this._dialog); // Append style to head
-
-    var zeuPole = "\n    @keyframes zeu-pole {\n      from { background-position: 0 0; }\n      to { background-position: 160px 80px; }\n    }\n    ";
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var style = document.createElement('style');
-    style.type = 'text/css';
-
-    if (style.styleSheet) {
-      style.styleSheet.cssText = zeuPole;
-    } else {
-      style.appendChild(document.createTextNode(zeuPole));
-    }
-
-    head.appendChild(style);
-    this._blinkTimer = null;
-  }
-
-  _createClass(WarningDialog, [{
-    key: "blink",
-    value: function blink() {
-      var _this = this;
-
-      this._dialog.style.display = 'block';
-
-      if (this._blinkTimer == null) {
-        this._blinkTimer = setInterval(function () {
-          if (_this._dialog.style.display !== 'block') {
-            _this._dialog.style.display = 'block';
-          } else {
-            _this._dialog.style.display = 'none';
-          }
-        }, this._interval);
-      }
-    }
-  }, {
-    key: "unblink",
-    value: function unblink() {
-      this._dialog.style.display = 'none';
-
-      if (this._blinkTimer != null) {
-        clearInterval(this._blinkTimer);
-        this._blinkTimer = null;
-      }
-    }
-  }, {
-    key: "reason",
-    set: function set(reason) {
-      this._reasonText = reason;
-      this._reason.innerHTML = this._reasonText;
-    },
-    get: function get() {
-      return this._reason;
-    }
-  }, {
-    key: "interval",
-    set: function set(interval) {
-      this._interval = interval;
-
-      if (this._blinkTimer != null) {
-        this.unblink();
-        this.blink();
-      }
-    },
-    get: function get() {
-      return this._interval;
-    }
-  }]);
-
-  return WarningDialog;
-}();
-
-exports.default = WarningDialog;
 module.exports = exports["default"];
 
 /***/ })

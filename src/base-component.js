@@ -13,7 +13,6 @@ export default class BaseComponent {
     // Scale parameters used in scale()
     this._scaleX = 1;
     this._scaleY = 1;
-    this._overrideScaleX = false;
 
     // Current X value (Left 0 to right)
     this._x = viewX;

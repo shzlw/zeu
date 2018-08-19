@@ -1,5 +1,5 @@
-import Utility from './utility';
-import { COLOR } from './color';
+import Utility from './../utility';
+import { COLOR } from './../color';
 
 /**
  * Div based

@@ -1,109 +1,198 @@
 
-import BaseCanvas from './base-canvas';
+import BaseComponent from './base-component';
 import { COLOR } from './color';
 import Utility from './utility';
 
-// TODO: MinMaxMeter?
-export default class VolumeMeter extends BaseCanvas {
+export default class VolumeMeter extends BaseComponent {
 
-  constructor(baseDiv, options) {
-    super(baseDiv, 100, 200);
+  constructor(canvas, options = {}) {
+    const viewHeight = options.viewWidth || 200;
 
-    // Options
-    this._min = Utility.has(options, 'min') ? options.min : 0;
-    this._max = Utility.has(options, 'max') ? options.max : 100;
-    this._fillColor = Utility.has(options, 'fillColor') ? options.fillColor : COLOR.green;
-    this._fontColor = Utility.has(options, 'fontColor') ? options.fontColor : COLOR.black;
-    this._lineColor = Utility.has(options, 'lineColor') ? options.lineColor : COLOR.black;
+    super(canvas, options, 0, 0, 100, viewHeight);
+
     this._lineWidth = 3;
+    this._numberHeight = 20;
+    this._minMax = 'min';
+    this._meterWidth = this._viewWidth / 2;
+    this._meterHeight = this._viewHeight - 2 * this._numberHeight;
+    this._numberStart = (this._viewWidth - this._meterWidth - this._lineWidth) / 2;
+    // Used only if the value is out of range.
+    this._actualValue = 0;
 
-    this._isGraident = true;
+    this._barY = this._viewHeight - ((this._value / (this._maxValue - this._minValue)) * this._meterHeight) -
+      this._numberHeight;
+    this._nextBarY = this._barY;
 
-    this._speed = 3;
-    this._value = 50;
-    this._meterWidth = 50;
-    this._meterHeight = 160;
-
-    // Ignore line width totally.
-    this._y = this._meterHeight - ((this._value / (this._max - this._min)) * this._meterHeight) + 10;
-    this._nextY = this._y;
+    // TODO: move this blink function to base component?
+    this._lastBlink = 0;
+    this.drawMarker = this.drawMarker.bind(this);
+    this.drawMin = this.drawMin.bind(this);
+    this.drawMax = this.drawMax.bind(this);
   }
 
-  set value(n) {
-    if (n >= this._min || n <= this._max) {
-      this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);
-      this._nextY = this._meterHeight - ((n / (this._max - this._min)) * this._meterHeight) + 10;
-      this._value = n;
-    }
+  /**
+   * @param {*} options
+   */
+  setOptions(options = {}) {
+    const min = options.min || {};
+    const max = options.max || {};
+    const bar = options.bar || {};
+    const marker = options.markder || {};
+
+    this._minFontColor = min.fontColor || COLOR.white;
+    this._minValue = min.value || 0;
+    this._minBgColor = min.bgColor || COLOR.red;
+
+    this._maxFontColor = max.fontColor || COLOR.white;
+    this._maxValue = max.value || 100;
+    this._maxBgColor = max.bgColor || COLOR.blue;
+
+    this._barBorderColor = bar.borderColor || COLOR.black;
+    this._barFillColor = bar.fillColor || COLOR.green;
+    this._isGraident = bar.graident || false;
+    this._speed = bar.speed || 5;
+
+    this._markerBgColor = marker.bgColor || COLOR.yellow;
+    this._markerFontColor = marker.fontColor || COLOR.white;
+
+    this._value = options.value || 0;
   }
 
-  get value() {
-    return this._value;
-  }
-
-  drawFrame() {
-    this.clearAll();
+  drawObject() {
+    this.clear();
     this._ctx.save();
     this.scale();
 
-    this._ctx.moveTo(0, 0);
-    this._ctx.beginPath();
-
+    // Handle graident fill color.
     if (this._isGraident) {
-      const graident = this._ctx.createLinearGradient(100, this._y, 10, 190);
+      const graident = this._ctx.createLinearGradient(this._viewWidth / 2, this._barY,
+        this._viewWidth / 2, this._meterHeight + this._numberHeight);
 
       graident.addColorStop(0, this._fillColor);
       graident.addColorStop(1, 'white');
       this._ctx.fillStyle = graident;
     } else {
-      this._ctx.fillStyle = this._fillColor;
+      this._ctx.fillStyle = this._barFillColor;
     }
 
     // Draw the filled part.
-    this._ctx.fillRect(25, this._y, this._meterWidth, 190 - this._y);
-
-    this._y = Utility.getNextPos(this._y, this._nextY, this._speed);
+    this._ctx.beginPath();
+    this._ctx.fillRect((this._viewWidth - this._meterWidth) / 2, this._barY, this._meterWidth,
+      this._viewHeight - this._barY - this._numberHeight);
+    // this._ctx.fillRect(0, this._barY, 10, 10);
+    this._ctx.closePath();
 
     // Draw the border.
-    this._ctx.rect(25, 10, this._meterWidth, this._meterHeight);
+    this._ctx.beginPath();
     this._ctx.lineWidth = this._lineWidth;
-    this._ctx.strokeStyle = this._lineColor;
-
-    this._ctx.textAlign = 'center';
-    // Draw max number.
-    this._ctx.fillStyle = 'red';
-    this._ctx.fillRect(20, 0, 60, 20);
-    this._ctx.fillStyle = 'white';
-    this._ctx.fillText(this._max, 50, 15);
-
-    // Draw min number.
-    this._ctx.fillStyle = 'green';
-    this._ctx.fillRect(20, this._meterHeight + 15, 60, 20);
-    this._ctx.fillStyle = 'white';
-    this._ctx.fillText(this._min, 50, this._meterHeight + 30);
-    // Draw value.
-    this._ctx.fillStyle = 'pink';
-    this._ctx.fillRect(this._meterWidth + 30, this._y - 10, 20, 20);
-    this._ctx.fillRect(0, this._y, 80, 3);
-    this._ctx.fillStyle = 'white';
-    this._ctx.fillText(this._value, this._meterWidth + 35, this._y);
+    this._ctx.strokeStyle = this._barBorderColor;
+    this._ctx.rect((this._viewWidth - this._meterWidth) / 2, this._numberHeight, this._meterWidth, this._meterHeight);
     this._ctx.stroke();
+    this._ctx.closePath();
+
+    // Draw value.
+    if (this._minMax === 'max') {
+      this.drawMin();
+      this.drawMarker();
+      this._lastBlink = this.blink(this.drawMax, this._lastBlink, 500);
+    } else if (this._minMax === 'min') {
+      this.drawMax();
+      this.drawMarker();
+      this._lastBlink = this.blink(this.drawMin, this._lastBlink, 500);
+    } else if (this._minMax === 'more' || this._minMax === 'less') {
+      this.drawMin();
+      this.drawMax();
+      this._lastBlink = this.blink(this.drawMarker, this._lastBlink, 500);
+    } else {
+      this.drawMin();
+      this.drawMax();
+      this.drawMarker();
+    }
+
     this._ctx.restore();
+    // Calculate the Y value.
+    this._barY = Utility.getNextPos(this._barY, this._nextBarY, this._speed);
   }
 
-  set fillColor(fillColor) {
-    this._fillColor = fillColor;
+  blink(blinkFunc, lastBlink, duration) {
+    const now = Date.now();
+
+    if (now - lastBlink < duration) {
+      blinkFunc.call();
+      return lastBlink;
+    } else if (now - lastBlink < (duration * 2)) {
+      return lastBlink;
+    }
+    return now;
   }
 
-  get fillColor() {
-    return this._fillColor;
+  drawMin() {
+    this._ctx.textAlign = 'center';
+    this._ctx.font = '15px Arial';
+    this._ctx.beginPath();
+    this._ctx.fillStyle = this._minBgColor;
+    this._ctx.fillRect(this._numberStart, this._viewHeight - this._numberHeight - this._lineWidth / 2,
+      this._meterWidth + this._lineWidth, this._numberHeight + this._lineWidth / 2);
+    this._ctx.fillStyle = this._minFontColor;
+    this._ctx.fillText(this._minValue, this._meterWidth,
+      this._meterHeight + this._numberHeight + 15);
+    this._ctx.closePath();
   }
 
-  set fontColor(fontColor) {
-    this._fontColor = fontColor;
+  drawMax() {
+    this._ctx.textAlign = 'center';
+    this._ctx.font = '15px Arial';
+    this._ctx.beginPath();
+    this._ctx.fillStyle = this._maxBgColor;
+    this._ctx.fillRect(this._numberStart, 0, this._meterWidth + this._lineWidth,
+      this._numberHeight + this._lineWidth / 2);
+    this._ctx.fillStyle = this._maxFontColor;
+    this._ctx.fillText(this._maxValue, this._meterWidth, this._numberHeight - 4);
+    this._ctx.closePath();
   }
 
-  get fontColor() {
-    return this._fontColor;
+  drawMarker() {
+    this._ctx.beginPath();
+    this._ctx.font = '10px Arial';
+    this._ctx.fillStyle = this._markerBgColor;
+    // Draw value rect.
+    this._ctx.fillRect(this._numberStart + this._meterWidth + this._lineWidth,
+      this._barY - 8, (this._viewWidth - (this._numberStart + this._meterWidth + this._lineWidth)), 16);
+    // Draw value line.
+    this._ctx.fillRect(0, this._barY - this._lineWidth / 2,
+      this._numberStart + this._meterWidth + this._lineWidth, this._lineWidth);
+    this._ctx.fillStyle = this._markerFontColor;
+    const text = (this._minMax === 'more' || this._minMax === 'less') ? this._actualValue : this._value;
+
+    this._ctx.fillText(text, (this._viewWidth - this._meterWidth) / 4 * 3 + this._meterWidth, this._barY + 4);
+    this._ctx.stroke();
+    this._ctx.closePath();
+  }
+
+  set value(value) {
+    let n = value;
+
+    this._actualValue = n;
+
+    if (n > this._maxValue) {
+      this._minMax = 'more';
+      n = this._maxValue;
+    } else if (n < this._minValue) {
+      this._minMax = 'less';
+      n = this._minValue;
+    } else {
+      if (n === this._minValue) {
+        this._minMax = 'min';
+      } else if (n === this._maxValue) {
+        this._minMax = 'max';
+      } else {
+        this._minMax = 'normal';
+      }
+    }
+
+    this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);
+    this._nextBarY = this._viewHeight - ((n / (this._maxValue - this._minValue)) * this._meterHeight) -
+      this._numberHeight;
+    this._value = n;
   }
 }
