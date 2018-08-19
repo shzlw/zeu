@@ -38,12 +38,56 @@ export default class Utility {
   }
 
   static hexToRgba(hex, opacity) {
-    hex = hex.replace('#', '');
-    let r = parseInt(hex.substring(0, 2), 16);
-    let g = parseInt(hex.substring(2, 4), 16);
-    let b = parseInt(hex.substring(4, 6), 16);
+    let h = hex.replace('#', '');
+    let r = parseInt(h.substring(0, 2), 16);
+    let g = parseInt(h.substring(2, 4), 16);
+    let b = parseInt(h.substring(4, 6), 16);
 
     return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity / 100 + ')';
+  }
+
+  static hexToRgb(hex) {
+    let h = hex.replace('#', '');
+    let color = [];
+
+    color[0] = parseInt(h.substring(0, 2), 16);
+    color[1] = parseInt(h.substring(2, 4), 16);
+    color[2] = parseInt(h.substring(4, 6), 16);
+    return color;
+  }
+
+  static hex(c) {
+    let s = '0123456789abcdef';
+    let i = parseInt(c, 10);
+
+    if (i === 0 || isNaN(c)) {
+      return '00';
+    }
+    i = Math.round(Math.min(Math.max(0, i), 255));
+    return s.charAt((i - i % 16) / 16) + s.charAt(i % 16);
+  }
+
+  static convertToHex(rgb) {
+    return this.hex(rgb[0]) + this.hex(rgb[1]) + this.hex(rgb[2]);
+  }
+
+  static generateGradientColor(colorStart, colorEnd, colorCount) {
+    const start = this.hexToRgb(colorStart);
+    const end = this.hexToRgb(colorEnd);
+    const len = colorCount;
+    let alpha = 0.0;
+    let rt = [];
+
+    for (let i = 0; i < len; i++) {
+      const c = [];
+
+      alpha += (1.0 / len);
+      c[0] = start[0] * alpha + (1 - alpha) * end[0];
+      c[1] = start[1] * alpha + (1 - alpha) * end[1];
+      c[2] = start[2] * alpha + (1 - alpha) * end[2];
+      rt.push(this.convertToHex(c));
+    }
+    return rt;
   }
 
   static isDefined(o) {

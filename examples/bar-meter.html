@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Bar Meter</title>
-<script src="../lib/zeu.js"></script>
+<script src="../dist/zeu.js"></script>
 <script src="examples.js"></script>
 <link rel="stylesheet" href="example.css">
 </head>
@@ -18,7 +18,7 @@ height: 200px;
     <pre><code>
 var barMeter1 = new zeu.BarMeter(document.getElementById('bar-meter-1'));
     </code></pre>
-    <div id="bar-meter-1" style="width: 100px; height: 200px;"></div>
+    <canvas id="bar-meter-1" width="100" height="200" style="background-color: black;"></canvas>
 
     <h3>Options</h3>
     <pre><code>
@@ -44,23 +44,17 @@ barMeter2.barColor = 'blue';
 
 <script type="text/javascript">
 
-  var barMeter1 = new zeu.BarMeter(document.getElementById('bar-meter-1'));
-
-  var barMeter2 = new zeu.BarMeter(
-    document.getElementById('bar-meter-2'), {
-      min: -100,
-      max: 100,
-      value: 80,
-      dashColor: 'white',
-      barColor: 'red',
-      speed: 10
-    });
-  barMeter2.value = 60;
-  barMeter2.dashColor = 'green';
-  barMeter2.barColor = 'blue';
-
-  var barMeter3 = new zeu.BarMeter(document.getElementById('bar-meter-3'));
-
+  var b1 = new zeu.BarMeter(document.getElementById('bar-meter-1'),
+  {
+    min: -100,
+    max: 100,
+    dashColor: 'red',
+    barColor: '#123456',
+    speed: 10,
+    gradient: true
+  });
+  b1.value = 0;
+ 
 </script>
 </body>
 </html>

@@ -194,11 +194,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _baseCanvas = _interopRequireDefault(__webpack_require__(/*! ./base-canvas */ "./src/base-canvas.js"));
-
 var _color = __webpack_require__(/*! ./color */ "./src/color.js");
 
 var _utility = _interopRequireDefault(__webpack_require__(/*! ./utility */ "./src/utility.js"));
+
+var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ./base-component */ "./src/base-component.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -214,37 +214,27 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
-
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var BarMeter =
 /*#__PURE__*/
-function (_BaseCanvas) {
-  _inherits(BarMeter, _BaseCanvas);
+function (_BaseComponent) {
+  _inherits(BarMeter, _BaseComponent);
 
-  function BarMeter(canvas, options) {
+  function BarMeter(canvas) {
     var _this;
+
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, BarMeter);
 
-    _this = _possibleConstructorReturn(this, (BarMeter.__proto__ || Object.getPrototypeOf(BarMeter)).call(this, canvas, 100, 200)); // Options
-
-    _this._min = _utility.default.has(options, 'min') ? options.min : 0;
-    _this._max = _utility.default.has(options, 'max') ? options.max : 100;
-    _this._value = _utility.default.has(options, 'value') ? options.value : 50;
-    _this._dashColor = _utility.default.has(options, 'dashColor') ? options.dashColor : _color.COLOR.grey;
-    _this._barColor = _utility.default.has(options, 'barColor') ? options.barColor : _color.COLOR.green;
-    _this._speed = _utility.default.has(options, 'speed') ? options.speed : 5;
-    _this._barWidth = 80;
+    var viewWidth = options.viewWidth || 100;
+    _this = _possibleConstructorReturn(this, (BarMeter.__proto__ || Object.getPrototypeOf(BarMeter)).call(this, canvas, options, 0, 0, viewWidth, 200));
+    _this._space = 20;
+    _this._barWidth = _this._viewWidth - 2 * _this._space;
     _this._barHeight = 15;
-    _this._space = (100 - _this._barWidth) / 2;
     _this._currBar = 0;
     _this._numberOfBars = Math.floor((_this._value - _this._min) / (_this._max - _this._min) * 10);
     _this._barMax = _this._numberOfBars * 100;
@@ -252,20 +242,26 @@ function (_BaseCanvas) {
   }
 
   _createClass(BarMeter, [{
-    key: "postConstructor",
-    value: function postConstructor() {
-      _get(BarMeter.prototype.__proto__ || Object.getPrototypeOf(BarMeter.prototype), "postConstructor", this).call(this);
-
-      this._ctx.globalCompositeOperation = 'source-over';
+    key: "setOptions",
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      this._min = options.min || 0;
+      this._max = options.max || 100;
+      this._value = options.value || 0;
+      this._dashColor = options.dashColor || _color.COLOR.grey;
+      this._barColor = options.barColor || _color.COLOR.green;
+      this._speed = options.speed || 5;
+      this._isGradient = options.gradient || false;
     }
   }, {
-    key: "drawFrame",
-    value: function drawFrame() {
-      this.clearAll();
+    key: "drawObject",
+    value: function drawObject() {
+      this.clear();
 
       this._ctx.save();
 
-      this.scale();
+      this.scale(); // Draw the dash.
+
       this._ctx.fillStyle = this._dashColor;
 
       for (var i = 0; i < 10; i++) {
@@ -276,17 +272,27 @@ function (_BaseCanvas) {
         this._ctx.fillRect(this._space, y, this._barWidth, this._barHeight);
 
         this._ctx.closePath();
-      }
+      } // Draw bars.
 
-      this._ctx.fillStyle = this._barColor;
 
       if (this._currBar >= this._barMax) {
         this._currBar = -100;
       } else {
         var bar = this._currBar / 100;
+        var colors = [];
+
+        if (this._isGradient) {
+          colors = _utility.default.generateGradientColor(_color.COLOR.white, this._barColor, bar);
+        } else {
+          this._ctx.fillStyle = this._barColor;
+        }
 
         for (var _i = 0; _i < bar; _i++) {
-          var _y = 200 - (15 + _i * 20);
+          var _y = this._viewHeight - (15 + _i * 20);
+
+          if (this._isGradient) {
+            this._ctx.fillStyle = '#' + colors[_i];
+          }
 
           this._ctx.beginPath();
 
@@ -306,35 +312,26 @@ function (_BaseCanvas) {
       this._value = value;
       this._numberOfBars = Math.floor((this._value - this._min) / (this._max - this._min) * 10);
       this._barMax = this._numberOfBars * 100;
-    },
-    get: function get() {
-      return this._value;
     }
   }, {
     key: "valuePct",
     get: function get() {
-      return Math.floor(this._value / (this._max - this._min) * 100);
+      return Math.floor((this._value - this._min) / (this._max - this._min) * 100);
     }
   }, {
     key: "dashColor",
     set: function set(dashColor) {
       this._dashColor = dashColor;
-    },
-    get: function get() {
-      return this._dashColor;
     }
   }, {
     key: "barColor",
     set: function set(barColor) {
       this._barColor = barColor;
-    },
-    get: function get() {
-      return this._barColor;
     }
   }]);
 
   return BarMeter;
-}(_baseCanvas.default);
+}(_baseComponent.default);
 
 exports.default = BarMeter;
 module.exports = exports["default"];
@@ -3888,11 +3885,59 @@ function () {
   }, {
     key: "hexToRgba",
     value: function hexToRgba(hex, opacity) {
-      hex = hex.replace('#', '');
-      var r = parseInt(hex.substring(0, 2), 16);
-      var g = parseInt(hex.substring(2, 4), 16);
-      var b = parseInt(hex.substring(4, 6), 16);
+      var h = hex.replace('#', '');
+      var r = parseInt(h.substring(0, 2), 16);
+      var g = parseInt(h.substring(2, 4), 16);
+      var b = parseInt(h.substring(4, 6), 16);
       return 'rgba(' + r + ',' + g + ',' + b + ',' + opacity / 100 + ')';
+    }
+  }, {
+    key: "hexToRgb",
+    value: function hexToRgb(hex) {
+      var h = hex.replace('#', '');
+      var color = [];
+      color[0] = parseInt(h.substring(0, 2), 16);
+      color[1] = parseInt(h.substring(2, 4), 16);
+      color[2] = parseInt(h.substring(4, 6), 16);
+      return color;
+    }
+  }, {
+    key: "hex",
+    value: function hex(c) {
+      var s = '0123456789abcdef';
+      var i = parseInt(c, 10);
+
+      if (i === 0 || isNaN(c)) {
+        return '00';
+      }
+
+      i = Math.round(Math.min(Math.max(0, i), 255));
+      return s.charAt((i - i % 16) / 16) + s.charAt(i % 16);
+    }
+  }, {
+    key: "convertToHex",
+    value: function convertToHex(rgb) {
+      return this.hex(rgb[0]) + this.hex(rgb[1]) + this.hex(rgb[2]);
+    }
+  }, {
+    key: "generateGradientColor",
+    value: function generateGradientColor(colorStart, colorEnd, colorCount) {
+      var start = this.hexToRgb(colorStart);
+      var end = this.hexToRgb(colorEnd);
+      var len = colorCount;
+      var alpha = 0.0;
+      var rt = [];
+
+      for (var i = 0; i < len; i++) {
+        var c = [];
+        alpha += 1.0 / len;
+        c[0] = start[0] * alpha + (1 - alpha) * end[0];
+        c[1] = start[1] * alpha + (1 - alpha) * end[1];
+        c[2] = start[2] * alpha + (1 - alpha) * end[2];
+        rt.push(this.convertToHex(c));
+      }
+
+      return rt;
     }
   }, {
     key: "isDefined",
