@@ -62,8 +62,8 @@ export default class TextMeter extends BaseComponent {
     this._ctx.clip();
 
     this._ctx.fillStyle = this._bgColor;
-    this._ctx.font = '50px Arial';
-    this._ctx.fillText(this._displayValue, this._viewWidth / 2, 80);
+    this._ctx.font = '30px Arial';
+    this._ctx.fillText(this._displayValue, this._viewWidth / 2, 75);
 
     this._ctx.fillStyle = this._fillColor;
     this._ctx.fillRect(this._arrowWidth, this._pctHeight, this._barX - this._arrowWidth, this._meterHeight);
@@ -79,8 +79,8 @@ export default class TextMeter extends BaseComponent {
     this._ctx.clip();
 
     this._ctx.fillStyle = this._fillColor;
-    this._ctx.font = '50px Arial';
-    this._ctx.fillText(this._displayValue, this._viewWidth / 2, 80);
+    this._ctx.font = '30px Arial';
+    this._ctx.fillText(this._displayValue, this._viewWidth / 2, 75);
 
     this._ctx.fillStyle = this._bgColor;
     this._ctx.fillRect(this._barX, this._pctHeight, this._viewWidth - this._barX - this._arrowWidth, this._meterHeight);
@@ -162,7 +162,7 @@ export default class TextMeter extends BaseComponent {
     this._ctx.closePath();
   }
 
-  set percentageValue(value) {
+  set value(value) {
     if (value >= 0 || value <= 100) {
       if (value < this._percentageValue) {
         this._speed = -Math.abs(this._speed);

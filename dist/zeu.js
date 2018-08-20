@@ -3469,7 +3469,7 @@ function (_BaseComponent) {
       this._ctx.restore();
     }
   }, {
-    key: "textValue",
+    key: "value",
     set: function set(s) {
       this._textValue = s;
       this._isWaveOn = true;
@@ -3616,9 +3616,9 @@ function (_BaseComponent) {
       this._ctx.clip();
 
       this._ctx.fillStyle = this._bgColor;
-      this._ctx.font = '50px Arial';
+      this._ctx.font = '30px Arial';
 
-      this._ctx.fillText(this._displayValue, this._viewWidth / 2, 80);
+      this._ctx.fillText(this._displayValue, this._viewWidth / 2, 75);
 
       this._ctx.fillStyle = this._fillColor;
 
@@ -3638,9 +3638,9 @@ function (_BaseComponent) {
       this._ctx.clip();
 
       this._ctx.fillStyle = this._fillColor;
-      this._ctx.font = '50px Arial';
+      this._ctx.font = '30px Arial';
 
-      this._ctx.fillText(this._displayValue, this._viewWidth / 2, 80);
+      this._ctx.fillText(this._displayValue, this._viewWidth / 2, 75);
 
       this._ctx.fillStyle = this._bgColor;
 
@@ -3751,7 +3751,7 @@ function (_BaseComponent) {
       this._ctx.closePath();
     }
   }, {
-    key: "percentageValue",
+    key: "value",
     set: function set(value) {
       if (value >= 0 || value <= 100) {
         if (value < this._percentageValue) {
@@ -4053,8 +4053,6 @@ function (_BaseComponent) {
 
     _this._lastBlink = 0;
     _this.drawMarker = _this.drawMarker.bind(_this);
-    _this.drawMin = _this.drawMin.bind(_this);
-    _this.drawMax = _this.drawMax.bind(_this);
     return _this;
   }
   /**
@@ -4124,15 +4122,7 @@ function (_BaseComponent) {
       this._ctx.closePath(); // Draw value.
 
 
-      if (this._minMax === 'max') {
-        this.drawMin();
-        this.drawMarker();
-        this._lastBlink = this.blink(this.drawMax, this._lastBlink, 500);
-      } else if (this._minMax === 'min') {
-        this.drawMax();
-        this.drawMarker();
-        this._lastBlink = this.blink(this.drawMin, this._lastBlink, 500);
-      } else if (this._minMax === 'more' || this._minMax === 'less') {
+      if (this._minMax === 'min' || this._minMax === 'max') {
         this.drawMin();
         this.drawMax();
         this._lastBlink = this.blink(this.drawMarker, this._lastBlink, 500);
@@ -4211,7 +4201,7 @@ function (_BaseComponent) {
       this._ctx.fillRect(0, this._barY - this._lineWidth / 2, this._numberStart + this._meterWidth + this._lineWidth, this._lineWidth);
 
       this._ctx.fillStyle = this._markerFontColor;
-      var text = this._minMax === 'more' || this._minMax === 'less' ? this._actualValue : this._value;
+      var text = this._minMax === 'max' || this._minMax === 'min' ? this._actualValue : this._value;
 
       this._ctx.fillText(text, (this._viewWidth - this._meterWidth) / 4 * 3 + this._meterWidth, this._barY + 4);
 
@@ -4225,20 +4215,14 @@ function (_BaseComponent) {
       var n = value;
       this._actualValue = n;
 
-      if (n > this._maxValue) {
-        this._minMax = 'more';
+      if (n >= this._maxValue) {
+        this._minMax = 'max';
         n = this._maxValue;
-      } else if (n < this._minValue) {
-        this._minMax = 'less';
+      } else if (n <= this._minValue) {
+        this._minMax = 'min';
         n = this._minValue;
       } else {
-        if (n === this._minValue) {
-          this._minMax = 'min';
-        } else if (n === this._maxValue) {
-          this._minMax = 'max';
-        } else {
-          this._minMax = 'normal';
-        }
+        this._minMax = 'normal';
       }
 
       this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);

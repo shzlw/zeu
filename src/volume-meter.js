@@ -26,8 +26,6 @@ export default class VolumeMeter extends BaseComponent {
     // TODO: move this blink function to base component?
     this._lastBlink = 0;
     this.drawMarker = this.drawMarker.bind(this);
-    this.drawMin = this.drawMin.bind(this);
-    this.drawMax = this.drawMax.bind(this);
   }
 
   /**
@@ -91,15 +89,7 @@ export default class VolumeMeter extends BaseComponent {
     this._ctx.closePath();
 
     // Draw value.
-    if (this._minMax === 'max') {
-      this.drawMin();
-      this.drawMarker();
-      this._lastBlink = this.blink(this.drawMax, this._lastBlink, 500);
-    } else if (this._minMax === 'min') {
-      this.drawMax();
-      this.drawMarker();
-      this._lastBlink = this.blink(this.drawMin, this._lastBlink, 500);
-    } else if (this._minMax === 'more' || this._minMax === 'less') {
+    if (this._minMax === 'min' || this._minMax === 'max') {
       this.drawMin();
       this.drawMax();
       this._lastBlink = this.blink(this.drawMarker, this._lastBlink, 500);
@@ -162,7 +152,7 @@ export default class VolumeMeter extends BaseComponent {
     this._ctx.fillRect(0, this._barY - this._lineWidth / 2,
       this._numberStart + this._meterWidth + this._lineWidth, this._lineWidth);
     this._ctx.fillStyle = this._markerFontColor;
-    const text = (this._minMax === 'more' || this._minMax === 'less') ? this._actualValue : this._value;
+    const text = (this._minMax === 'max' || this._minMax === 'min') ? this._actualValue : this._value;
 
     this._ctx.fillText(text, (this._viewWidth - this._meterWidth) / 4 * 3 + this._meterWidth, this._barY + 4);
     this._ctx.stroke();
@@ -174,26 +164,19 @@ export default class VolumeMeter extends BaseComponent {
 
     this._actualValue = n;
 
-    if (n > this._maxValue) {
-      this._minMax = 'more';
+    if (n >= this._maxValue) {
+      this._minMax = 'max';
       n = this._maxValue;
-    } else if (n < this._minValue) {
-      this._minMax = 'less';
+    } else if (n <= this._minValue) {
+      this._minMax = 'min';
       n = this._minValue;
     } else {
-      if (n === this._minValue) {
-        this._minMax = 'min';
-      } else if (n === this._maxValue) {
-        this._minMax = 'max';
-      } else {
-        this._minMax = 'normal';
-      }
+      this._minMax = 'normal';
     }
 
     this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);
     this._nextBarY = this._viewHeight - (((n - this._minValue) /
-      (this._maxValue - this._minValue)) * this._meterHeight) -
-      this._numberHeight;
+      (this._maxValue - this._minValue)) * this._meterHeight) - this._numberHeight;
     this._value = n;
   }
 }

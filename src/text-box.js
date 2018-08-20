@@ -97,7 +97,7 @@ export default class TextBox extends BaseComponent {
     this._ctx.restore();
   }
 
-  set textValue(s) {
+  set value(s) {
     this._textValue = s;
     this._isWaveOn = true;
   }
