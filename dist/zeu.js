@@ -167,6 +167,12 @@ function () {
         }
       }
     }
+  }, {
+    key: "setFps",
+    value: function setFps(fps) {
+      this._fps = fps;
+      this._fpsInterval = 1000 / this._fps;
+    }
   }]);
 
   return AnimationTimer;
@@ -231,7 +237,7 @@ function (_BaseComponent) {
     _classCallCheck(this, BarMeter);
 
     var viewWidth = options.viewWidth || 100;
-    _this = _possibleConstructorReturn(this, (BarMeter.__proto__ || Object.getPrototypeOf(BarMeter)).call(this, canvas, options, 0, 0, viewWidth, 200));
+    _this = _possibleConstructorReturn(this, (BarMeter.__proto__ || Object.getPrototypeOf(BarMeter)).call(this, canvas, options, viewWidth, 200));
     _this._space = 20;
     _this._barWidth = _this._viewWidth - 2 * _this._space;
     _this._barHeight = 15;
@@ -510,7 +516,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var BaseComponent =
 /*#__PURE__*/
 function () {
-  function BaseComponent(canvas, options, viewX, viewY, viewWidth, viewHeight) {
+  function BaseComponent(canvas) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var viewWidth = arguments[2];
+    var viewHeight = arguments[3];
+
     _classCallCheck(this, BaseComponent);
 
     // Canvas
@@ -521,9 +531,9 @@ function () {
     this._scaleX = 1;
     this._scaleY = 1; // Current X value (Left 0 to right)
 
-    this._x = viewX; // Current Y value (Top 0 to bottom)
+    this._x = 0; // Current Y value (Top 0 to bottom)
 
-    this._y = viewY; // The width and height used to draw the component.
+    this._y = 0; // The width and height used to draw the component.
 
     this._viewWidth = viewWidth;
     this._viewHeight = viewHeight; // Acutal width and height of the component based on scales.
@@ -650,7 +660,7 @@ function () {
       var srcX = this._x;
       var srcY = this._y; // Find last move event.
 
-      for (var i = this._eventQueue.length; i >= 0; i--) {
+      for (var i = this._eventQueue.length - 1; i >= 0; i--) {
         var event = this._eventQueue[i];
 
         if (event.type === 'move') {
@@ -768,7 +778,7 @@ exports.COLOR = void 0;
 var COLOR = {
   lightGreen: '#00d7af',
   lightGrey: '#F8F8FF',
-  lighBlack: '343a42',
+  lightBlack: '#343a42',
   black: '#000000',
   white: '#ffffff',
   red: '#dc3547',
@@ -1740,7 +1750,7 @@ function (_BaseComponent) {
     _classCallCheck(this, Heartbeat);
 
     var viewWidth = options.viewWidth || 200;
-    _this = _possibleConstructorReturn(this, (Heartbeat.__proto__ || Object.getPrototypeOf(Heartbeat)).call(this, canvas, options, 0, 0, viewWidth, 100));
+    _this = _possibleConstructorReturn(this, (Heartbeat.__proto__ || Object.getPrototypeOf(Heartbeat)).call(this, canvas, options, viewWidth, 100));
     _this._queue = [];
     _this._lastSec = 0;
     _this._timer = null;
@@ -2094,7 +2104,7 @@ function (_BaseComponent) {
 
     var viewWidth = options.viewWidth || 100;
     var viewHeight = options.viewHeight || 200;
-    _this = _possibleConstructorReturn(this, (MessageQueue.__proto__ || Object.getPrototypeOf(MessageQueue)).call(this, canvas, options, 0, 0, viewWidth, viewHeight));
+    _this = _possibleConstructorReturn(this, (MessageQueue.__proto__ || Object.getPrototypeOf(MessageQueue)).call(this, canvas, options, viewWidth, viewHeight));
     _this._queue = [];
     _this._arcWidth = 10;
     return _this;
@@ -2251,7 +2261,7 @@ function (_BaseComponent) {
 
     _classCallCheck(this, RoundFan);
 
-    _this = _possibleConstructorReturn(this, (RoundFan.__proto__ || Object.getPrototypeOf(RoundFan)).call(this, canvas, options, 0, 0, 200, 200));
+    _this = _possibleConstructorReturn(this, (RoundFan.__proto__ || Object.getPrototypeOf(RoundFan)).call(this, canvas, options, 200, 200));
     _this._degree = 0;
     return _this;
   }
@@ -2859,7 +2869,11 @@ function () {
     key: "fps",
     set: function set(fps) {
       this._fps = fps;
-      _animationTimer.default._fps = fps;
+
+      _animationTimer.default.setFps(fps);
+    },
+    get: function get() {
+      return this._fps;
     }
   }]);
 
@@ -2922,7 +2936,7 @@ function (_BaseComponent) {
 
     _classCallCheck(this, SpeedCircle);
 
-    _this = _possibleConstructorReturn(this, (SpeedCircle.__proto__ || Object.getPrototypeOf(SpeedCircle)).call(this, canvas, options, 0, 0, 200, 200));
+    _this = _possibleConstructorReturn(this, (SpeedCircle.__proto__ || Object.getPrototypeOf(SpeedCircle)).call(this, canvas, options, 200, 200));
     _this._font = '25px Arial';
     _this._degree1 = 0;
     _this._degree2 = 0;
@@ -3367,7 +3381,7 @@ function (_BaseComponent) {
     _classCallCheck(this, TextBox);
 
     var viewWidth = options.viewWidth || 200;
-    _this = _possibleConstructorReturn(this, (TextBox.__proto__ || Object.getPrototypeOf(TextBox)).call(this, canvas, options, 0, 0, viewWidth, 100));
+    _this = _possibleConstructorReturn(this, (TextBox.__proto__ || Object.getPrototypeOf(TextBox)).call(this, canvas, options, viewWidth, 100));
     _this._borderWidth = 8;
     _this._borderHeight = 30;
     _this._space = 10;
@@ -3565,7 +3579,7 @@ function (_BaseComponent) {
     _classCallCheck(this, TextMeter);
 
     var viewWidth = options.viewWidth || 200;
-    _this = _possibleConstructorReturn(this, (TextMeter.__proto__ || Object.getPrototypeOf(TextMeter)).call(this, canvas, options, 0, 0, viewWidth, 100));
+    _this = _possibleConstructorReturn(this, (TextMeter.__proto__ || Object.getPrototypeOf(TextMeter)).call(this, canvas, options, viewWidth, 100));
     _this._lineWidth = 5;
     _this._arrowWidth = 30;
     _this._pctHeight = 30;
@@ -4039,7 +4053,7 @@ function (_BaseComponent) {
     _classCallCheck(this, VolumeMeter);
 
     var viewHeight = options.viewWidth || 200;
-    _this = _possibleConstructorReturn(this, (VolumeMeter.__proto__ || Object.getPrototypeOf(VolumeMeter)).call(this, canvas, options, 0, 0, 100, viewHeight));
+    _this = _possibleConstructorReturn(this, (VolumeMeter.__proto__ || Object.getPrototypeOf(VolumeMeter)).call(this, canvas, options, 100, viewHeight));
     _this._lineWidth = 3;
     _this._numberHeight = 20;
     _this._minMax = 'min';

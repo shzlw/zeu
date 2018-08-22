@@ -2,7 +2,7 @@
 let COLOR = {
   lightGreen: '#00d7af',
   lightGrey: '#F8F8FF',
-  lighBlack: '343a42',
+  lightBlack: '#343a42',
   black: '#000000',
   white: '#ffffff',
   red: '#dc3547',

@@ -11,7 +11,7 @@ export default class Heartbeat extends BaseComponent {
   constructor(canvas, options = {}) {
     const viewWidth = options.viewWidth || 200;
 
-    super(canvas, options, 0, 0, viewWidth, 100);
+    super(canvas, options, viewWidth, 100);
 
     this._queue = [];
     this._lastSec = 0;

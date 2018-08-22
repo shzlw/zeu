@@ -7,7 +7,11 @@ class Settings {
 
   set fps(fps) {
     this._fps = fps;
-    AnimationTimer._fps = fps;
+    AnimationTimer.setFps(fps);
+  }
+
+  get fps() {
+    return this._fps;
   }
 }
 

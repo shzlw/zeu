@@ -8,7 +8,7 @@ export default class VolumeMeter extends BaseComponent {
   constructor(canvas, options = {}) {
     const viewHeight = options.viewWidth || 200;
 
-    super(canvas, options, 0, 0, 100, viewHeight);
+    super(canvas, options, 100, viewHeight);
 
     this._lineWidth = 3;
     this._numberHeight = 20;

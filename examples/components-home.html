@@ -12,111 +12,82 @@
 
 <title></title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="examples.js"></script>
 <script src="../dist/zeu.js"></script>
-
+<style>
+.bg-grey {
+  background-color: #e5e5e5;
+}
+</style>
 </head>
 <body>
 
   <div class="container">
-    <h1 class="mb-3">Components</h1>
-    <div class="card-group text-center">
-      <div class="card">
-        <div class="card-header text-white bg-dark">
-          <h4 class="my-0"><a href="bar-meter.html">Bar Meter</a></h4>
-        </div>
-        <div class="card-body">
-          <canvas id="bar-meter" width="100" height="200"></canvas>
-        </div>
+    <h1 class="mb-4 mt-1 display-4">Components</h1>
+    <div class="row mb-3">
+      <div class="col-lg text-center mb-2">
+        <h4 class="p-3 mb-3 bg-grey"><a href="bar-meter.html" class="text-dark">Bar Meter</a></h4>
+        <canvas id="bar-meter" width="100" height="200"></canvas>
       </div>
 
-      <div class="card">
-        <div class="card-header text-white bg-dark">
-          <h4 class="my-0">Digital Clock</h4>
-        </div>
-        <div class="card-body">
-          
-        </div>
+      <div class="col-lg text-center mb-2">
+        <h4 class="p-3 mb-3 bg-grey"><a href="bar-meter.html" class="text-dark">Digital Clock</a></h4>
       </div>
 
-      <div class="card">
-        <div class="card-header text-white bg-dark">
-          <h4 class="my-0"><a href="heartbeat.html">Heartbeat</a></h4>
-        </div>
-        <div class="card-body">
-          <canvas id="heartbeat" width="300" height="100"></canvas>
-        </div>
+      <div class="col-lg text-center mb-2">
+        <h4 class="p-3 mb-3 bg-grey"><a href="heartbeat.html" class="text-dark">Heartbeat</a></h4>
+        <canvas id="heartbeat" width="300" height="100"></canvas>
       </div>
     </div>
 
-    <div class="card-group text-center">
-      <div class="card">
-        <div class="card-header text-white bg-dark">
-          <h4 class="my-0"><a href="message-queue.html">Message Queue</a></h4>
-        </div>
-        <div class="card-body">
-          <canvas id="message-queue" width="100" height="200"></canvas>
-        </div>
+    <div class="row mb-3">
+      <div class="col-lg text-center mb-2">
+        <h4 class="p-3 mb-3 bg-grey"><a href="message-queue.html" class="text-dark">Message Queue</a></h4>
+        <canvas id="message-queue" width="100" height="200"></canvas>
       </div>
 
-      <div class="card">
-        <div class="card-header text-white bg-dark">
-          <h4 class="my-0"><a href="round-fan.html">Round Fan</a></h4>
-        </div>
-        <div class="card-body">
-          <canvas id="round-fan" width="200" height="200"></canvas>
-        </div>
+      <div class="col-lg text-center mb-2">
+        <h4 class="p-3 mb-3 bg-grey"><a href="round-fan.html" class="text-dark">Round Fan</a></h4>
+        <canvas id="round-fan" width="200" height="200"></canvas>
       </div>
 
-      <div class="card">
-        <div class="card-header text-white bg-dark">
-          <h4 class="my-0"><a href="speed-circle.html">Speed Circle</a></h4>
-        </div>
-        <div class="card-body">
-          <canvas id="speed-circle" width="200" height="200"></canvas>
-        </div>
+      <div class="col-lg text-center mb-2">
+        <h4 class="p-3 mb-3 bg-grey"><a href="speed-circle.html" class="text-dark">Speed Circle</a></h4>
+        <canvas id="speed-circle" width="200" height="200"></canvas>
       </div>
     </div>
 
-    <div class="card-group text-center mb-3">
-      <div class="card">
-        <div class="card-header text-white bg-dark">
-          <h4 class="my-0"><a href="text-box.html">Text Box</a></h4>
-        </div>
-        <div class="card-body">
-          <canvas id="text-box" width="200" height="100"></canvas>
-        </div>
+    <div class="row mb-4">
+      <div class="col-lg text-center mb-2">
+        <h4 class="p-3 mb-3 bg-grey"><a href="text-box.html" class="text-dark">Text Box</a></h4>
+        <canvas id="text-box" width="200" height="100"></canvas>
       </div>
 
-      <div class="card">
-        <div class="card-header text-white bg-dark">
-          <h4 class="my-0"><a href="text-meter.html">Text Meter</a></h4>
-        </div>
-        <div class="card-body">
-          <canvas id="text-meter" width="300" height="100"></canvas>
-        </div>
+      <div class="col-lg text-center mb-2">
+        <h4 class="p-3 mb-3 bg-grey"><a href="text-meter.html" class="text-dark">Text Meter</a></h4>
+        <canvas id="text-meter" width="300" height="100"></canvas>
       </div>
 
-      <div class="card">
-        <div class="card-header text-white bg-dark">
-          <h4 class="my-0"><a href="volume-meter.html">Volume Meter</a></h4>
-        </div>
-        <div class="card-body">
-          <canvas id="volume-meter" width="100" height="200"></canvas>
-        </div>
+      <div class="col-lg text-center mb-2">
+        <h4 class="p-3 mb-3 bg-grey"><a href="volume-meter.html" class="text-dark">Volume Meter</a></h4>
+        <canvas id="volume-meter" width="100" height="200"></canvas>
       </div>
     </div>
+
   </div>
 
 <script type="text/javascript">
+
+  zeu.Settings.fps = 60;
 
   var barMeter = new zeu.BarMeter(
     document.getElementById('bar-meter'), 
     {
       min: 0,
       max: 100,
-      dashColor: 'red',
-      barColor: '#123456',
-      speed: 10,
+      dashColor: '#f5f5f5',
+      barColor: COLOR.blue,
+      speed: 20,
       gradient: true
     });
   
@@ -138,10 +109,10 @@
   var roundFan = new zeu.RoundFan(
     document.getElementById('round-fan'), 
     {
-      fanColor: 'green',
+      fanColor: COLOR.lightGreen,
       center: {
-        color: 'white',
-        bgColor: 'green'
+        color: COLOR.white,
+        bgColor: COLOR.lightGreen
       },
       speed: 2
     });
@@ -151,23 +122,23 @@
     {
       text: {
         value: 'ZEU',
-        color: 'orange'
+        color: COLOR.lightBlack
       },
       circle1: {
-        speed: 1,
-        color: 'red'
+        speed: 1.6,
+        color: '#ff7850'
       },
       circle2: {
-        speed: -2,
-        color: 'blue'
+        speed: -1.4,
+        color: '#ffda69'
       },
       circle3: {
-        speed: 3,
-        color: 'yellow'
+        speed: 1.2,
+        color: '#ffbca7'
       },
       circle4: {
-        speed: -4,
-        color: 'green'
+        speed: -1,
+        color: '#fff3cd'
       }
     });
 
@@ -176,12 +147,12 @@
     {
       viewWidth: 200,
       text: {
-        fontColor: 'red',
-        bgColor: 'black',
-        value: 'ZEU'
+        fontColor: COLOR.red,
+        bgColor: COLOR.lightBlack,
+        value: '0'
       },
-      borderColor: 'orange',
-      waveColor: 'blue'
+      borderColor: '#ff7850',
+      waveColor: COLOR.lightGreen
     });  
 
   var textMeter = new zeu.TextMeter(
@@ -191,40 +162,40 @@
       marker: {
         value: 10,
         displayValue: 'ZEU',
-        bgColor: 'black',
-        fontColor: 'red'
+        bgColor: COLOR.black,
+        fontColor: COLOR.white
       },
       bar: {
         speed: 5,
-        fillColor: 'green',
-        bgColor: 'orange',
-        borderColor: 'grey'
+        fillColor: COLOR.red,
+        bgColor: COLOR.lightGrey,
+        borderColor: COLOR.lightBlack
       },
-      arrowColor: 'blue'
+      arrowColor: COLOR.cyan
     });
 
   var volumeMeter = new zeu.VolumeMeter(
     document.getElementById('volume-meter'), 
     {
       min: {
-        fontColor: 'red',
+        fontColor: COLOR.white,
         value: -200,
-        bgColor: 'black'
+        bgColor: COLOR.red
       },
       max: {
-        fontColor: 'red',
+        fontColor: COLOR.white,
         value: 200,
-        bgColor: 'black'
+        bgColor: COLOR.green
       },
       bar: {
-        borderColor: 'black',
-        fillColor: '#123456',
+        borderColor: COLOR.grey,
+        fillColor: COLOR.blue,
         graident: true,
         speed: 5
       },
       marker: {
-        bgColor: 'green',
-        fontColor: 'blue'
+        bgColor: COLOR.yellow,
+        fontColor: COLOR.white
       },
       value: 100
     });
@@ -247,7 +218,7 @@
   setInterval(function() {
     barMeter.value = getRandomInt(50, 100);
     roundFan.speed = getRandomInt(1, 10);
-    textBox.value = 'ZEU';
+    textBox.value = getRandomInt(0, 100);
     textMeter.value = getRandomInt(0, 100);
     volumeMeter.value = getRandomInt(-220, 220);
   }, 1000);
@@ -255,14 +226,6 @@
   setInterval(function() {
     messageQueue.pop();
   }, 1200);
-
-  function getRandomColor() {
-    return '#' + ((1 << 24) * Math.random() | 0).toString(16);
-  }
-
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
 
 </script>
 </body>

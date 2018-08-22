@@ -48,6 +48,11 @@ class AnimationTimer {
       }
     }
   }
+
+  setFps(fps) {
+    this._fps = fps;
+    this._fpsInterval = 1000 / this._fps;
+  }
 }
 
 export default new AnimationTimer();

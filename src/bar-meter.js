@@ -7,7 +7,7 @@ export default class BarMeter extends BaseComponent {
   constructor(canvas, options = {}) {
     const viewWidth = options.viewWidth || 100;
 
-    super(canvas, options, 0, 0, viewWidth, 200);
+    super(canvas, options, viewWidth, 200);
 
     this._space = 20;
     this._barWidth = this._viewWidth - 2 * this._space;

@@ -10,7 +10,7 @@ export default class MessageQueue extends BaseComponent {
     const viewWidth = options.viewWidth || 100;
     const viewHeight = options.viewHeight || 200;
 
-    super(canvas, options, 0, 0, viewWidth, viewHeight);
+    super(canvas, options, viewWidth, viewHeight);
 
     this._queue = [];
     this._arcWidth = 10;

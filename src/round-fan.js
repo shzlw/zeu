@@ -5,7 +5,7 @@ import BaseComponent from './base-component';
 export default class RoundFan extends BaseComponent {
 
   constructor(canvas, options) {
-    super(canvas, options, 0, 0, 200, 200);
+    super(canvas, options, 200, 200);
 
     this._degree = 0;
   }

@@ -6,7 +6,7 @@ import { COLOR } from './color';
 export default class SpeedCircle extends BaseComponent {
 
   constructor(canvas, options) {
-    super(canvas, options, 0, 0, 200, 200);
+    super(canvas, options, 200, 200);
 
     this._font = '25px Arial';
     this._degree1 = 0;

@@ -3,7 +3,7 @@ import Utility from './utility';
 
 export default class BaseComponent {
 
-  constructor(canvas, options, viewX, viewY, viewWidth, viewHeight) {
+  constructor(canvas, options = {}, viewWidth, viewHeight) {
     // Canvas
     this._canvas = canvas;
 
@@ -15,10 +15,10 @@ export default class BaseComponent {
     this._scaleY = 1;
 
     // Current X value (Left 0 to right)
-    this._x = viewX;
+    this._x = 0;
 
     // Current Y value (Top 0 to bottom)
-    this._y = viewY;
+    this._y = 0;
 
     // The width and height used to draw the component.
     this._viewWidth = viewWidth;
@@ -142,7 +142,7 @@ export default class BaseComponent {
     let srcY = this._y;
 
     // Find last move event.
-    for (let i = this._eventQueue.length; i >= 0; i--) {
+    for (let i = (this._eventQueue.length - 1); i >= 0; i--) {
       const event = this._eventQueue[i];
 
       if (event.type === 'move') {
