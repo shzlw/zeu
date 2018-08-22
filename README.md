@@ -17,14 +17,9 @@ From lib
 <script src="zeu.min.js"></script>
 ```
 
-From npm
-```
-npm install zeu
-```
-
 From CDN
 ```
-https://unpkg.com/zeu/lib/zeu.min.js
+https://unpkg.com/zeu@0.9.1/lib/zeu.js
 ```
 
 ## Usage
@@ -46,22 +41,6 @@ Default fps is 60 for components using canvas.
 ```javascript
 zeu.Settings.fps = 60;
 ```
-
-#### Components
-
-| Name | Example |
-| --------- | ------- |   
-| [Bar Meter](https://shzlw.github.io/zeu/examples/bar-meter.html) | |
-| [Blink Text](https://shzlw.github.io/zeu/examples/blink-text.html) | |
-| [Digital Clock](https://shzlw.github.io/zeu/examples/digital-clock.html) | |
-| [Double Circle](https://shzlw.github.io/zeu/examples/double-circle.html) | |
-| [Heartbeat](https://shzlw.github.io/zeu/examples/heartbeat.html) | |
-| [Message Queue](https://shzlw.github.io/zeu/examples/message-queue.html) | |
-| [Round Fan](https://shzlw.github.io/zeu/examples/round-fan.html) | |
-| [Scroll Panel](https://shzlw.github.io/zeu/examples/scroll-panel.html) | |
-| [Volume Meter](https://shzlw.github.io/zeu/examples/volume-meter.html) | |
-| [Warning Dialog](https://shzlw.github.io/zeu/examples/warning-dialog.html)| |
-
 #### Bar Meter ([Example](https://shzlw.github.io/zeu/examples/bar-meter.html))
 
 ```html
