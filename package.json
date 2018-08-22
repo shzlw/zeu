@@ -1,6 +1,6 @@
 {
   "name": "zeu",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "A JavaScript library for real-time visualization",
   "main": "dist/zeu.js",
   "unpkg": "dist/zeu.js",

@@ -62,6 +62,7 @@ export default class DigitalClock extends BaseComponent {
       digitalNumber.drawNumber(0);
       this._ctx.translate(space, 0);
       digitalNumber.drawNumber(time);
+      this._ctx.translate(space, 0);
     } else {
       let left = Math.floor(time / 10);
       let right = time % 10;

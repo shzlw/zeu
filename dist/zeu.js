@@ -777,6 +777,8 @@ function (_BaseComponent) {
         this._ctx.translate(space, 0);
 
         digitalNumber.drawNumber(time);
+
+        this._ctx.translate(space, 0);
       } else {
         var left = Math.floor(time / 10);
         var right = time % 10;
