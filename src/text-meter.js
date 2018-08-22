@@ -42,7 +42,7 @@ export default class TextMeter extends BaseComponent {
 
     this._speed = bar.speed || 5;
     this._fillColor = bar.fillColor || COLOR.red;
-    this._bgColor = bar.bgColor || COLOR.lightGrey;
+    this._bgColor = bar.bgColor || COLOR.lightWhite;
     this._lineColor = bar.borderColor || COLOR.lightGreen;
 
     this._arrowColor = options.arrowColor || COLOR.blue;

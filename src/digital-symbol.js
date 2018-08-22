@@ -1,13 +1,22 @@
 
-export default class DigitalNumber {
+export default class DigitalSymbol {
 
-  constructor(canvasCtx, barWidth, numberWidth, numberHeight, dashColor, numberColor) {
-    this._ctx = canvasCtx;
+  constructor(ctx, barWidth, numberWidth, numberHeight, dashColor, numberColor) {
+    this._ctx = ctx;
     this._barWidth = barWidth;
     this._verBarHeight = (numberHeight - 3 * barWidth) / 2;
     this._horBarHeight = numberWidth - 2 * barWidth;
     this._dashColor = dashColor;
     this._numberColor = numberColor;
+  }
+
+  drawColon() {
+    this._ctx.beginPath();
+    this._ctx.fillStyle = this._numberColor;
+    this._ctx.fillRect(0, (this._verBarHeight * 2 + this._barWidth) / 3, this._barWidth, this._barWidth);
+    this._ctx.fillRect(0, (this._verBarHeight * 2 + this._barWidth) / 3 * 2 + this._barWidth,
+      this._barWidth, this._barWidth);
+    this._ctx.closePath();
   }
 
   drawEmpty() {

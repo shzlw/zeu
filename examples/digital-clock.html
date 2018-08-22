@@ -2,9 +2,8 @@
 <html>
 <head>
 <title>Digital Clock</title>
-<script src="../lib/zeu.js"></script>
+<script src="../dist/zeu.js"></script>
 <script src="examples.js"></script>
-<link rel="stylesheet" href="example.css">
 </head>
 <body>
   <div class="container">
@@ -15,53 +14,18 @@ height: 100px;
     </code></pre>
 
     <h3>Default</h3>
-    <pre><code>
+    <pre class="prettyprint lang-html">
 var digitalClock1 = new zeu.DigitalClcok(document.getElementById('digital-clock-1'));
-    </code></pre>
-    <div id="digital-clock-1" style="width: 370px; height: 100px;"></div>
-
-    <h3>Options</h3>
-    <pre><code>
-var digitalClock2 = new zeu.DigitalClcok(
-  document.getElementById('digital-clock-2'), {
-    barWidth: 8,
-    barHeight : 30,
-    space: 8,
-    hourOffset: 5,
-    dashColor: '#000',
-    numberColor: 'blue'
-  }
-);
-digitalClock2.numberColor = '#ff0000';
-digitalClock2.dashColor = '#000';
-    </code></pre>
-    <div id="digital-clock-2" style="width: 370px; height: 100px;"></div>
-
-    <h3>Size X 2</h3>
-    <div id="digital-clock-3" style="width: 740px; height: 200px;"></div>
+    </pre>
+    <canvas id="digital-clock" width="400" height="100" style="border: 1px solid blue;"></canvas>
 
   </div>
 </div>
 
 <script type="text/javascript">
-
-  var digitalClock1 = new zeu.DigitalClcok(document.getElementById('digital-clock-1'));
-
-  var digitalClock2 = new zeu.DigitalClcok(
-    document.getElementById('digital-clock-2'), {
-      barWidth: 8,
-      barHeight : 30,
-      space: 8,
-      hourOffset: 5,
-      dashColor: '#000',
-      numberColor: 'blue'
-    }
-  );
-  digitalClock2.numberColor = '#ff0000';
-  digitalClock2.dashColor = '#000';
-
-  var digitalClock3 = new zeu.DigitalClcok(document.getElementById('digital-clock-3'));
-
+  
+  var d1 = new zeu.DigitalClcok(document.getElementById('digital-clock'));
+  d1.scaleByHeight(50);
 </script>
 </body>
 </html>

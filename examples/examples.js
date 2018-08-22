@@ -7,9 +7,10 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var COLOR = {
+let COLOR = {
   lightGreen: '#00d7af',
-  lightGrey: '#F8F8FF',
+  lightWhite: '#F8F8FF',
+  lightGrey: '#E0E0E0',
   lightBlack: '#343a42',
   black: '#000000',
   white: '#ffffff',

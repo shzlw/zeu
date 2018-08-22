@@ -31,7 +31,8 @@
       </div>
 
       <div class="col-lg text-center mb-2">
-        <h4 class="p-3 mb-3 bg-grey"><a href="bar-meter.html" class="text-dark">Digital Clock</a></h4>
+        <h4 class="p-3 mb-3 bg-grey"><a href="digital-clock.html" class="text-dark">Digital Clock</a></h4>
+         <canvas id="digital-clock" width="400" height="100"></canvas>
       </div>
 
       <div class="col-lg text-center mb-2">
@@ -90,11 +91,21 @@
       speed: 20,
       gradient: true
     });
+
+  var digitalClock1 = new zeu.DigitalClcok(
+    document.getElementById('digital-clock'),
+    {
+      numberColor: COLOR.red,
+      dashColor: COLOR.lightGrey
+    });
   
   var heartbeat = new zeu.Heartbeat(
     document.getElementById('heartbeat'),
     {
-      viewWidth: 300
+      viewWidth: 300,
+      speed: 2,
+      fontColor: COLOR.grey,
+      maxQueueCapacity: 50
     });
 
   var messageQueue = new zeu.MessageQueue(
@@ -168,7 +179,7 @@
       bar: {
         speed: 5,
         fillColor: COLOR.red,
-        bgColor: COLOR.lightGrey,
+        bgColor: COLOR.lightWhite,
         borderColor: COLOR.lightBlack
       },
       arrowColor: COLOR.cyan
