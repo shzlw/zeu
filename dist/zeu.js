@@ -382,7 +382,7 @@ function () {
     _classCallCheck(this, BaseComponent);
 
     // Canvas
-    this._canvas = canvas; // Canvas 2d context
+    this._canvas = document.getElementById(canvas); // Canvas 2d context
 
     this._ctx = this._canvas.getContext('2d'); // Scale parameters used in scale()
 

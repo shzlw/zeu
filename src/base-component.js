@@ -5,7 +5,7 @@ export default class BaseComponent {
 
   constructor(canvas, options = {}, viewWidth, viewHeight) {
     // Canvas
-    this._canvas = canvas;
+    this._canvas = document.getElementById(canvas);
 
     // Canvas 2d context
     this._ctx = this._canvas.getContext('2d');
