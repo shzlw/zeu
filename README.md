@@ -30,6 +30,8 @@ From dist
 <script src="zeu.min.js"></script>
 ```
 
+## [Documentation](https://shzlw.github.io/zeu/docs/introduction.html)
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
