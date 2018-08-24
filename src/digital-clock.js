@@ -16,6 +16,9 @@ export default class DigitalClock extends BaseComponent {
     this._ds = new DigitalSymbol(this._ctx, this._barWidth, this._numberWidth,
       this._numberHeight, this._dashColor, this._numberColor);
     this._timer = null;
+
+    // Draw it immediately.
+    this.drawTime();
   }
 
   postConstructor() {
@@ -31,21 +34,7 @@ export default class DigitalClock extends BaseComponent {
   tick() {
     if (this._timer == null) {
       this._timer = setInterval(() => {
-        let now = Utility.addHour(this._hourOffset);
-
-        this.clear();
-        this._ctx.save();
-        this.scale();
-
-        this.drawTwoDigits(this._ds, now.getHours(), this._numberWidth + this._space);
-        this._ds.drawColon();
-        this._ctx.translate(this._barWidth + this._space, 0);
-        this.drawTwoDigits(this._ds, now.getMinutes(), this._numberWidth + this._space);
-        this._ds.drawColon();
-        this._ctx.translate(this._barWidth + this._space, 0);
-        this.drawTwoDigits(this._ds, now.getSeconds(), this._numberWidth + this._space);
-
-        this._ctx.restore();
+        this.drawTime();
       }, 1000);
     }
   }
@@ -55,6 +44,24 @@ export default class DigitalClock extends BaseComponent {
       clearInterval(this._timer);
       this._timer = null;
     }
+  }
+
+  drawTime() {
+    let now = Utility.addHour(this._hourOffset);
+
+    this.clear();
+    this._ctx.save();
+    this.scale();
+
+    this.drawTwoDigits(this._ds, now.getHours(), this._numberWidth + this._space);
+    this._ds.drawColon();
+    this._ctx.translate(this._barWidth + this._space, 0);
+    this.drawTwoDigits(this._ds, now.getMinutes(), this._numberWidth + this._space);
+    this._ds.drawColon();
+    this._ctx.translate(this._barWidth + this._space, 0);
+    this.drawTwoDigits(this._ds, now.getSeconds(), this._numberWidth + this._space);
+
+    this._ctx.restore();
   }
 
   drawTwoDigits(digitalNumber, time, space) {

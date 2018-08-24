@@ -326,13 +326,18 @@ function (_BaseComponent) {
     }
   }, {
     key: "dashColor",
-    set: function set(dashColor) {
-      this._dashColor = dashColor;
+    set: function set(s) {
+      this._dashColor = s;
     }
   }, {
     key: "barColor",
-    set: function set(barColor) {
-      this._barColor = barColor;
+    set: function set(s) {
+      this._barColor = s;
+    }
+  }, {
+    key: "speed",
+    set: function set(n) {
+      this._speed = n;
     }
   }]);
 
@@ -710,7 +715,10 @@ function (_BaseComponent) {
     _this._numberWidth = 50;
     _this._numberHeight = 100;
     _this._ds = new _digitalSymbol.default(_this._ctx, _this._barWidth, _this._numberWidth, _this._numberHeight, _this._dashColor, _this._numberColor);
-    _this._timer = null;
+    _this._timer = null; // Draw it immediately.
+
+    _this.drawTime();
+
     return _this;
   }
 
@@ -734,29 +742,7 @@ function (_BaseComponent) {
 
       if (this._timer == null) {
         this._timer = setInterval(function () {
-          var now = _utility.default.addHour(_this2._hourOffset);
-
-          _this2.clear();
-
-          _this2._ctx.save();
-
-          _this2.scale();
-
-          _this2.drawTwoDigits(_this2._ds, now.getHours(), _this2._numberWidth + _this2._space);
-
-          _this2._ds.drawColon();
-
-          _this2._ctx.translate(_this2._barWidth + _this2._space, 0);
-
-          _this2.drawTwoDigits(_this2._ds, now.getMinutes(), _this2._numberWidth + _this2._space);
-
-          _this2._ds.drawColon();
-
-          _this2._ctx.translate(_this2._barWidth + _this2._space, 0);
-
-          _this2.drawTwoDigits(_this2._ds, now.getSeconds(), _this2._numberWidth + _this2._space);
-
-          _this2._ctx.restore();
+          _this2.drawTime();
         }, 1000);
       }
     }
@@ -767,6 +753,32 @@ function (_BaseComponent) {
         clearInterval(this._timer);
         this._timer = null;
       }
+    }
+  }, {
+    key: "drawTime",
+    value: function drawTime() {
+      var now = _utility.default.addHour(this._hourOffset);
+
+      this.clear();
+
+      this._ctx.save();
+
+      this.scale();
+      this.drawTwoDigits(this._ds, now.getHours(), this._numberWidth + this._space);
+
+      this._ds.drawColon();
+
+      this._ctx.translate(this._barWidth + this._space, 0);
+
+      this.drawTwoDigits(this._ds, now.getMinutes(), this._numberWidth + this._space);
+
+      this._ds.drawColon();
+
+      this._ctx.translate(this._barWidth + this._space, 0);
+
+      this.drawTwoDigits(this._ds, now.getSeconds(), this._numberWidth + this._space);
+
+      this._ctx.restore();
     }
   }, {
     key: "drawTwoDigits",
@@ -1098,6 +1110,9 @@ function (_BaseComponent) {
     _this._queue = [];
     _this._lastSec = 0;
     _this._timer = null;
+
+    _this.drawSeconds();
+
     return _this;
   }
 
@@ -1115,7 +1130,7 @@ function (_BaseComponent) {
       _get(Heartbeat.prototype.__proto__ || Object.getPrototypeOf(Heartbeat.prototype), "postConstructor", this).call(this); // Start drawing the seconds
 
 
-      this.drawSeconds();
+      this.tick();
     }
   }, {
     key: "destroy",
@@ -1145,28 +1160,35 @@ function (_BaseComponent) {
       });
     }
   }, {
-    key: "drawSeconds",
-    value: function drawSeconds() {
+    key: "tick",
+    value: function tick() {
       var _this2 = this;
 
-      this._timer = setInterval(function () {
-        if (_this2._queue.length >= _this2._maxQueueCapacity) {
-          _this2._queue.shift();
-        }
+      if (this._timer == null) {
+        this._timer = setInterval(function () {
+          _this2.drawSeconds();
+        }, 1000);
+      }
+    }
+  }, {
+    key: "drawSeconds",
+    value: function drawSeconds() {
+      if (this._queue.length >= this._maxQueueCapacity) {
+        this._queue.shift();
+      }
 
-        var now = new Date();
+      var now = new Date();
 
-        var currSec = _utility.default.leftPadZero(now.getMinutes()) + ':' + _utility.default.leftPadZero(now.getSeconds());
+      var currSec = _utility.default.leftPadZero(now.getMinutes()) + ':' + _utility.default.leftPadZero(now.getSeconds());
 
-        if (currSec !== _this2._lastSec) {
-          _this2._queue.push({
-            time: currSec,
-            x: -30
-          });
+      if (currSec !== this._lastSec) {
+        this._queue.push({
+          time: currSec,
+          x: -30
+        });
 
-          _this2._lastSec = currSec;
-        }
-      }, 1000);
+        this._lastSec = currSec;
+      }
     }
   }, {
     key: "drawObject",
@@ -1220,19 +1242,6 @@ function (_BaseComponent) {
 
       this._ctx.restore();
     }
-  }, {
-    key: "fontColor",
-    set: function set(s) {
-      this._fontColor = s;
-    }
-  }, {
-    key: "maxQueueCapacity",
-    set: function set(n) {
-      this._maxQueueCapacity = n;
-    },
-    get: function get() {
-      return this._maxQueueCapacity;
-    }
   }]);
 
   return Heartbeat;
@@ -1268,7 +1277,7 @@ Object.defineProperty(exports, "BarMeter", {
     return _barMeter.default;
   }
 });
-Object.defineProperty(exports, "DigitalClcok", {
+Object.defineProperty(exports, "DigitalClock", {
   enumerable: true,
   get: function get() {
     return _digitalClock.default;

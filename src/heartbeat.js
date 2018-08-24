@@ -16,6 +16,8 @@ export default class Heartbeat extends BaseComponent {
     this._queue = [];
     this._lastSec = 0;
     this._timer = null;
+
+    this.drawSeconds();
   }
 
   setOptions(options = {}) {
@@ -27,7 +29,7 @@ export default class Heartbeat extends BaseComponent {
   postConstructor() {
     super.postConstructor();
     // Start drawing the seconds
-    this.drawSeconds();
+    this.tick();
   }
 
   destroy() {
@@ -52,20 +54,26 @@ export default class Heartbeat extends BaseComponent {
     });
   }
 
+  tick() {
+    if (this._timer == null) {
+      this._timer = setInterval(() => {
+        this.drawSeconds();
+      }, 1000);
+    }
+  }
+
   drawSeconds() {
-    this._timer = setInterval(() => {
-      if (this._queue.length >= this._maxQueueCapacity) {
-        this._queue.shift();
-      }
+    if (this._queue.length >= this._maxQueueCapacity) {
+      this._queue.shift();
+    }
 
-      let now = new Date();
-      let currSec = Utility.leftPadZero(now.getMinutes()) + ':' + Utility.leftPadZero(now.getSeconds());
+    let now = new Date();
+    let currSec = Utility.leftPadZero(now.getMinutes()) + ':' + Utility.leftPadZero(now.getSeconds());
 
-      if (currSec !== this._lastSec) {
-        this._queue.push({ time: currSec, x: -30});
-        this._lastSec = currSec;
-      }
-    }, 1000);
+    if (currSec !== this._lastSec) {
+      this._queue.push({ time: currSec, x: -30});
+      this._lastSec = currSec;
+    }
   }
 
   drawObject() {
@@ -104,18 +112,6 @@ export default class Heartbeat extends BaseComponent {
     }
 
     this._ctx.restore();
-  }
-
-  set fontColor(s) {
-    this._fontColor = s;
-  }
-
-  set maxQueueCapacity(n) {
-    this._maxQueueCapacity = n;
-  }
-
-  get maxQueueCapacity() {
-    return this._maxQueueCapacity;
   }
 }
 

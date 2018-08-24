@@ -84,12 +84,16 @@ export default class BarMeter extends BaseComponent {
     return Math.floor((this._value - this._min) / (this._max - this._min) * 100);
   }
 
-  set dashColor(dashColor) {
-    this._dashColor = dashColor;
+  set dashColor(s) {
+    this._dashColor = s;
   }
 
-  set barColor(barColor) {
-    this._barColor = barColor;
+  set barColor(s) {
+    this._barColor = s;
+  }
+
+  set speed(n) {
+    this._speed = n;
   }
 }
 

@@ -1,7 +1,7 @@
 import AnimationTimer from './animation-timer';
 import Settings from './settings';
 import BarMeter from './bar-meter';
-import DigitalClcok from './digital-clock';
+import DigitalClock from './digital-clock';
 import RoundFan from './round-fan';
 import VolumeMeter from './volume-meter';
 import Heartbeat from './heartbeat';
@@ -13,7 +13,7 @@ import TextBox from './text-box';
 export {
   Settings,
   BarMeter,
-  DigitalClcok,
+  DigitalClock,
   VolumeMeter,
   Heartbeat,
   MessageQueue,
