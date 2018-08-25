@@ -1,8 +1,8 @@
 
 let COLOR = {
   lightGreen: '#00d7af',
-  lightWhite: '#F8F8FF',
-  lightGrey: '#E0E0E0',
+  lightWhite: '#f8f8ff',
+  lightGrey: '#e0e0e0',
   lightBlack: '#343a42',
   black: '#000000',
   white: '#ffffff',

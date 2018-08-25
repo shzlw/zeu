@@ -640,8 +640,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.COLOR = void 0;
 var COLOR = {
   lightGreen: '#00d7af',
-  lightWhite: '#F8F8FF',
-  lightGrey: '#E0E0E0',
+  lightWhite: '#f8f8ff',
+  lightGrey: '#e0e0e0',
   lightBlack: '#343a42',
   black: '#000000',
   white: '#ffffff',
@@ -1975,9 +1975,24 @@ function (_BaseComponent) {
       this._ctx.restore();
     }
   }, {
-    key: "speed",
+    key: "speed1",
     set: function set(n) {
-      this._speed = n;
+      this._speed1 = n;
+    }
+  }, {
+    key: "speed2",
+    set: function set(n) {
+      this._speed2 = n;
+    }
+  }, {
+    key: "speed3",
+    set: function set(n) {
+      this._speed3 = n;
+    }
+  }, {
+    key: "speed4",
+    set: function set(n) {
+      this._speed4 = n;
     }
   }, {
     key: "color1",
@@ -2296,14 +2311,14 @@ function (_BaseComponent) {
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var bar = options.bar || {};
       var marker = options.marker || {};
-      this._percentageValue = marker.value || 0;
-      this._displayValue = marker.displayValue || '';
       this._percentageBgColor = marker.bgColor || _color.COLOR.black;
       this._markerFontColor = marker.fontColor || _color.COLOR.white;
       this._speed = bar.speed || 5;
       this._fillColor = bar.fillColor || _color.COLOR.red;
       this._bgColor = bar.bgColor || _color.COLOR.lightWhite;
       this._lineColor = bar.borderColor || _color.COLOR.lightGreen;
+      this._percentageValue = options.value || 0;
+      this._displayValue = options.displayValue || '';
       this._arrowColor = options.arrowColor || _color.COLOR.blue;
     }
   }, {
@@ -2497,19 +2512,14 @@ function (_BaseComponent) {
       this._bgColor = s;
     }
   }, {
-    key: "lineColor",
-    set: function set(s) {
-      this._lineColor = s;
-    }
-  }, {
     key: "arrowColor",
     set: function set(s) {
       this._arrowColor = s;
     }
   }, {
-    key: "percentageBgColor",
+    key: "markerFontColor",
     set: function set(s) {
-      this._percentageBgColor = s;
+      this._markerFontColor = s;
     }
   }]);
 

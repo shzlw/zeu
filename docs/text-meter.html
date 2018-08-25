@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<title>Text Meter</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<div class="container-fluid">
+  <script src="menu.js"></script>
+  <div class="content p-3">
+    <div class="container-fluid">
+      <h2>Text Meter</h2>
+      <hr>
+      <canvas id="text-meter" width="200" height="100"></canvas>
+
+      <h5 class="mt-3">Html</h5>
+  <pre><code><!-- Default view dimension 200 x 200. Flexible view width. -->
+<canvas id="text-meter" width="200" height="100"></canvas></code></pre>
+
+      <h5>JavaScript</h5>
+<pre><code>/* Options */
+var options = {
+  // Percentage number value. Range 0 to 100.
+  value: 10,
+  // Display text.
+  displayValue: 'TEST',
+  // Arrow color.
+  arrowColor: '#007bfb',
+  // Marker that shows percentage number.
+  marker: {
+    // Background color.
+    bgColor: '#343a42',
+    // Font color.
+    fontColor: '#ffffff'
+  },
+  // Bar that has text inside.
+  bar: {
+    // Scrolling speed.
+    speed: 5,
+    // Bar fill color.
+    fillColor: '#dc3547',
+    // Bar background color.
+    bgColor: '##f8f8ff',
+    // Border line color.
+    borderColor: '#343a42'
+  }
+}
+/* Constructor */
+var textMeter = new zeu.TextMeter('text-meter', options);
+
+/* Setter */
+textMeter.value = 50;
+textMeter.displayValue = 'ZEU';
+textMeter.speed = 5;
+textMeter.fillColor = '#dc3547';
+textMeter.bgColor = '#f8f8ff';
+textMeter.arrowColor = '#007bfb';
+textMeter.markerFontColor = '#ffffff';</code></pre>
+
+    <h4>More examples</h4>
+    <p>
+      Increase view width to 400. Change speed and color based on the value.
+    </p>
+    <canvas id="text-meter-2" width="400" height="100"></canvas>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="docs.js"></script>
+<script src="../dist/zeu.js"></script>
+<script type="text/javascript">
+/* Options */
+var options = {
+  // Percentage number value. Range 0 to 100.
+  value: 10,
+  // Display text.
+  displayValue: 'TEST',
+  // Arrow color.
+  arrowColor: '#007bfb',
+  // Marker that shows percentage number.
+  marker: {
+    // Background color.
+    bgColor: '#343a42',
+    // Font color.
+    fontColor: '#ffffff'
+  },
+  // Bar that has text inside.
+  bar: {
+    // Scrolling speed.
+    speed: 5,
+    // Bar fill color.
+    fillColor: '#dc3547',
+    // Bar background color.
+    bgColor: '##f8f8ff',
+    // Border line color.
+    borderColor: '#343a42'
+  }
+}
+/* Constructor */
+var textMeter = new zeu.TextMeter('text-meter', options);
+
+/* Setter */
+textMeter.value = 50;
+textMeter.displayValue = 'ZEU';
+textMeter.speed = 5;
+textMeter.fillColor = '#dc3547';
+textMeter.bgColor = '#f8f8ff';
+textMeter.arrowColor = '#007bfb';
+textMeter.markerFontColor = '#ffffff';
+
+
+var textMeter2 = new zeu.TextMeter('text-meter-2', {
+  viewWidth: 400,
+  arrowColor: '#007bfb',
+  displayValue: 'NORMAL',
+  marker: {
+    bgColor: '#000000',
+    fontColor: '#007bfb'
+  },
+  bar: {
+    speed: 5,
+    fillColor: '#007bfb',
+    bgColor: '#000000',
+    borderColor: '#000000'
+  }
+});
+    
+setInterval(function() {
+  var value = getRandomInt(0, 100);
+  textMeter2.value = value;
+  if (value <= 30) {
+    textMeter2.displayValue = 'LOW';
+    textMeter2.fillColor = COLOR.green;
+    textMeter2.arrowColor = COLOR.green;
+    textMeter2.markerFontColor = COLOR.green;
+  } else if (value >= 60) {
+    textMeter2.displayValue = 'HIGH';
+    textMeter2.fillColor = COLOR.red;
+    textMeter2.arrowColor = COLOR.red;
+    textMeter2.markerFontColor = COLOR.red;
+  } else {
+    textMeter2.displayValue = 'NORMAL';
+    textMeter2.fillColor = COLOR.yellow;
+    textMeter2.arrowColor = COLOR.yellow;
+    textMeter2.markerFontColor = COLOR.yellow;
+  }
+}, 2000);
+
+</script>
+</body>
+</html>
+

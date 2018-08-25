@@ -150,8 +150,20 @@ export default class SpeedCircle extends BaseComponent {
     this._ctx.restore();
   }
 
-  set speed(n) {
-    this._speed = n;
+  set speed1(n) {
+    this._speed1 = n;
+  }
+
+  set speed2(n) {
+    this._speed2 = n;
+  }
+
+  set speed3(n) {
+    this._speed3 = n;
+  }
+
+  set speed4(n) {
+    this._speed4 = n;
   }
 
   set color1(s) {

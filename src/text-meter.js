@@ -35,8 +35,6 @@ export default class TextMeter extends BaseComponent {
     const bar = options.bar || {};
     const marker = options.marker || {};
 
-    this._percentageValue = marker.value || 0;
-    this._displayValue = marker.displayValue || '';
     this._percentageBgColor = marker.bgColor || COLOR.black;
     this._markerFontColor = marker.fontColor || COLOR.white;
 
@@ -45,6 +43,8 @@ export default class TextMeter extends BaseComponent {
     this._bgColor = bar.bgColor || COLOR.lightWhite;
     this._lineColor = bar.borderColor || COLOR.lightGreen;
 
+    this._percentageValue = options.value || 0;
+    this._displayValue = options.displayValue || '';
     this._arrowColor = options.arrowColor || COLOR.blue;
   }
 
@@ -194,15 +194,11 @@ export default class TextMeter extends BaseComponent {
     this._bgColor = s;
   }
 
-  set lineColor(s) {
-    this._lineColor = s;
-  }
-
   set arrowColor(s) {
     this._arrowColor = s;
   }
 
-  set percentageBgColor(s) {
-    this._percentageBgColor = s;
+  set markerFontColor(s) {
+    this._markerFontColor = s;
   }
 }
