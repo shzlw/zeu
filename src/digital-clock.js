@@ -17,8 +17,6 @@ export default class DigitalClock extends BaseComponent {
       this._numberHeight, this._dashColor, this._numberColor);
     this._timer = null;
 
-    // Draw it immediately.
-    this.drawTime();
   }
 
   postConstructor() {

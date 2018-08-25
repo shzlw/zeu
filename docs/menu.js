@@ -6,41 +6,33 @@ var title = ''
     + '</div>'
   +' </div>';
 
+var components = [];
+components.push({name: 'Bar Meter', link: 'bar-meter.html'});
+components.push({name: 'Digital Clock', link: 'digital-clock.html'});
+components.push({name: 'Heartbeat', link: 'heartbeat.html'});
+components.push({name: 'Message Queue', link: 'message-queue.html'});
+components.push({name: 'Round Fan', link: 'round-fan.html'});
+components.push({name: 'Speed Circle', link: 'speed-circle.html'});
+components.push({name: 'Text Box', link: 'text-box.html'});
+components.push({name: 'Text Meter', link: 'text-meter.html'});
+components.push({name: 'Volume Meter', link: 'volume-meter.html'});
+
+var componentsHtml = '';
+for (var i = 0; i < components.length; i++) {
+  componentsHtml += '<li class="nav-item">'
+                    + '<a class="nav-link text-light" href="' + components[i].link + '">' + components[i].name + '</a>'
+                  + '</li>';
+}
+
 var menu = ''
   + '<div class="sidebar-menu">'
     + '<nav class="navbar bg-dark" id="nav">'
       + '<h5><a href="introduction.html" class="text-light">Introduction</a></h5>'
-      + '<h5><a href="quick-start.html" class="text-light">Quick Start</a></h5>'
       + '<h5 class="text-light">Components</h5>'
       + '<ul class="navbar-nav">'
-        + '<li class="nav-item">'
-          + '<a class="nav-link text-light" href="bar-meter.html">Bar Meter</a>'
-        + '</li>'
-        + '<li class="nav-item">'
-          + '<a class="nav-link text-light" href="digital-clock.html">Digital Clock</a>'
-        + '</li>'
-        + '<li class="nav-item">'
-          + '<a class="nav-link text-light" href="heartbeat.html">Heartbeat</a>'
-        + '</li>'
-        + '<li class="nav-item">'
-          + '<a class="nav-link text-light" href="message-queue.html">Message Queue</a>'
-        + '</li>'
-        + '<li class="nav-item">'
-          + '<a class="nav-link text-light" href="round-fan.html">Round Fan</a>'
-        + '</li>'
-        + '<li class="nav-item">'
-          + '<a class="nav-link text-light" href="speed-circle.html">Speed Circle</a>'
-        + '</li>'
-        + '<li class="nav-item">'
-          + '<a class="nav-link text-light" href="text-box.html">Text Box</a>'
-        + '</li>'
-        + '<li class="nav-item">'
-          + '<a class="nav-link text-light" href="text-meter.html">Text Meter</a>'
-        + '</li>'
-        + '<li class="nav-item">'
-          + '<a class="nav-link text-light" href="volume-meter.html">Volume Meter</a>'
-        + '</li>'
-      +'</ul>'
+        + componentsHtml
+      + '</ul>'
+      + '<h5><a href="api.html" class="text-light">API</a></h5>'
     +'</nav>'
   + '</div>';
 document.write(title + menu);

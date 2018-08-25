@@ -4,19 +4,25 @@
 
 Zeu.js is JavaScript library featuring a collection of prebuilt visualization components for building real-time TV dashboard, monitoring UI and IoT web interface.
 
-## Update v1.0.0-rc
+## Quick Start
 
-Most components are being reworked with breaking changes planned for v1.0.0 release.
+```html
+<!-- Include zeu.js. -->
+<script src="zeu.min.js"></script>
+<!-- Create a canvas. -->
+<canvas id="text-meter" width="200" height="100"></canvas>
+<script>
+  // Create a Zeu component.
+  var textMeter = new zeu.TextMeter('text-meter');
+  // Update values.
+  textMeter.displayValue = 'ZEU';
+  textMeter.value = 50;
+</script>
+```
+
+## v1.0.0-rc1
 
 ![Components](https://github.com/shzlw/zeu/blob/master/examples/components.v1.0.0.gif)
-
-[Components](https://shzlw.github.io/zeu/examples/components-home.html)
-
-### [v0.9.4](https://github.com/shzlw/zeu/tree/v0.9.4)
-
-![My Command Center](https://github.com/shzlw/zeu/blob/master/examples/my-command-center.v0.9.1.gif)
-
-[My Command Center](https://shzlw.github.io/zeu/examples/my-command-center.html)
 
 ## Installation
 
@@ -30,7 +36,17 @@ From dist
 <script src="zeu.min.js"></script>
 ```
 
-## [Documentation](https://shzlw.github.io/zeu/docs/introduction.html)
+## Documentation
+
+[Introduction](https://shzlw.github.io/zeu/docs/introduction.html)
+
+## v0.9.4
+
+The previous release can be found at [v0.9.4](https://github.com/shzlw/zeu/tree/v0.9.4)
+
+![My Command Center](https://github.com/shzlw/zeu/blob/master/examples/my-command-center.v0.9.1.gif)
+
+[My Command Center](https://shzlw.github.io/zeu/examples/my-command-center.html)
 
 ## License
 

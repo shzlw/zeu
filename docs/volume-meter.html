@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<title>Volume Meter</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<div class="container-fluid">
+  <script src="menu.js"></script>
+  <div class="content p-3">
+    <div class="container-fluid">
+      <h2>Volume Meter</h2>
+      <hr>
+      <canvas id="volume-meter" width="100" height="200"></canvas>
+
+      <h5 class="mt-3">Html</h5>
+  <pre><code><!-- Default view dimension 100 x 200. Flexible view height. -->
+<canvas id="volume-meter" width="100" height="200"></code></pre>
+
+      <h5>JavaScript</h5>
+<pre><code>/* Options */
+var options = {
+  // Minimum value at the bottom
+  min: {
+    // Font color.
+    fontColor: '#dc3547',
+    // Number value.
+    value: 0,
+    // Background color.
+    bgColor: '#000000'
+  },
+  // Maximum value at the top.
+  max: {
+    // Font color.
+    fontColor: '#dc3547',
+    // Number value.
+    value: 1000,
+    // Background color.
+    bgColor: '#000000'
+  },
+  // Bar,
+  bar: {
+    // Border color.
+    borderColor: '#000000',
+    // Bar fill color.
+    fillColor: '#123456',
+    // Bar color gradient or not.
+    graident: true,
+    // Scrolling speed.
+    speed: 5
+  },
+  // Marker,
+  marker: {
+    // Background color.
+    bgColor: '#28a748',
+    // Font color.
+    fontColor: '#ffffff'
+  },
+  // Actual number value.
+  value: 0
+}
+/* Constructor */
+var volumeMeter = new zeu.VolumeMeter('volume-meter', options);
+
+/* Setter */
+volumeMeter.value = 300;
+volumeMeter.barFillColor = '#123456';
+volumeMeter.markerBgColor = '#28a748';</code></pre>
+
+    <h4>More examples</h4>
+    <p>
+      Increase view height to 300. Change bar color based on the value.
+    </p>
+    <canvas id="volume-meter-2" width="100" height="300">
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="docs.js"></script>
+<script src="../dist/zeu.js"></script>
+<script type="text/javascript">
+/* Options */
+var options = {
+  // Minimum value at the bottom
+  min: {
+    // Font color.
+    fontColor: '#dc3547',
+    // Number value.
+    value: 0,
+    // Background color.
+    bgColor: '#000000'
+  },
+  // Maximum value at the top.
+  max: {
+    // Font color.
+    fontColor: '#dc3547',
+    // Number value.
+    value: 1000,
+    // Background color.
+    bgColor: '#000000'
+  },
+  // Bar,
+  bar: {
+    // Border color.
+    borderColor: '#000000',
+    // Bar fill color.
+    fillColor: '#123456',
+    // Bar color gradient or not.
+    graident: true,
+    // Scrolling speed.
+    speed: 5
+  },
+  // Marker,
+  marker: {
+    // Background color.
+    bgColor: '#28a748',
+    // Font color.
+    fontColor: '#ffffff'
+  },
+  // Actual number value.
+  value: 0
+}
+/* Constructor */
+var volumeMeter = new zeu.VolumeMeter('volume-meter', options);
+
+/* Setter */
+volumeMeter.value = 300;
+volumeMeter.barFillColor = '#123456';
+volumeMeter.markerBgColor = '#28a748';
+
+var volumeMeter2 = new zeu.VolumeMeter('volume-meter-2', {
+  viewHeight: 300,
+  min: {
+    fontColor: COLOR.white,
+    value: -500,
+    bgColor: COLOR.lightBlack,
+  },
+  max: {
+    fontColor: COLOR.white,
+    value: 500,
+    bgColor: COLOR.lightBlack,
+  },
+  bar: {
+    borderColor: COLOR.lightBlack,
+    fillColor: COLOR.lightGreen,
+    graident: false,
+    speed: 10
+  },
+  marker: {
+    bgColor: COLOR.blue,
+    fontColor: COLOR.white,
+  },
+  value: 0
+});
+
+setInterval(function() {
+  var value = getRandomInt(-500, 500);
+  volumeMeter2.value = value;
+  if (value <= -200) {
+    volumeMeter2.barFillColor = COLOR.yellow;
+    volumeMeter2.markerBgColor =  COLOR.yellow;
+  } else if (value >= 200) {
+    volumeMeter2.barFillColor = COLOR.red;
+    volumeMeter2.markerBgColor =  COLOR.red;
+  } else {
+    volumeMeter2.barFillColor = COLOR.green;
+    volumeMeter2.markerBgColor =  COLOR.green;
+  }
+}, 2000);
+
+</script>
+</body>
+</html>
+

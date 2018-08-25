@@ -6,7 +6,7 @@ import Utility from './utility';
 export default class VolumeMeter extends BaseComponent {
 
   constructor(canvas, options = {}) {
-    const viewHeight = options.viewWidth || 200;
+    const viewHeight = options.viewHeight || 200;
 
     super(canvas, options, 100, viewHeight);
 
@@ -17,13 +17,12 @@ export default class VolumeMeter extends BaseComponent {
     this._meterHeight = this._viewHeight - 2 * this._numberHeight;
     this._numberStart = (this._viewWidth - this._meterWidth - this._lineWidth) / 2;
     // Used only if the value is out of range.
-    this._actualValue = 0;
+    this._actualValue = this._value;
 
     this._barY = this._viewHeight - (((this._value - this._minValue) /
       (this._maxValue - this._minValue)) * this._meterHeight) - this._numberHeight;
     this._nextBarY = this._barY;
 
-    // TODO: move this blink function to base component?
     this._lastBlink = 0;
     this.drawMarker = this.drawMarker.bind(this);
   }
@@ -35,7 +34,7 @@ export default class VolumeMeter extends BaseComponent {
     const min = options.min || {};
     const max = options.max || {};
     const bar = options.bar || {};
-    const marker = options.markder || {};
+    const marker = options.marker || {};
 
     this._minFontColor = min.fontColor || COLOR.white;
     this._minValue = min.value || 0;
@@ -178,5 +177,13 @@ export default class VolumeMeter extends BaseComponent {
     this._nextBarY = this._viewHeight - (((n - this._minValue) /
       (this._maxValue - this._minValue)) * this._meterHeight) - this._numberHeight;
     this._value = n;
+  }
+
+  set barFillColor(s) {
+    this._barFillColor = s;
+  }
+
+  set markerBgColor(s) {
+    this._markerBgColor = s;
   }
 }

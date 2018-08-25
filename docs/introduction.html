@@ -18,66 +18,88 @@
 <div class="container-fluid">
   <script src="menu.js"></script>
   <div class="content p-3">
-    <div class="container float-left">
+    <div class="container-fluid">
       <h2>Introduction</h2>
       <hr>
       <p>
         Zeu.js is JavaScript library featuring a collection of prebuilt visualization components for building real-time TV dashboard, monitoring UI and IoT web interface.
       </p>
-      
-      <h3 class="mb-3">Components</h3>
+
+      <h3 class="mb-3">Quick Start</h3>
       <hr>
-      <div class="row mb-3">
-        <div class="col-lg text-center mb-2">
-          <h4 class="p-3 mb-3 bg-grey"><a href="bar-meter.html" class="text-dark">Bar Meter</a></h4>
-          <canvas id="bar-meter" width="100" height="200"></canvas>
+      <p>
+        Let's build our first Zeu component!
+        <pre><code><!-- Include zeu.js. -->
+<script src="zeu.min.js"></script>
+<!-- Create a canvas. -->
+<canvas id="text-meter" width="200" height="100"></canvas>
+<script>
+  // Create a Zeu component.
+  var textMeter = new zeu.TextMeter('text-meter');
+  // Update values.
+  textMeter.displayValue = 'ZEU';
+  textMeter.value = 50;
+</script></code></pre>
+        <canvas id="text-meter-quick" width="200" height="100"></canvas>
+      </p>
+      <p>
+        Done! Explore other components and API page to get started.
+      </p>
+
+      <div class="container float-left pl-0">
+        <h3 class="mb-3">Components</h3>
+        <hr>
+        <div class="row mb-3">
+          <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="bar-meter.html" class="text-dark">Bar Meter</a></h4>
+            <canvas id="bar-meter" width="100" height="200"></canvas>
+          </div>
+
+          <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="digital-clock.html" class="text-dark">Digital Clock</a></h4>
+            <canvas id="digital-clock" width="280" height="70"></canvas>
+          </div>
+
+          <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="heartbeat.html" class="text-dark">Heartbeat</a></h4>
+            <canvas id="heartbeat" width="300" height="100"></canvas>
+          </div>
         </div>
 
-        <div class="col-lg text-center mb-2">
-          <h4 class="p-3 mb-3 bg-grey"><a href="digital-clock.html" class="text-dark">Digital Clock</a></h4>
-          <canvas id="digital-clock" width="280" height="70"></canvas>
+        <div class="row mb-3">
+          <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="message-queue.html" class="text-dark">Message Queue</a></h4>
+            <canvas id="message-queue" width="100" height="200"></canvas>
+          </div>
+
+          <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="round-fan.html" class="text-dark">Round Fan</a></h4>
+            <canvas id="round-fan" width="200" height="200"></canvas>
+          </div>
+
+          <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="speed-circle.html" class="text-dark">Speed Circle</a></h4>
+            <canvas id="speed-circle" width="200" height="200"></canvas>
+          </div>
         </div>
 
-        <div class="col-lg text-center mb-2">
-          <h4 class="p-3 mb-3 bg-grey"><a href="heartbeat.html" class="text-dark">Heartbeat</a></h4>
-          <canvas id="heartbeat" width="300" height="100"></canvas>
+        <div class="row mb-4">
+          <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="text-box.html" class="text-dark">Text Box</a></h4>
+            <canvas id="text-box" width="200" height="100"></canvas>
+          </div>
+
+          <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="text-meter.html" class="text-dark">Text Meter</a></h4>
+            <canvas id="text-meter" width="300" height="100"></canvas>
+          </div>
+
+          <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="volume-meter.html" class="text-dark">Volume Meter</a></h4>
+            <canvas id="volume-meter" width="100" height="200"></canvas>
+          </div>
         </div>
       </div>
-
-      <div class="row mb-3">
-        <div class="col-lg text-center mb-2">
-          <h4 class="p-3 mb-3 bg-grey"><a href="message-queue.html" class="text-dark">Message Queue</a></h4>
-          <canvas id="message-queue" width="100" height="200"></canvas>
-        </div>
-
-        <div class="col-lg text-center mb-2">
-          <h4 class="p-3 mb-3 bg-grey"><a href="round-fan.html" class="text-dark">Round Fan</a></h4>
-          <canvas id="round-fan" width="200" height="200"></canvas>
-        </div>
-
-        <div class="col-lg text-center mb-2">
-          <h4 class="p-3 mb-3 bg-grey"><a href="speed-circle.html" class="text-dark">Speed Circle</a></h4>
-          <canvas id="speed-circle" width="200" height="200"></canvas>
-        </div>
-      </div>
-
-      <div class="row mb-4">
-        <div class="col-lg text-center mb-2">
-          <h4 class="p-3 mb-3 bg-grey"><a href="text-box.html" class="text-dark">Text Box</a></h4>
-          <canvas id="text-box" width="200" height="100"></canvas>
-        </div>
-
-        <div class="col-lg text-center mb-2">
-          <h4 class="p-3 mb-3 bg-grey"><a href="text-meter.html" class="text-dark">Text Meter</a></h4>
-          <canvas id="text-meter" width="300" height="100"></canvas>
-        </div>
-
-        <div class="col-lg text-center mb-2">
-          <h4 class="p-3 mb-3 bg-grey"><a href="volume-meter.html" class="text-dark">Volume Meter</a></h4>
-          <canvas id="volume-meter" width="100" height="200"></canvas>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
@@ -180,9 +202,9 @@
     'text-meter',
     {
       viewWidth: 300,
+      value: 10,
+      displayValue: 'ZEU',
       marker: {
-        value: 10,
-        displayValue: 'ZEU',
         bgColor: COLOR.black,
         fontColor: COLOR.white
       },
@@ -221,6 +243,9 @@
       value: 100
     });
 
+  var textMeterQuick = new zeu.TextMeter('text-meter-quick');
+  textMeterQuick.displayValue = 'ZEU';
+  textMeterQuick.value = 50;
 
   setInterval(function() {
     heartbeat.beat({

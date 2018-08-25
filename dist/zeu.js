@@ -650,7 +650,8 @@ var COLOR = {
   yellow: '#ffc108',
   cyan: '#17a2b9',
   grey: '#6c757e',
-  green: '#28a748'
+  green: '#28a748',
+  orange: '#ffa500'
 };
 exports.COLOR = COLOR;
 
@@ -715,10 +716,7 @@ function (_BaseComponent) {
     _this._numberWidth = 50;
     _this._numberHeight = 100;
     _this._ds = new _digitalSymbol.default(_this._ctx, _this._barWidth, _this._numberWidth, _this._numberHeight, _this._dashColor, _this._numberColor);
-    _this._timer = null; // Draw it immediately.
-
-    _this.drawTime();
-
+    _this._timer = null;
     return _this;
   }
 
@@ -2756,7 +2754,7 @@ function (_BaseComponent) {
 
     _classCallCheck(this, VolumeMeter);
 
-    var viewHeight = options.viewWidth || 200;
+    var viewHeight = options.viewHeight || 200;
     _this = _possibleConstructorReturn(this, (VolumeMeter.__proto__ || Object.getPrototypeOf(VolumeMeter)).call(this, canvas, options, 100, viewHeight));
     _this._lineWidth = 3;
     _this._numberHeight = 20;
@@ -2765,10 +2763,9 @@ function (_BaseComponent) {
     _this._meterHeight = _this._viewHeight - 2 * _this._numberHeight;
     _this._numberStart = (_this._viewWidth - _this._meterWidth - _this._lineWidth) / 2; // Used only if the value is out of range.
 
-    _this._actualValue = 0;
+    _this._actualValue = _this._value;
     _this._barY = _this._viewHeight - (_this._value - _this._minValue) / (_this._maxValue - _this._minValue) * _this._meterHeight - _this._numberHeight;
-    _this._nextBarY = _this._barY; // TODO: move this blink function to base component?
-
+    _this._nextBarY = _this._barY;
     _this._lastBlink = 0;
     _this.drawMarker = _this.drawMarker.bind(_this);
     return _this;
@@ -2785,7 +2782,7 @@ function (_BaseComponent) {
       var min = options.min || {};
       var max = options.max || {};
       var bar = options.bar || {};
-      var marker = options.markder || {};
+      var marker = options.marker || {};
       this._minFontColor = min.fontColor || _color.COLOR.white;
       this._minValue = min.value || 0;
       this._minBgColor = min.bgColor || _color.COLOR.red;
@@ -2946,6 +2943,16 @@ function (_BaseComponent) {
       this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);
       this._nextBarY = this._viewHeight - (n - this._minValue) / (this._maxValue - this._minValue) * this._meterHeight - this._numberHeight;
       this._value = n;
+    }
+  }, {
+    key: "barFillColor",
+    set: function set(s) {
+      this._barFillColor = s;
+    }
+  }, {
+    key: "markerBgColor",
+    set: function set(s) {
+      this._markerBgColor = s;
     }
   }]);
 

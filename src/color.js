@@ -11,7 +11,8 @@ let COLOR = {
   yellow: '#ffc108',
   cyan: '#17a2b9',
   grey: '#6c757e',
-  green: '#28a748'
+  green: '#28a748',
+  orange: '#ffa500'
 };
 
 export { COLOR };

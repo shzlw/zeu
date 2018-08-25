@@ -19,7 +19,7 @@
       <canvas id="text-meter" width="200" height="100"></canvas>
 
       <h5 class="mt-3">Html</h5>
-  <pre><code><!-- Default view dimension 200 x 200. Flexible view width. -->
+  <pre><code><!-- Default view dimension 200 x 100. Flexible view width. -->
 <canvas id="text-meter" width="200" height="100"></canvas></code></pre>
 
       <h5>JavaScript</h5>
@@ -64,7 +64,7 @@ textMeter.markerFontColor = '#ffffff';</code></pre>
 
     <h4>More examples</h4>
     <p>
-      Increase view width to 400. Change speed and color based on the value.
+      Increase view width to 400. Change color based on the value.
     </p>
     <canvas id="text-meter-2" width="400" height="100"></canvas>
     </div>
@@ -118,20 +118,20 @@ textMeter.markerFontColor = '#ffffff';
 
 var textMeter2 = new zeu.TextMeter('text-meter-2', {
   viewWidth: 400,
-  arrowColor: '#007bfb',
-  displayValue: 'NORMAL',
+  arrowColor: COLOR.green,
+  displayValue: 'MIDDLE',
   marker: {
     bgColor: '#000000',
-    fontColor: '#007bfb'
+    fontColor: COLOR.green,
   },
   bar: {
-    speed: 5,
-    fillColor: '#007bfb',
+    speed: 15,
+    fillColor: COLOR.green,
     bgColor: '#000000',
     borderColor: '#000000'
   }
 });
-    
+
 setInterval(function() {
   var value = getRandomInt(0, 100);
   textMeter2.value = value;
@@ -146,7 +146,7 @@ setInterval(function() {
     textMeter2.arrowColor = COLOR.red;
     textMeter2.markerFontColor = COLOR.red;
   } else {
-    textMeter2.displayValue = 'NORMAL';
+    textMeter2.displayValue = 'MIDDLE';
     textMeter2.fillColor = COLOR.yellow;
     textMeter2.arrowColor = COLOR.yellow;
     textMeter2.markerFontColor = COLOR.yellow;

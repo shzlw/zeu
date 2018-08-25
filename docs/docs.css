@@ -68,3 +68,7 @@ a:focus {
 p {
   font-size: 20px;
 }
+
+.bg-grey {
+  background-color: #e5e5e5;
+}
