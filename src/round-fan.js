@@ -15,7 +15,7 @@ export default class RoundFan extends BaseComponent {
 
     this._fanColor = options.fanColor || COLOR.green;
 
-    this._centerColor = center.color || COLOR.blue;
+    this._centerColor = center.color || COLOR.green;
     this._centerBgColor = center.bgColor || COLOR.white;
 
     this._speed = options.speed || 1;
@@ -86,5 +86,9 @@ export default class RoundFan extends BaseComponent {
 
   set speed(n) {
     this._speed = n;
+  }
+
+  set centerBgColor(s) {
+    this._centerBgColor = s;
   }
 }

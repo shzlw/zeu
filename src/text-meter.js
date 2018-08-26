@@ -201,4 +201,8 @@ export default class TextMeter extends BaseComponent {
   set markerFontColor(s) {
     this._markerFontColor = s;
   }
+
+  set markerBgColor(s) {
+    this._percentageBgColor = s;
+  }
 }

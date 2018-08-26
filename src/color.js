@@ -12,7 +12,8 @@ let COLOR = {
   cyan: '#17a2b9',
   grey: '#6c757e',
   green: '#28a748',
-  orange: '#ffa500'
+  orange: '#ffa500',
+  transparent: 'rgba(255, 255, 255, 0)'
 };
 
 export { COLOR };

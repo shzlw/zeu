@@ -4,7 +4,16 @@
 
 Zeu.js is JavaScript library featuring a collection of prebuilt visualization components for building real-time TV dashboard, monitoring UI and IoT web interface.
 
+## Installation
+
+From dist
+```html
+<script src="zeu.min.js"></script>
+```
+
 ## Quick Start
+
+Let's build our first Zeu component!
 
 ```html
 <!-- Include zeu.js. -->
@@ -12,33 +21,28 @@ Zeu.js is JavaScript library featuring a collection of prebuilt visualization co
 <!-- Create a canvas. -->
 <canvas id="text-meter" width="200" height="100"></canvas>
 <script>
-  // Create a Zeu component.
+  // Create a TextMeter.
   var textMeter = new zeu.TextMeter('text-meter');
-  // Update values.
+  // Update display and percentage value.
   textMeter.displayValue = 'ZEU';
   textMeter.value = 50;
 </script>
 ```
 
+Done! Explore the [Introduction](https://shzlw.github.io/zeu/docs/introduction.html) page to get started.
+
 ## v1.0.0-rc1
 
 ![Components](https://github.com/shzlw/zeu/blob/master/examples/components.v1.0.0.gif)
 
-## Installation
+## [Documentation](https://shzlw.github.io/zeu/docs/introduction.html)
 
-Build from source
+## Build
+
+From source
 ```
 npm run build
 ```
-
-From dist
-```html
-<script src="zeu.min.js"></script>
-```
-
-## Documentation
-
-[Introduction](https://shzlw.github.io/zeu/docs/introduction.html)
 
 ## v0.9.4
 

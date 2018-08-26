@@ -238,7 +238,6 @@ function (_BaseComponent) {
 
     var viewWidth = options.viewWidth || 100;
     _this = _possibleConstructorReturn(this, (BarMeter.__proto__ || Object.getPrototypeOf(BarMeter)).call(this, canvas, options, viewWidth, 200));
-    _this._space = 20;
     _this._barWidth = _this._viewWidth - 2 * _this._space;
     _this._barHeight = 15;
     _this._currBar = 0;
@@ -258,6 +257,7 @@ function (_BaseComponent) {
       this._barColor = options.barColor || _color.COLOR.green;
       this._speed = options.speed || 5;
       this._isGradient = options.gradient || false;
+      this._space = options.space || 20;
     }
   }, {
     key: "drawObject",
@@ -651,7 +651,8 @@ var COLOR = {
   cyan: '#17a2b9',
   grey: '#6c757e',
   green: '#28a748',
-  orange: '#ffa500'
+  orange: '#ffa500',
+  transparent: 'rgba(255, 255, 255, 0)'
 };
 exports.COLOR = COLOR;
 
@@ -1575,7 +1576,7 @@ function (_BaseComponent) {
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var center = options.center || {};
       this._fanColor = options.fanColor || _color.COLOR.green;
-      this._centerColor = center.color || _color.COLOR.blue;
+      this._centerColor = center.color || _color.COLOR.green;
       this._centerBgColor = center.bgColor || _color.COLOR.white;
       this._speed = options.speed || 1;
     }
@@ -1674,6 +1675,11 @@ function (_BaseComponent) {
     key: "speed",
     set: function set(n) {
       this._speed = n;
+    }
+  }, {
+    key: "centerBgColor",
+    set: function set(s) {
+      this._centerBgColor = s;
     }
   }]);
 
@@ -2518,6 +2524,11 @@ function (_BaseComponent) {
     key: "markerFontColor",
     set: function set(s) {
       this._markerFontColor = s;
+    }
+  }, {
+    key: "markerBgColor",
+    set: function set(s) {
+      this._percentageBgColor = s;
     }
   }]);
 

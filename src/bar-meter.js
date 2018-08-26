@@ -9,7 +9,6 @@ export default class BarMeter extends BaseComponent {
 
     super(canvas, options, viewWidth, 200);
 
-    this._space = 20;
     this._barWidth = this._viewWidth - 2 * this._space;
     this._barHeight = 15;
     this._currBar = 0;
@@ -25,6 +24,7 @@ export default class BarMeter extends BaseComponent {
     this._barColor = options.barColor || COLOR.green;
     this._speed = options.speed || 5;
     this._isGradient = options.gradient || false;
+    this._space = options.space || 20;
   }
 
   drawObject() {
