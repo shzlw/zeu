@@ -33,7 +33,7 @@ Let's build our first Zeu component!
 
 Done! Explore the [Introduction](https://shzlw.github.io/zeu/docs/introduction.html) page to get started.
 
-## v1.0.0-rc1
+## v1.0.0
 
 ![Components](https://github.com/shzlw/zeu/blob/master/examples/my-command-center.v1.0.0.gif)
 
