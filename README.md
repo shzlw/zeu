@@ -6,9 +6,7 @@ Zeu.js is JavaScript library featuring a collection of prebuilt visualization co
 
 ## Demo
 
-[My Command Center](https://shzlw.github.io/zeu/examples/my-command-center.html)
-
-The link is invalid now. Please check /examples/my-command-center.html instead.
+![Components](https://github.com/shzlw/zeu/blob/master/examples/my-command-center.v0.9.1.gif)
 
 ## Installation
 
