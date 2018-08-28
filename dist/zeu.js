@@ -389,20 +389,21 @@ function () {
     // Canvas
     this._canvas = document.getElementById(canvas); // Canvas 2d context
 
-    this._ctx = this._canvas.getContext('2d'); // Scale parameters used in scale()
-
-    this._scaleX = 1;
-    this._scaleY = 1; // Current X value (Left 0 to right)
+    this._ctx = this._canvas.getContext('2d'); // Current X value (Left 0 to right)
 
     this._x = 0; // Current Y value (Top 0 to bottom)
 
     this._y = 0; // The width and height used to draw the component.
 
     this._viewWidth = viewWidth;
-    this._viewHeight = viewHeight; // Acutal width and height of the component based on scales.
+    this._viewHeight = viewHeight; // Scale parameters used in scale()
 
-    this._width = this._scaleX * this._viewWidth;
-    this._height = this._scaleY * this._viewHeight;
+    this._scaleX = 1;
+    this._scaleY = 1; // Get canvas height
+
+    var canvasHeight = this._canvas.height || this._canvas.parentNode.clientHeight || viewHeight; // Set acutal width and height of the component based on scales.
+
+    this.scaleByHeight(canvasHeight);
     this._display = true; // Event queue that stores animation movements like 'move', 'scale', 'display' and etc.
 
     this._eventQueue = []; // Bind the drawFrame function.

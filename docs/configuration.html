@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<title>Configuration</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<div class="container-fluid">
+  <script src="menu.js"></script>
+  <div class="content p-3">
+    <div class="container-fluid">
+      <h2>Configuration</h2>
+      <hr>
+      
+      <h3>Scale</h3>
+      <p>
+        Each component has its own default view width and view height.<br/>
+      </p>
+  <pre><code><!-- Defalut view dimension 100 x 200. Flexible view width and height. -->
+<canvas id="message-queue" width="100" height="200"></canvas></code></pre>
+      <p>
+        Let's use Message Queue as an example. Its default view demension is 100 x 200 so by default it requires a 100 x 200 canvas to display.
+      </p>
+      <canvas id="message-queue" width="100" height="200"></canvas>
+
+      <p class="mt-3">
+        To scale the component, we can call scaleTo(x, y) or call scaleByHeight(height) to rescale the component and at the same time, we need to increase the width and height of 
+        the canvas correspondingly.
+      </p>
+        <pre><code>// Increase the width and height of the canvas so the scaled view can be seen.
+<canvas id="message-queue" width="200" height="400"></canvas>
+// Create a message queue component.
+var messageQueue = new zeu.MessageQueue('message-queue');
+// Scale the width and height by factor 2 so the new width is 100 * 2 = 200. Height = 200 * 2 = 400.
+messageQueue.scaleTo(2, 2);
+// Scale the component by height. New width = 400 / 200 * 100 = 200. It does the same thing as scaleTo(2, 2) for this component.
+messageQueue.scaleByHeight(400);</code></pre>
+      <canvas id="message-queue-2" width="200" height="400"></canvas>
+
+      <p class="mt-3">
+        This component also support flexible view width or height.
+      </p>
+  <pre><code>// Create a 300 x 300 canvas.
+<canvas id="message-queue" width="300" height="300"></canvas>
+// Adjust the view width and height to 300 through constructor
+var messageQueue = new zeu.MessageQueue('message-queue', {
+  viewWidth: 300,
+  viewHeight: 300
+});</code></pre>
+      <canvas id="message-queue-3" width="300" height="300"></canvas>
+
+      <h3 class="mt-3">Color</h3>
+      <p>
+        For options regarding color code, hex color or rgba color code is recommended. For instance,<br/>
+        <ul>
+          <li>#e5e5e5</li>
+          <li>rgba(255, 100, 100, 1)</li>
+        </ul> 
+      </p>
+      <p>
+        Tips: rgba(255, 255, 255, 0) can be used as transparent color.
+      </p>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="docs.js"></script>
+<script src="../dist/zeu.js"></script>
+<script type="text/javascript">
+ 
+var messageQueue = new zeu.MessageQueue('message-queue');
+
+var messageQueue2 = new zeu.MessageQueue('message-queue-2');
+messageQueue2.scaleTo(2, 2);
+messageQueue2.scaleByHeight(400);
+
+var messageQueue3 = new zeu.MessageQueue('message-queue-3', {
+  viewWidth: 300,
+  viewHeight: 300
+});
+
+
+setInterval(function() {
+  messageQueue.push({
+    color: '#17a2b9',
+    space: 0,
+  });
+
+  messageQueue2.push({
+    color: '#17a2b9',
+    space: 0,
+  });
+
+  messageQueue3.push({
+    color: '#17a2b9',
+    space: 0,
+  });
+}, 200);
+</script>
+</body>
+</html>
+

@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Standard Meta -->
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<meta name="description" content="JavaScript UI library for building real-time TV dashboard, monitoring UI and IoT web interface">
+<meta name="keywords" content="JavaScript,chart,dashboard,monitoring,IoT,real-time,free">
+<meta name="robots" content="index,follow">
+<meta name="subject" content="JavaScript UI library for building real-time TV dashboard, monitoring UI and IoT web interface">
+
+<title>My Command Center</title>
+<script src="https://unpkg.com/zeu@0.9.1/lib/zeu.js"></script>
+<style>
+html,
+body {
+  font-family: Consolas, monaco, monospace;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #000;
+  color: #fff;
+}
+
+.middle {
+  width: 1200px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+.col-1 {
+  float: left;
+  border-left: 4px solid #fff;
+  border-top: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  width: 396px;
+  height: 780px;
+}
+
+.col-2 {
+  float: left;
+  border: 4px solid #fff;
+  width: 392px;
+  height: 780px;
+}
+
+.col-3 {
+  float: left;
+  border-right: 4px solid #fff;
+  border-top: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  width: 396px;
+  height: 780px;
+}
+
+.panel {
+  width: 250px;
+  height: 250px;
+  float: left;
+  border: 4px solid #fff;
+}
+
+.border-bottom {
+  border-bottom: 4px solid #fff;
+}
+
+.panel-title {
+  border-bottom: 4px solid #fff;
+  padding: 4px 8px;
+}
+
+.title {
+  color: #fff;
+  font-size: 18px;
+}
+
+.sub-title {
+  color: #2196f3;
+  font-size: 10px;
+}
+
+.blue-text {
+  color: #2196f3;
+}
+
+.pull-left {
+  float: left;
+}
+
+.region {
+  margin: 10px 5px;
+}
+
+.region-name {
+  width: 90px;
+  height: 72px;
+  padding: 8px;
+  line-height: 72px;
+  vertical-align: middle;
+  font-size: 18px;
+}
+
+.region-chart {
+  width: 240px;
+  height: 80px;
+  margin-left: 10px;
+  border-left: 2px solid #0c87eb;
+  border-right: 2px solid #0c87eb;
+}
+
+
+
+.server-grid {
+  float: left;
+  height: 35px;
+  line-height: 35px;
+  width: 66.5px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #79bff8;
+  color: white;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.cluster-top {
+  border-top: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+}
+
+.cluster-circle {
+  width: 196px;
+  text-align: center;
+  margin: 5px 0px;
+}
+
+.cluster-chart-circle {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.temperature-col {
+  width: 132px;
+  text-align: center;
+}
+
+.temperature-title {
+  padding: 10px 0px 5px 0px;
+}
+
+.temperature-sub-title {
+  padding: 3px 0px;
+  width: 50px;
+  margin: 0 auto;
+  background-color: #0c87eb;
+  color: #fff;
+}
+
+.temperature-content {
+  padding: 15px 0px 5px 0px;
+}
+
+.temperature-meter {
+  width: 66px;
+  height: 132px;
+}
+
+.fan-col {
+  width: 99px;
+  text-align: center;
+}
+
+.fan-chart-col {
+  width: 99px;
+  height: 99px;
+  text-align: center;
+}
+
+.fan-title {
+  padding: 10px 0px;
+  margin-bottom: 10px;
+}
+
+.fan-rpm {
+  margin-top: 10px;
+  padding: 5px 0px;
+  border-top: 4px solid #fff;
+  font-size: 18px;
+}
+
+.fan-bottom-panel {
+
+}
+
+.queue-col {
+  width: 66px;
+  text-align: center;
+}
+
+.queue-chart-col {
+  width: 66px;
+  height: 132px;
+}
+
+.queue-title {
+  padding: 5px 0px;
+}
+
+.queue-sub-title {
+  padding: 3px 0px;
+  width: 50px;
+  margin: 0 auto;
+  background-color: #0c87eb;
+  color: #fff;
+  margin-bottom: 3px;
+}
+
+.capacity-col {
+  width: 188px;
+  padding: 5px;
+}
+
+.capacity-name {
+  width: 30px;
+  height: 50px;
+  padding-left: 8px;
+  line-height: 50px;
+  vertical-align: middle;
+  font-size: 18px;
+}
+
+.capacity-sub-name {
+  margin-left: 100px;
+  width: 30px;
+  height: 50px;
+  padding-left: 8px;
+  line-height: 50px;
+  font-size: 16px;
+}
+
+.capacity-chart-col {
+  width: 50px;
+  height: 100px;
+  transform: rotate(90deg);
+  transform-origin: 0px 100px;
+  margin-top: -100px;
+}
+
+.clear {
+  clear: both;
+}
+
+.green {
+  color: #4caf50;
+}
+
+.border-left {
+  border-left: 4px solid #fff;
+}
+
+.border-right {
+  border-right: 4px solid #fff;
+}
+
+.github-button {
+  background-color: #000;
+  border: 2px solid #0c87eb;
+  color: #0c87eb;
+  padding: 6px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.github-button:hover {
+  background-color: #0c87eb;
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+</style>
+</head>
+<body>
+
+<a href="https://github.com/shzlw/zeu" class="github-button">GitHub</a>
+
+<div class="middle">
+  <div class="col-1">
+    <!-- Region -->
+    <div class="panel-title">
+      <div class="title">
+        REGION
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      <div class="region">
+        
+        <div class="pull-left region-name">
+          R - 001
+        </div>
+        <div id="heartbeat-1" class="pull-left region-chart"></div>
+        <div class="clear"></div>
+      </div>
+      <div class="region">
+        <div class="pull-left region-name">
+          R - 002
+        </div>
+        <div id="heartbeat-2" class="pull-left region-chart"></div>
+        <div class="clear"></div>
+      </div>      
+    </div>
+
+    <!-- Temperature -->
+    <div class="panel-title">
+      <div class="title">
+        TEMPERATURE
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      <div class="pull-left temperature-col">
+        <div class="temperature-title">TEMP 1</div>
+        <div class="temperature-sub-title">LOW</div>
+        <div class="temperature-content">
+          <div id="volume-meter-1" class="pull-left temperature-meter"></div>
+          <div id="volume-meter-2" class="pull-left temperature-meter"></div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="pull-left temperature-col">
+        <div class="temperature-title">TEMP 2</div>
+        <div class="temperature-sub-title">LOW</div>
+        <div class="temperature-content">
+          <div id="volume-meter-3" class="pull-left temperature-meter"></div>
+          <div id="volume-meter-4" class="pull-left temperature-meter"></div>
+          <div class="clear"></div>
+        </div>
+      </div>
+      <div class="pull-left temperature-col">
+        <div class="temperature-title">TEMP 3</div>
+        <div class="temperature-sub-title">LOW</div>
+        <div class="temperature-content">
+          <div id="volume-meter-5" class="pull-left temperature-meter"></div>
+          <div id="volume-meter-6" class="pull-left temperature-meter"></div>
+          <div class="clear"></div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+
+    <!-- Fan -->
+    <div class="panel-title">
+      <div class="title">
+        FAN
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="fan-bottom-panel">
+      <div class="pull-left fan-col">
+        <div class="fan-title">FAN 1</div>
+        <div id="round-fan-1" class="fan-chart-col"></div>
+        <div class="fan-rpm">
+          <div id="fan-speed-1" class="green">10</div>
+          <div>RPM</div>
+        </div>
+      </div>
+      <div class="pull-left fan-col">
+        <div class="fan-title">FAN 2</div>
+        <div id="round-fan-2" class="fan-chart-col"></div>
+        <div class="fan-rpm">
+          <div id="fan-speed-2" class="green">10</div>
+          <div>RPM</div>
+        </div>
+      </div>
+      <div class="pull-left fan-col">
+        <div class="fan-title">FAN 3</div>
+        <div id="round-fan-3" class="fan-chart-col"></div>
+        <div class="fan-rpm">
+          <div id="fan-speed-3" class="green">10</div>
+          <div>RPM</div>
+        </div>
+      </div>
+      <div class="pull-left fan-col">
+        <div class="fan-title">FAN 4</div>
+        <div id="round-fan-4" class="fan-chart-col"></div>
+        <div class="fan-rpm">
+          <div id="fan-speed-4" class="green">10</div>
+          <div>RPM</div>
+        </div>
+      </div>
+
+      <div class="clear"></div>
+    </div>
+
+  </div>
+
+  <div class="col-2">
+
+    <!-- Clock and Cluster -->
+    <div class="panel-title">
+      <div class="title">
+        CLUSTER
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      <div style="text-align: center; padding: 6px 0px 7px 0px;">
+        <div>CURRENT TIME</div>
+        <div id="digital-clock" style="width: 185px; height: 50px; margin: 0 auto;"></div>
+      </div>
+      <div class="cluster-top">
+        <div class="pull-left cluster-circle">
+          <div>C1</div>
+          <div id="double-circle-1" class="cluster-chart-circle"></div>
+        </div>
+        <div class="pull-left cluster-circle">
+          <div>C2</div>
+          <div id="double-circle-2" class="cluster-chart-circle"></div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div>
+        <div class="pull-left cluster-circle">
+          <div>D1</div>
+          <div id="double-circle-3" class="cluster-chart-circle"></div>
+        </div>
+        <div class="pull-left cluster-circle">
+          <div>D2</div>
+          <div id="double-circle-4" class="cluster-chart-circle"></div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+
+    <!-- Server Grid -->
+    <div class="panel-title">
+      <div class="title">
+        SERVER
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div id="server-grid-panel">
+    </div>
+  </div>
+
+  <div class="col-3">
+
+    <!-- Job queue -->
+    <div class="panel-title">
+      <div class="title">
+        JOB QUEUE
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      <div class="pull-left queue-col">
+        <div class="queue-title">Q-1</div>
+        <div id="queue-size-1" class="queue-sub-title">Q1</div>
+        <div id="message-queue-1" class="queue-chart-col"></div>
+      </div>
+      <div class="pull-left queue-col">
+        <div class="queue-title">Q-2</div>
+        <div id="queue-size-2" class="queue-sub-title">Q2</div>
+        <div id="message-queue-2" class="queue-chart-col"></div>
+      </div>
+      <div class="pull-left queue-col">
+        <div class="queue-title">Q-3</div>
+        <div id="queue-size-3" class="queue-sub-title">Q3</div>
+        <div id="message-queue-3" class="queue-chart-col"></div>
+      </div>
+      <div class="pull-left queue-col">
+        <div class="queue-title">Q-4</div>
+        <div id="queue-size-4" class="queue-sub-title">Q4</div>
+        <div id="message-queue-4" class="queue-chart-col"></div>
+      </div>
+      <div class="pull-left queue-col">
+        <div class="queue-title">Q-5</div>
+        <div id="queue-size-5" class="queue-sub-title">Q5</div>
+        <div id="message-queue-5" class="queue-chart-col"></div>
+      </div>
+      <div class="pull-left queue-col">
+        <div class="queue-title">Q-6</div>
+        <div id="queue-size-6" class="queue-sub-title">Q6</div>
+        <div id="message-queue-6" class="queue-chart-col"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+
+    <!-- Message -->
+    <div class="panel-title">
+      <div class="title">
+        MESSAGE
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div class="border-bottom">
+      <div id="scroll-panel" style="overflow: hidden; width: 396px; height: 204px;"></div>
+    </div>
+
+    <!-- Capacity -->
+    <div class="panel-title">
+      <div class="title">
+        CAPACITY
+      </div>
+      <div class="sub-title">
+        LIVE
+      </div>
+    </div>
+    <div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P1</div>
+        <div id="bar-meter-1" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-1" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P2</div>
+        <div id="bar-meter-2" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-2" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    
+    <div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P3</div>
+        <div id="bar-meter-3" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-3" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P4</div>
+        <div id="bar-meter-4" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-4" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+
+    <div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P5</div>
+        <div id="bar-meter-5" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-5" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P6</div>
+        <div id="bar-meter-6" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-6" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+
+    <div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P7</div>
+        <div id="bar-meter-7" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-7" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="pull-left capacity-col">
+        <div class="pull-left capacity-name">P8</div>
+        <div id="bar-meter-8" class="pull-left capacity-chart-col"></div>
+        <div class="pull-left capacity-sub-name"><span id="capacity-pct-8" class="green">0</span>%</div>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+
+var blue = '#2196f3';
+var blue_l5 = '#f2f9fe';
+var blue_l2 = '#79bff8';
+var blue_d1 = '#0c87eb';
+var blue_d5 = '#074b83';
+
+var yellow = '#ffeb3b';
+var green = '#4caf50';
+var red = '#f44336';
+var white = '#fff';
+var black = '#000';
+
+zeu.Settings.fps = 60;
+
+var heartbeatConfig = {
+  fontColor: white,
+  lineColor: green
+};
+var heartbeat1 = new zeu.Heartbeat(document.getElementById('heartbeat-1'), heartbeatConfig);
+var heartbeat2 = new zeu.Heartbeat(document.getElementById('heartbeat-2'), heartbeatConfig);
+setInterval(function() {
+  heartbeat1.beat();
+}, 1000);
+
+setInterval(function() {
+  heartbeat2.beat();
+}, 1500);
+
+var digitalClock = new zeu.DigitalClcok(
+  document.getElementById('digital-clock'), 
+  {
+    dashColor: black,
+    numberColor: blue_d1,
+    barWidth: 8,
+    barHeight : 30,
+    space: 8
+  }
+);
+digitalClock.tick();
+
+var doubleCircleConfig1 = {
+  isDot: false,
+  outer: {
+    color: blue_d5,
+    radius: 90,
+    speed: 0.7
+
+  },
+  inner: {
+    color: blue_l2,
+    radius: 70,
+    speed: 0.5
+  },
+  fontColor: green,
+  text: 'NORMAL'
+};
+var doubleCircle1 = new zeu.DoubleCircle(document.getElementById('double-circle-1'), doubleCircleConfig1);
+var doubleCircle2 = new zeu.DoubleCircle(document.getElementById('double-circle-2'), doubleCircleConfig1);
+
+var doubleCircleConfig2 = {
+  isDot: true,
+  outer: {
+    color: blue_d5,
+    radius: 90,
+    speed: 0.7
+
+  },
+  inner: {
+    color: blue_l2,
+    radius: 80,
+    speed: 0.5
+  },
+  fontColor: green,
+  text: 'RUNNING'
+};
+var doubleCircle3 = new zeu.DoubleCircle(document.getElementById('double-circle-3'), doubleCircleConfig2);
+var doubleCircle4 = new zeu.DoubleCircle(document.getElementById('double-circle-4'), doubleCircleConfig2);
+
+
+var serverGrid = document.getElementById('server-grid-panel');
+var servers = ['V', 'W', 'X', 'Y', 'Z'];
+var serverTexts = [];
+for (var i = 0; i < servers.length; i++) {
+  createServerGrid(servers[i]);
+}
+var clear = document.createElement('div');
+clear.style.cssText = 'clear: both;';
+serverGrid.appendChild(clear);
+
+function createServerGrid(v) {
+  for (var i = 1; i <= 5; i++) {
+    var p = document.createElement('div');
+    p.innerHTML = v + i;
+    p.id = 'server-' + v + i;
+    p.className = 'server-grid';
+    serverGrid.appendChild(p);
+
+    var blinkText = new zeu.BlinkText(document.getElementById(p.id))
+    blinkText.blinkCss = 'color: white; background-color: ' + red + ';';
+    serverTexts.push(blinkText);
+  }
+}
+
+setInterval(function() {
+  for (var i = 0; i < serverTexts.length; i++) {
+    var status = getRandomInt(0, 2);
+    if (status === 0) {
+      serverTexts[i].blinkCss = 'color: white; background-color: ' + red + ';';
+      serverTexts[i].blink();
+    } else if (status === 1) {
+      serverTexts[i].blinkCss = 'color: white; background-color: ' + blue_d5 + ';';
+      serverTexts[i].blink();  
+    } else {
+      serverTexts[i].unblink();
+    }
+  }
+}, 10000);
+
+var volumenMeterConfig = {
+  lineColor: blue_d5,
+  fontColor: white,
+  fillColor: blue_l2,
+  lineWidth: 3
+};
+var volumeMeter1 = new zeu.VolumeMeter(document.getElementById('volume-meter-1'), volumenMeterConfig);
+var volumeMeter2 = new zeu.VolumeMeter(document.getElementById('volume-meter-2'), volumenMeterConfig);
+var volumeMeter3 = new zeu.VolumeMeter(document.getElementById('volume-meter-3'), volumenMeterConfig);
+var volumeMeter4 = new zeu.VolumeMeter(document.getElementById('volume-meter-4'), volumenMeterConfig);
+var volumeMeter5 = new zeu.VolumeMeter(document.getElementById('volume-meter-5'), volumenMeterConfig);
+var volumeMeter6 = new zeu.VolumeMeter(document.getElementById('volume-meter-6'), volumenMeterConfig);
+
+setInterval(function() {
+  volumeMeter1.value = getRandomInt(0, 100);
+  volumeMeter2.value = getRandomInt(0, 100);
+  volumeMeter3.value = getRandomInt(0, 100);
+  volumeMeter4.value = getRandomInt(0, 100);
+  volumeMeter5.value = getRandomInt(0, 100);
+  volumeMeter6.value = getRandomInt(0, 100);
+}, 1000);
+
+var roundFanConfig = {fanColor: blue, centerColor: black};
+var roundFan1 = new zeu.RoundFan(document.getElementById('round-fan-1'), roundFanConfig);
+var roundFan2 = new zeu.RoundFan(document.getElementById('round-fan-2'), roundFanConfig);
+var roundFan3 = new zeu.RoundFan(document.getElementById('round-fan-3'), roundFanConfig);
+var roundFan4 = new zeu.RoundFan(document.getElementById('round-fan-4'), roundFanConfig);
+roundFan1.speed = getRandomInt(1, 5);
+roundFan2.speed = getRandomInt(1, 5)
+roundFan3.speed = getRandomInt(1, 5)
+roundFan4.speed = getRandomInt(1, 5)
+roundFan1.on();
+roundFan2.on();
+roundFan3.on();
+roundFan4.on();
+
+var fanSpeed1 = document.getElementById('fan-speed-1');
+var fanSpeed2 = document.getElementById('fan-speed-2');
+var fanSpeed3 = document.getElementById('fan-speed-3');
+var fanSpeed4 = document.getElementById('fan-speed-4');
+fanSpeed1.innerHTML = roundFan1.speed * 5;
+fanSpeed2.innerHTML = roundFan2.speed * 5;
+fanSpeed3.innerHTML = roundFan3.speed * 5;
+fanSpeed4.innerHTML = roundFan4.speed * 5;
+
+var messageQueueConfig = {barColor: blue_l2, barWidth: 60};
+var messageQueue1 = new zeu.MessageQueue(document.getElementById('message-queue-1'), messageQueueConfig);
+var messageQueue2 = new zeu.MessageQueue(document.getElementById('message-queue-2'), messageQueueConfig);
+var messageQueue3 = new zeu.MessageQueue(document.getElementById('message-queue-3'), messageQueueConfig);
+var messageQueue4 = new zeu.MessageQueue(document.getElementById('message-queue-4'), messageQueueConfig);
+var messageQueue5 = new zeu.MessageQueue(document.getElementById('message-queue-5'), messageQueueConfig);
+var messageQueue6 = new zeu.MessageQueue(document.getElementById('message-queue-6'), messageQueueConfig);
+
+var mqSize1 = document.getElementById('queue-size-1');
+var mqSize2 = document.getElementById('queue-size-2');
+var mqSize3 = document.getElementById('queue-size-3');
+var mqSize4 = document.getElementById('queue-size-4');
+var mqSize5 = document.getElementById('queue-size-5');
+var mqSize6 = document.getElementById('queue-size-6');
+
+setInterval(function() {
+  if (isPush()) { messageQueue1.push(); }
+  if (isPush()) { messageQueue2.push(); }
+  if (isPush()) { messageQueue3.push(); }
+  if (isPush()) { messageQueue4.push(); }
+  if (isPush()) { messageQueue5.push(); }
+  if (isPush()) { messageQueue6.push(); }
+
+  mqSize1.innerHTML = messageQueue1.queueSize;
+  mqSize2.innerHTML = messageQueue2.queueSize;
+  mqSize3.innerHTML = messageQueue3.queueSize;
+  mqSize4.innerHTML = messageQueue4.queueSize;
+  mqSize5.innerHTML = messageQueue5.queueSize;
+  mqSize6.innerHTML = messageQueue6.queueSize;
+}, 500);
+
+function isPush() {
+  return getRandomInt(0, 1) === 0 ? true : false;
+}
+
+setInterval(function() {
+  messageQueue1.pop();
+  messageQueue2.pop();
+  messageQueue3.pop();
+  messageQueue4.pop();
+  messageQueue5.pop();
+  messageQueue6.pop();
+}, 1000);
+
+
+var scrollPanel = new zeu.ScrollPanel(document.getElementById('scroll-panel'));
+setInterval(function() {
+  var message = document.createElement('div'); 
+  var color = getSrollColor();
+  message.style.cssText = 'margin: 5px;';
+  var time = document.createElement('div');
+  time.innerHTML = getCurrentTime();
+  time.style.cssText = 'width: 100px; text-align: center; padding: 5px; float: left; color: white; background-color: ' +  color + ';';
+  var value = document.createElement('div');
+  value.innerHTML = 'msg-' + getRandomInt(100, 900) + ' incident ' + getRandomInt(0, 100);
+  value.style.cssText = 'width: 250px; padding: 5px; float: left; margin-left: 10px; border-bottom: 1px solid ' + color + ';';
+  var clear = document.createElement('div');
+  clear.style.cssText = 'clear: both;';
+  message.appendChild(time);
+  message.appendChild(value);
+  message.appendChild(clear);
+  scrollPanel.push(message);
+}, 500);
+
+function appendZero(n) {
+  if (n < 10) {
+    return '0' + n;
+  }
+  return n;
+}
+
+function getCurrentTime() {
+  var now = new Date();
+  var time = appendZero(now.getHours()) + ':' + appendZero(now.getMinutes()) + ':' + appendZero(now.getSeconds());
+  return time;
+}
+
+setInterval(function() {
+  scrollPanel.pop();
+}, 800);
+
+function getSrollColor() {
+  var c = getRandomInt(0, 3);
+  if (c == 0) { return blue; }
+  else if (c == 1) { return blue_l2; }
+  else if (c == 2) { return blue_d1; }
+  return blue_d5;
+}
+
+var barMeterConfig1 = {barColor: blue_d1};
+var barMeter1 = new zeu.BarMeter(document.getElementById('bar-meter-1'), barMeterConfig1);
+var barMeter2 = new zeu.BarMeter(document.getElementById('bar-meter-2'), barMeterConfig1);
+var barMeter3 = new zeu.BarMeter(document.getElementById('bar-meter-3'), barMeterConfig1);
+var barMeter4 = new zeu.BarMeter(document.getElementById('bar-meter-4'), barMeterConfig1);
+
+var barMeterConfig2 = {barColor: blue_d1};
+var barMeter5 = new zeu.BarMeter(document.getElementById('bar-meter-5'), barMeterConfig2);
+var barMeter6 = new zeu.BarMeter(document.getElementById('bar-meter-6'), barMeterConfig2);
+var barMeter7 = new zeu.BarMeter(document.getElementById('bar-meter-7'), barMeterConfig2);
+var barMeter8 = new zeu.BarMeter(document.getElementById('bar-meter-8'), barMeterConfig2);
+
+var stoargePct1 = document.getElementById('capacity-pct-1');
+var stoargePct2 = document.getElementById('capacity-pct-2');
+var stoargePct3 = document.getElementById('capacity-pct-3');
+var stoargePct4 = document.getElementById('capacity-pct-4');
+var stoargePct5 = document.getElementById('capacity-pct-5');
+var stoargePct6 = document.getElementById('capacity-pct-6');
+var stoargePct7 = document.getElementById('capacity-pct-7');
+var stoargePct8 = document.getElementById('capacity-pct-8');
+
+setInterval(function() {
+  barMeter1.value = getRandomInt(10, 90);
+  barMeter2.value = getRandomInt(10, 90);
+  barMeter3.value = getRandomInt(10, 90);
+  barMeter4.value = getRandomInt(10, 90);
+  barMeter5.value = getRandomInt(10, 90);
+  barMeter6.value = getRandomInt(10, 90);
+  barMeter7.value = getRandomInt(10, 90);
+  barMeter8.value = getRandomInt(10, 90);
+
+  stoargePct1.innerHTML = barMeter1.valuePct;
+  stoargePct2.innerHTML = barMeter2.valuePct;
+  stoargePct3.innerHTML = barMeter3.valuePct;
+  stoargePct4.innerHTML = barMeter4.valuePct;
+  stoargePct5.innerHTML = barMeter5.valuePct;
+  stoargePct6.innerHTML = barMeter6.valuePct;
+  stoargePct7.innerHTML = barMeter7.valuePct;
+  stoargePct8.innerHTML = barMeter8.valuePct;
+  
+}, 5000);
+
+
+var warningDialog = new zeu.WarningDialog();
+warningDialog.reason = 'PLEASE CHECK YOUR SERVER!';
+
+setInterval(function() {
+  warningDialog.blink();
+  setTimeout(function() {
+    warningDialog.unblink();
+  }, 6500);
+}, 20000);
+
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+</script>
+</body>
+</html>
