@@ -11,6 +11,17 @@ From dist
 <script src="zeu.min.js"></script>
 ```
 
+NPM
+```html
+npm i zeu
+```
+
+CDN
+```html
+<script src="https://cdn.jsdelivr.net/npm/zeu"></script>
+```
+
+
 ## Quick Start
 
 Let's build our first Zeu component!
