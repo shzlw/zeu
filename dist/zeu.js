@@ -146,8 +146,7 @@ function () {
   _createClass(AnimationTimer, [{
     key: "render",
     value: function render() {
-      window.requestAnimationFrame(this.render); // FPS control
-
+      // FPS control
       var now = Date.now();
       var elapsed = now - this._lastFrame;
 
@@ -166,6 +165,8 @@ function () {
           drawFrameObj.func.call();
         }
       }
+
+      window.requestAnimationFrame(this.render);
     }
   }, {
     key: "setFps",
@@ -253,9 +254,9 @@ function (_BaseComponent) {
       this._min = options.min || 0;
       this._max = options.max || 100;
       this._value = options.value || 0;
-      this._dashColor = options.dashColor || _color.COLOR.grey;
-      this._barColor = options.barColor || _color.COLOR.green;
-      this._speed = options.speed || 5;
+      this.dashColor = options.dashColor || _color.COLOR.grey;
+      this.barColor = options.barColor || _color.COLOR.green;
+      this.speed = options.speed || 5;
       this._isGradient = options.gradient || false;
       this._space = options.space || 20;
     }
@@ -263,21 +264,12 @@ function (_BaseComponent) {
     key: "drawObject",
     value: function drawObject() {
       this.clear();
-
-      this._ctx.save();
-
-      this.scale(); // Draw the dash.
-
-      this._ctx.fillStyle = this._dashColor;
+      this.save(); // Draw the dash.
 
       for (var i = 0; i < 10; i++) {
         var y = 5 + i * 20;
 
-        this._ctx.beginPath();
-
-        this._ctx.fillRect(this._space, y, this._barWidth, this._barHeight);
-
-        this._ctx.closePath();
+        this._shape.fillRect(this._space, y, this._barWidth, this._barHeight, this.dashColor);
       } // Draw bars.
 
 
@@ -288,9 +280,9 @@ function (_BaseComponent) {
         var colors = [];
 
         if (this._isGradient) {
-          colors = _utility.default.generateGradientColor(_color.COLOR.white, this._barColor, bar);
+          colors = _utility.default.generateGradientColor(_color.COLOR.white, this.barColor, bar);
         } else {
-          this._ctx.fillStyle = this._barColor;
+          this._ctx.fillStyle = this.barColor;
         }
 
         for (var _i = 0; _i < bar; _i++) {
@@ -307,7 +299,7 @@ function (_BaseComponent) {
           this._ctx.closePath();
         }
 
-        this._currBar += this._speed;
+        this._currBar += this.speed;
       }
 
       this._ctx.restore();
@@ -323,21 +315,6 @@ function (_BaseComponent) {
     key: "valuePct",
     get: function get() {
       return Math.floor((this._value - this._min) / (this._max - this._min) * 100);
-    }
-  }, {
-    key: "dashColor",
-    set: function set(s) {
-      this._dashColor = s;
-    }
-  }, {
-    key: "barColor",
-    set: function set(s) {
-      this._barColor = s;
-    }
-  }, {
-    key: "speed",
-    set: function set(n) {
-      this._speed = n;
     }
   }]);
 
@@ -367,6 +344,8 @@ exports.default = void 0;
 var _global = __webpack_require__(/*! ./global */ "./src/global.js");
 
 var _utility = _interopRequireDefault(__webpack_require__(/*! ./utility */ "./src/utility.js"));
+
+var _shape = _interopRequireDefault(__webpack_require__(/*! ./shape */ "./src/shape.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -408,7 +387,9 @@ function () {
 
     this._eventQueue = []; // Bind the drawFrame function.
 
-    this.drawFrame = this.drawFrame.bind(this); // Set options
+    this.drawFrame = this.drawFrame.bind(this); // Init Shape instance.
+
+    this._shape = new _shape.default(this._ctx); // Set options
 
     this.setOptions(options); // Post constructor.
 
@@ -464,6 +445,13 @@ function () {
     key: "scale",
     value: function scale() {
       this._ctx.scale(this._scaleX, this._scaleY);
+    }
+  }, {
+    key: "save",
+    value: function save() {
+      this._ctx.save();
+
+      this.scale();
     }
   }, {
     key: "addToAnimationQueue",
@@ -760,10 +748,7 @@ function (_BaseComponent) {
       var now = _utility.default.addHour(this._hourOffset);
 
       this.clear();
-
-      this._ctx.save();
-
-      this.scale();
+      this.save();
       this.drawTwoDigits(this._ds, now.getHours(), this._numberWidth + this._space);
 
       this._ds.drawColon();
@@ -1196,14 +1181,9 @@ function (_BaseComponent) {
       this._ctx.textAlign = 'center';
       this._ctx.font = '12px Arial';
       this.clear();
+      this.save(); // Draw the horizontal line
 
-      this._ctx.save();
-
-      this.scale(); // Draw the horizontal line
-
-      this._ctx.fillStyle = this._fontColor;
-
-      this._ctx.fillRect(0, 50, this._viewWidth, 2); // Draw the pulse
+      this._shape.fillRect(0, 50, this._viewWidth, 2, this._fontColor); // Draw the pulse
 
 
       for (var i = 0; i < this._queue.length; i++) {
@@ -1214,13 +1194,7 @@ function (_BaseComponent) {
 
           this._ctx.fillText(q.time, q.x, 90);
 
-          this._ctx.beginPath();
-
-          this._ctx.fillStyle = this._fontColor;
-
-          this._ctx.fillRect(q.x - 1, 45, 2, 12);
-
-          this._ctx.closePath();
+          this._shape.fillRect(q.x - 1, 45, 2, 12, this._fontColor);
         } else {
           this._ctx.fillStyle = q.color;
 
@@ -1428,10 +1402,7 @@ function (_BaseComponent) {
     key: "drawObject",
     value: function drawObject() {
       this.clear();
-
-      this._ctx.save();
-
-      this.scale(); // Bars can be seen in the view
+      this.save(); // Bars can be seen in the view
 
       var bars = Math.floor(this._viewHeight / (this._barHeight + this._space));
       var drawQueueSize = Math.min(this._queue.length, bars);
@@ -1446,13 +1417,7 @@ function (_BaseComponent) {
           q.y = currY;
         }
 
-        this._ctx.beginPath();
-
-        this._ctx.fillStyle = q.color;
-
-        this._ctx.fillRect(q.x, q.y, this._viewWidth - 2 * (this._arcWidth + q.space), this._barHeight);
-
-        this._ctx.closePath();
+        this._shape.fillRect(q.x, q.y, this._viewWidth - 2 * (this._arcWidth + q.space), this._barHeight, q.color);
 
         this._ctx.beginPath();
 
@@ -1576,23 +1541,20 @@ function (_BaseComponent) {
     value: function setOptions() {
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var center = options.center || {};
-      this._fanColor = options.fanColor || _color.COLOR.green;
-      this._centerColor = center.color || _color.COLOR.green;
-      this._centerBgColor = center.bgColor || _color.COLOR.white;
-      this._speed = options.speed || 1;
+      this.fanColor = options.fanColor || _color.COLOR.green;
+      this.centerColor = center.color || _color.COLOR.green;
+      this.centerBgColor = center.bgColor || _color.COLOR.white;
+      this.speed = options.speed || 1;
     }
   }, {
     key: "drawObject",
     value: function drawObject() {
-      this._degree = _utility.default.getNextAngleByDegree(this._degree, this._speed);
+      this._degree = _utility.default.getNextAngleByDegree(this._degree, this.speed);
 
       var angle = _utility.default.getAngleByDegree(this._degree);
 
       this.clear();
-
-      this._ctx.save();
-
-      this.scale();
+      this.save();
 
       this._ctx.translate(100, 100);
 
@@ -1622,7 +1584,7 @@ function (_BaseComponent) {
 
       this._ctx.quadraticCurveTo(-100, -80, 0, 0);
 
-      this._ctx.fillStyle = this._fanColor;
+      this._ctx.fillStyle = this.fanColor;
 
       this._ctx.fill();
 
@@ -1632,7 +1594,7 @@ function (_BaseComponent) {
 
       this._ctx.arc(0, 0, 35, 0, 2 * Math.PI);
 
-      this._ctx.fillStyle = this._centerBgColor;
+      this._ctx.fillStyle = this.centerBgColor;
 
       this._ctx.fill();
 
@@ -1642,45 +1604,25 @@ function (_BaseComponent) {
 
       this._ctx.arc(0, 0, 30, 0, 2 * Math.PI);
 
-      this._ctx.fillStyle = this._centerColor;
+      this._ctx.fillStyle = this.centerColor;
 
       this._ctx.fill();
 
       this._ctx.closePath();
 
-      this._ctx.strokeStyle = this._centerColor;
+      this._ctx.strokeStyle = this.centerColor;
 
       this._ctx.beginPath();
 
       this._ctx.arc(0, 0, 10, 0, 2 * Math.PI);
 
-      this._ctx.fillStyle = this._centerBgColor;
+      this._ctx.fillStyle = this.centerBgColor;
 
       this._ctx.fill();
 
       this._ctx.closePath();
 
       this._ctx.restore();
-    }
-  }, {
-    key: "fanColor",
-    set: function set(s) {
-      this._fanColor = s;
-    }
-  }, {
-    key: "centerColor",
-    set: function set(s) {
-      this._centerColor = s;
-    }
-  }, {
-    key: "speed",
-    set: function set(n) {
-      this._speed = n;
-    }
-  }, {
-    key: "centerBgColor",
-    set: function set(s) {
-      this._centerBgColor = s;
     }
   }]);
 
@@ -1744,6 +1686,147 @@ function () {
 var _default = new Settings();
 
 exports.default = _default;
+module.exports = exports["default"];
+
+/***/ }),
+
+/***/ "./src/shape.js":
+/*!**********************!*\
+  !*** ./src/shape.js ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Shape =
+/*#__PURE__*/
+function () {
+  /**
+   * @constructor
+   * @param {object} ctx contect from canvas.getContext('2d')
+   */
+  function Shape(ctx) {
+    _classCallCheck(this, Shape);
+
+    this._ctx = ctx;
+  }
+  /**
+   * Create a filled rectangle
+   * @param {number} x1
+   * @param {number} y1
+   * @param {number} x2
+   * @param {number} y2
+   * @param {string} fillStyle
+   */
+
+
+  _createClass(Shape, [{
+    key: "fillRect",
+    value: function fillRect(x1, y1, x2, y2, fillStyle) {
+      this._ctx.beginPath();
+
+      this._ctx.fillStyle = fillStyle;
+
+      this._ctx.fillRect(x1, y1, x2, y2);
+
+      this._ctx.closePath();
+    }
+    /**
+     * Create a filled triangle
+     * @param {number} x1
+     * @param {number} y1
+     * @param {number} x2
+     * @param {number} y2
+     * @param {number} x3
+     * @param {number} y3
+     * @param {string} fillStyle
+     */
+
+  }, {
+    key: "fillTriangle",
+    value: function fillTriangle(x1, y1, x2, y2, x3, y3, fillStyle) {
+      this._ctx.beginPath();
+
+      this._ctx.fillStyle = fillStyle;
+
+      this._ctx.moveTo(x1, y1);
+
+      this._ctx.lineTo(x2, y2);
+
+      this._ctx.lineTo(x3, y3);
+
+      this._ctx.fill();
+
+      this._ctx.closePath();
+    }
+    /**
+     * Create a filled text
+     * @param {string} text
+     * @param {number} x
+     * @param {number} y
+     * @param {string} font
+     * @param {string} textAlign
+     * @param {string} fillStyle
+     */
+
+  }, {
+    key: "fillText",
+    value: function fillText(text, x, y, font, textAlign, fillStyle) {
+      this._ctx.beginPath();
+
+      this._ctx.font = font;
+      this._ctx.textAlign = textAlign;
+      this._ctx.fillStyle = fillStyle;
+
+      this._ctx.fillText(text, x, y);
+
+      this._ctx.closePath();
+    }
+    /**
+     * Create a line
+     * @param {number} x1
+     * @param {number} y1
+     * @param {number} x2
+     * @param {number} y2
+     * @param {number} lineWidth
+     * @param {string} strokeStyle
+     */
+
+  }, {
+    key: "line",
+    value: function line(x1, y1, x2, y2, lineWidth, strokeStyle) {
+      this._ctx.beginPath();
+
+      this._ctx.lineWidth = lineWidth;
+      this._ctx.strokeStyle = strokeStyle;
+
+      this._ctx.moveTo(x1, y1);
+
+      this._ctx.lineTo(x2, y2);
+
+      this._ctx.stroke();
+
+      this._ctx.closePath();
+    }
+  }]);
+
+  return Shape;
+}();
+
+exports.default = Shape;
 module.exports = exports["default"];
 
 /***/ }),
@@ -1815,24 +1898,24 @@ function (_BaseComponent) {
       var c3 = options.circle3 || {};
       var c4 = options.circle4 || {};
       var text = options.text || {};
-      this._speed1 = c1.speed || 0.5;
-      this._color1 = c1.color || _color.COLOR.red;
-      this._speed2 = c2.speed || -0.5;
-      this._color2 = c2.color || _color.COLOR.yellow;
-      this._speed3 = c3.speed || 0.5;
-      this._color3 = c3.color || _color.COLOR.blue;
-      this._speed4 = c4.speed || -0.5;
-      this._color4 = c4.color || _color.COLOR.grey;
-      this._textColor = text.color || _color.COLOR.green;
-      this._textValue = text.value || '';
+      this.speed1 = c1.speed || 0.5;
+      this.color1 = c1.color || _color.COLOR.red;
+      this.speed2 = c2.speed || -0.5;
+      this.color2 = c2.color || _color.COLOR.yellow;
+      this.speed3 = c3.speed || 0.5;
+      this.color3 = c3.color || _color.COLOR.blue;
+      this.speed4 = c4.speed || -0.5;
+      this.color4 = c4.color || _color.COLOR.grey;
+      this.textColor = text.color || _color.COLOR.green;
+      this.textValue = text.value || '';
     }
   }, {
     key: "drawObject",
     value: function drawObject() {
-      this._degree1 = _utility.default.getNextAngleByDegree(this._degree1, this._speed1);
-      this._degree2 = _utility.default.getNextAngleByDegree(this._degree2, this._speed2);
-      this._degree3 = _utility.default.getNextAngleByDegree(this._degree3, this._speed3);
-      this._degree4 = _utility.default.getNextAngleByDegree(this._degree4, this._speed4);
+      this._degree1 = _utility.default.getNextAngleByDegree(this._degree1, this.speed1);
+      this._degree2 = _utility.default.getNextAngleByDegree(this._degree2, this.speed2);
+      this._degree3 = _utility.default.getNextAngleByDegree(this._degree3, this.speed3);
+      this._degree4 = _utility.default.getNextAngleByDegree(this._degree4, this.speed4);
 
       var a1 = _utility.default.getAngleByDegree(this._degree1);
 
@@ -1843,17 +1926,14 @@ function (_BaseComponent) {
       var a4 = _utility.default.getAngleByDegree(this._degree4);
 
       this.clear();
-
-      this._ctx.save();
-
-      this.scale();
+      this.save();
 
       this._ctx.translate(100, 100);
 
       this._ctx.rotate(a1); // Draw bar circle 1.
 
 
-      this._ctx.strokeStyle = this._color1;
+      this._ctx.strokeStyle = this.color1;
       this._ctx.lineWidth = 8;
       var space = 0.02;
       var len = 0.5;
@@ -1876,16 +1956,14 @@ function (_BaseComponent) {
 
       this._ctx.restore();
 
-      this._ctx.save();
-
-      this.scale();
+      this.save();
 
       this._ctx.translate(100, 100);
 
       this._ctx.rotate(a3); // Draw dot circle 3.
 
 
-      this._ctx.fillStyle = this._color3;
+      this._ctx.fillStyle = this.color3;
 
       for (var _i = 0; _i < 360; _i = _i + 9) {
         var a = _utility.default.getAngleByDegree(_i);
@@ -1904,17 +1982,12 @@ function (_BaseComponent) {
 
       this._ctx.restore();
 
-      this._ctx.save();
-
-      this.scale();
+      this.save();
 
       this._ctx.translate(100, 100);
 
       this._ctx.rotate(a2); // Draw bar circle 2.
 
-
-      this._ctx.lineWidth = 6;
-      this._ctx.strokeStyle = this._color2;
 
       for (var _i2 = 0; _i2 < 360; _i2 = _i2 + 8) {
         var _a = _utility.default.getAngleByDegree(_i2);
@@ -1924,22 +1997,12 @@ function (_BaseComponent) {
         var x2 = 83 * Math.cos(_a);
         var y2 = 83 * Math.sin(_a);
 
-        this._ctx.beginPath();
-
-        this._ctx.moveTo(x1, y1);
-
-        this._ctx.lineTo(x2, y2);
-
-        this._ctx.closePath();
-
-        this._ctx.stroke();
+        this._shape.line(x1, y1, x2, y2, 6, this.color2);
       }
 
       this._ctx.restore();
 
-      this._ctx.save();
-
-      this.scale();
+      this.save();
 
       this._ctx.translate(100, 100);
 
@@ -1947,7 +2010,7 @@ function (_BaseComponent) {
 
 
       this._ctx.lineWidth = 5;
-      this._ctx.strokeStyle = this._color4;
+      this._ctx.strokeStyle = this.color4;
       len = (2 - 12 * space) / 12;
       start = 0;
       end = len;
@@ -1967,67 +2030,11 @@ function (_BaseComponent) {
 
       this._ctx.restore();
 
-      this._ctx.save();
+      this.save(); // Draw the text in the middle.
 
-      this.scale(); // Draw the text in the middle.
-
-      this._ctx.font = this._font;
-      this._ctx.textAlign = 'center';
-      this._ctx.fillStyle = this._textColor;
-
-      this._ctx.fillText(this._textValue, 100, 110);
+      this._shape.fillText(this.textValue, 100, 110, this._font, 'center', this.textColor);
 
       this._ctx.restore();
-    }
-  }, {
-    key: "speed1",
-    set: function set(n) {
-      this._speed1 = n;
-    }
-  }, {
-    key: "speed2",
-    set: function set(n) {
-      this._speed2 = n;
-    }
-  }, {
-    key: "speed3",
-    set: function set(n) {
-      this._speed3 = n;
-    }
-  }, {
-    key: "speed4",
-    set: function set(n) {
-      this._speed4 = n;
-    }
-  }, {
-    key: "color1",
-    set: function set(s) {
-      this._color1 = s;
-    }
-  }, {
-    key: "color2",
-    set: function set(s) {
-      this._color2 = s;
-    }
-  }, {
-    key: "color3",
-    set: function set(s) {
-      this._color3 = s;
-    }
-  }, {
-    key: "color4",
-    set: function set(s) {
-      this._color4 = s;
-    }
-  }, {
-    key: "textColor",
-    set: function set(s) {
-      this._textColor = s;
-    }
-  }, {
-    key: "textValue",
-    set: function set(s) {
-      this._textValue = s;
     }
   }]);
 
@@ -2111,23 +2118,21 @@ function (_BaseComponent) {
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var text = options.text || {};
       this._textValue = text.value || '';
-      this._textColor = text.fontColor || _color.COLOR.white;
-      this._textBgColor = text.bgColor || _color.COLOR.blue;
-      this._bgColor = options.bgColor || 'rgba(0, 0, 0, 0.01)';
-      this._borderColor = options.borderColor || _color.COLOR.blue;
-      this._waveColor = options.waveColor || _color.COLOR.blue;
+      this.textColor = text.fontColor || _color.COLOR.white;
+      this.textBgColor = text.bgColor || _color.COLOR.blue;
+      this.bgColor = options.bgColor || 'rgba(0, 0, 0, 0.01)';
+      this.borderColor = options.borderColor || _color.COLOR.blue;
+      this.waveColor = options.waveColor || _color.COLOR.blue;
     }
   }, {
     key: "drawObject",
     value: function drawObject() {
       this._ctx.textAlign = 'center';
-      this._ctx.fillStyle = this._bgColor;
+      this._ctx.fillStyle = this.bgColor;
 
       this._ctx.fillRect(0, 0, this._width, this._height);
 
-      this._ctx.save();
-
-      this.scale(); // Draw wave line
+      this.save(); // Draw wave line
 
       if (this._isWaveOn) {
         var waveWidth = 1;
@@ -2136,7 +2141,7 @@ function (_BaseComponent) {
           this._waveY = 0;
           this._isWaveOn = false;
         } else {
-          this._ctx.fillStyle = this._waveColor;
+          this._ctx.fillStyle = this.waveColor;
 
           this._ctx.beginPath();
 
@@ -2156,7 +2161,7 @@ function (_BaseComponent) {
       // Top left
 
 
-      this._ctx.fillStyle = this._borderColor;
+      this._ctx.fillStyle = this.borderColor;
 
       this._ctx.fillRect(0, 0, this._borderHeight, this._borderWidth);
 
@@ -2178,21 +2183,12 @@ function (_BaseComponent) {
       this._ctx.fillRect(this._viewWidth - this._borderWidth, this._viewHeight - this._borderHeight, this._borderWidth, this._borderHeight); // Draw background rect.
 
 
-      this._ctx.fillStyle = this._textBgColor;
+      this._ctx.fillStyle = this.textBgColor;
 
       this._ctx.fillRect(this._borderWidth + this._space, this._borderWidth + this._space, this._viewWidth - 2 * (this._borderWidth + this._space), this._viewHeight - 2 * (this._borderWidth + this._space)); // Draw text.
 
 
-      this._ctx.fillStyle = this._textColor;
-
-      this._ctx.beginPath();
-
-      this._ctx.textAlign = 'center';
-      this._ctx.font = '40px Arial';
-
-      this._ctx.fillText(this._textValue, this._viewWidth / 2, this._viewHeight - 35);
-
-      this._ctx.closePath();
+      this._shape.fillText(this._textValue, this._viewWidth / 2, this._viewHeight - 35, '40px Arial', 'center', this.textColor);
 
       this._ctx.restore();
     }
@@ -2201,31 +2197,6 @@ function (_BaseComponent) {
     set: function set(s) {
       this._textValue = s;
       this._isWaveOn = true;
-    }
-  }, {
-    key: "textColor",
-    set: function set(s) {
-      this._textColor = s;
-    }
-  }, {
-    key: "textBgColor",
-    set: function set(s) {
-      this._textBgColor = s;
-    }
-  }, {
-    key: "bgColor",
-    set: function set(s) {
-      this._bgColor = s;
-    }
-  }, {
-    key: "borderColor",
-    set: function set(s) {
-      this._borderColor = s;
-    }
-  }, {
-    key: "waveColor",
-    set: function set(s) {
-      this._waveColor = s;
     }
   }]);
 
@@ -2316,25 +2287,22 @@ function (_BaseComponent) {
       var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var bar = options.bar || {};
       var marker = options.marker || {};
-      this._percentageBgColor = marker.bgColor || _color.COLOR.black;
-      this._markerFontColor = marker.fontColor || _color.COLOR.white;
-      this._speed = bar.speed || 5;
-      this._fillColor = bar.fillColor || _color.COLOR.red;
-      this._bgColor = bar.bgColor || _color.COLOR.lightWhite;
+      this.markerBgColor = marker.bgColor || _color.COLOR.black;
+      this.markerFontColor = marker.fontColor || _color.COLOR.white;
+      this.speed = bar.speed || 5;
+      this.fillColor = bar.fillColor || _color.COLOR.red;
+      this.bgColor = bar.bgColor || _color.COLOR.lightWhite;
       this._lineColor = bar.borderColor || _color.COLOR.lightGreen;
       this._percentageValue = options.value || 0;
-      this._displayValue = options.displayValue || '';
-      this._arrowColor = options.arrowColor || _color.COLOR.blue;
+      this.displayValue = options.displayValue || '';
+      this.arrowColor = options.arrowColor || _color.COLOR.blue;
     }
   }, {
     key: "drawObject",
     value: function drawObject() {
       this._ctx.textAlign = 'center';
       this.clear();
-
-      this._ctx.save();
-
-      this.scale();
+      this.save();
       this._ctx.globalCompositeOperation = 'destination-over'; // Draw left half text
 
       this._ctx.beginPath();
@@ -2343,20 +2311,18 @@ function (_BaseComponent) {
 
       this._ctx.clip();
 
-      this._ctx.fillStyle = this._bgColor;
+      this._ctx.fillStyle = this.bgColor;
       this._ctx.font = '30px Arial';
 
-      this._ctx.fillText(this._displayValue, this._viewWidth / 2, 75);
+      this._ctx.fillText(this.displayValue, this._viewWidth / 2, 75);
 
-      this._ctx.fillStyle = this._fillColor;
+      this._ctx.fillStyle = this.fillColor;
 
       this._ctx.fillRect(this._arrowWidth, this._pctHeight, this._barX - this._arrowWidth, this._meterHeight);
 
       this._ctx.restore();
 
-      this._ctx.save();
-
-      this.scale();
+      this.save();
       this._ctx.globalCompositeOperation = 'destination-over'; // Draw right half text
 
       this._ctx.beginPath();
@@ -2365,20 +2331,16 @@ function (_BaseComponent) {
 
       this._ctx.clip();
 
-      this._ctx.fillStyle = this._fillColor;
+      this._ctx.fillStyle = this.fillColor;
       this._ctx.font = '30px Arial';
 
-      this._ctx.fillText(this._displayValue, this._viewWidth / 2, 75);
+      this._ctx.fillText(this.displayValue, this._viewWidth / 2, 75);
 
-      this._ctx.fillStyle = this._bgColor;
-
-      this._ctx.fillRect(this._barX, this._pctHeight, this._viewWidth - this._barX - this._arrowWidth, this._meterHeight);
+      this._shape.fillRect(this._barX, this._pctHeight, this._viewWidth - this._barX - this._arrowWidth, this._meterHeight, this.bgColor);
 
       this._ctx.restore();
 
-      this._ctx.save();
-
-      this.scale();
+      this.save();
       this._ctx.globalCompositeOperation = 'source-over'; // Draw the border.
 
       this._ctx.lineWidth = this._lineWidth;
@@ -2393,18 +2355,18 @@ function (_BaseComponent) {
       this._ctx.closePath(); // Draw percentage value
 
 
-      this._ctx.fillStyle = this._percentageBgColor;
+      this._ctx.fillStyle = this.markerBgColor;
 
       this._ctx.fillRect(this._barX - 25, 0, 50, this._actualPctHeight);
 
-      this._ctx.fillStyle = this._markerFontColor;
+      this._ctx.fillStyle = this.markerFontColor;
       this._ctx.font = '16px Arial';
 
       this._ctx.fillText(this._percentageValue + '%', this._barX, 20);
 
       this._ctx.beginPath();
 
-      this._ctx.fillStyle = this._percentageBgColor;
+      this._ctx.fillStyle = this.markerBgColor;
 
       this._ctx.moveTo(this._barX - 8, this._actualPctHeight - this._lineWidth / 2);
 
@@ -2430,7 +2392,7 @@ function (_BaseComponent) {
       this._ctx.restore(); // Calculate next position barX
 
 
-      this._barX = _utility.default.getNextPos(this._barX, this._nextBarX, this._speed);
+      this._barX = _utility.default.getNextPos(this._barX, this._nextBarX, this.speed);
     }
   }, {
     key: "drawLeftArrow",
@@ -2441,19 +2403,7 @@ function (_BaseComponent) {
         this._leftArrowX = _utility.default.getNextPos(this._leftArrowX, 0, -this._arrowSpeed);
       }
 
-      this._ctx.beginPath();
-
-      this._ctx.fillStyle = this._arrowColor;
-
-      this._ctx.moveTo(this._leftArrowX, this._actualPctHeight + 10);
-
-      this._ctx.lineTo(this._leftArrowX - 20, this._middleBarHeight);
-
-      this._ctx.lineTo(this._leftArrowX, 90);
-
-      this._ctx.fill();
-
-      this._ctx.closePath();
+      this._shape.fillTriangle(this._leftArrowX, this._actualPctHeight + 10, this._leftArrowX - 20, this._middleBarHeight, this._leftArrowX, 90, this.arrowColor);
     }
   }, {
     key: "drawRightArrow",
@@ -2464,29 +2414,17 @@ function (_BaseComponent) {
         this._rightArrowX = _utility.default.getNextPos(this._rightArrowX, this._viewWidth, this._arrowSpeed);
       }
 
-      this._ctx.beginPath();
-
-      this._ctx.fillStyle = this._arrowColor;
-
-      this._ctx.moveTo(this._rightArrowX, this._actualPctHeight + 10);
-
-      this._ctx.lineTo(this._rightArrowX + 20, this._middleBarHeight);
-
-      this._ctx.lineTo(this._rightArrowX, 90);
-
-      this._ctx.fill();
-
-      this._ctx.closePath();
+      this._shape.fillTriangle(this._rightArrowX, this._actualPctHeight + 10, this._rightArrowX + 20, this._middleBarHeight, this._rightArrowX, 90, this.arrowColor);
     }
   }, {
     key: "value",
     set: function set(value) {
       if (value >= 0 || value <= 100) {
         if (value < this._percentageValue) {
-          this._speed = -Math.abs(this._speed);
+          this.speed = -Math.abs(this.speed);
           this._arrow = 'left';
         } else if (value > this._percentageValue) {
-          this._speed = Math.abs(this._speed);
+          this.speed = Math.abs(this.speed);
           this._arrow = 'right';
         } else {
           this._arrow = null;
@@ -2495,41 +2433,6 @@ function (_BaseComponent) {
         this._percentageValue = Math.floor(value);
         this._nextBarX = this._percentageValue / 100 * this._meterWidth + this._arrowWidth;
       }
-    }
-  }, {
-    key: "displayValue",
-    set: function set(s) {
-      this._displayValue = s;
-    }
-  }, {
-    key: "speed",
-    set: function set(n) {
-      this._speed = n;
-    }
-  }, {
-    key: "fillColor",
-    set: function set(s) {
-      this._fillColor = s;
-    }
-  }, {
-    key: "bgColor",
-    set: function set(s) {
-      this._bgColor = s;
-    }
-  }, {
-    key: "arrowColor",
-    set: function set(s) {
-      this._arrowColor = s;
-    }
-  }, {
-    key: "markerFontColor",
-    set: function set(s) {
-      this._markerFontColor = s;
-    }
-  }, {
-    key: "markerBgColor",
-    set: function set(s) {
-      this._percentageBgColor = s;
     }
   }]);
 
@@ -2802,10 +2705,10 @@ function (_BaseComponent) {
       this._maxValue = max.value || 100;
       this._maxBgColor = max.bgColor || _color.COLOR.blue;
       this._barBorderColor = bar.borderColor || _color.COLOR.black;
-      this._barFillColor = bar.fillColor || _color.COLOR.green;
+      this.barFillColor = bar.fillColor || _color.COLOR.green;
       this._isGraident = bar.graident || false;
       this._speed = bar.speed || 5;
-      this._markerBgColor = marker.bgColor || _color.COLOR.yellow;
+      this.markerBgColor = marker.bgColor || _color.COLOR.yellow;
       this._markerFontColor = marker.fontColor || _color.COLOR.white;
       this._value = options.value || 0;
     }
@@ -2813,28 +2716,20 @@ function (_BaseComponent) {
     key: "drawObject",
     value: function drawObject() {
       this.clear();
+      this.save(); // Handle graident fill color.
 
-      this._ctx.save();
-
-      this.scale(); // Handle graident fill color.
+      var barFillStyle = this.barFillColor;
 
       if (this._isGraident) {
         var graident = this._ctx.createLinearGradient(this._viewWidth / 2, this._barY, this._viewWidth / 2, this._meterHeight + this._numberHeight);
 
-        graident.addColorStop(0, this._barFillColor);
+        graident.addColorStop(0, this.barFillColor);
         graident.addColorStop(1, 'white');
-        this._ctx.fillStyle = graident;
-      } else {
-        this._ctx.fillStyle = this._barFillColor;
+        barFillStyle = graident;
       } // Draw the filled part.
 
 
-      this._ctx.beginPath();
-
-      this._ctx.fillRect((this._viewWidth - this._meterWidth) / 2, this._barY, this._meterWidth, this._viewHeight - this._barY - this._numberHeight); // this._ctx.fillRect(0, this._barY, 10, 10);
-
-
-      this._ctx.closePath(); // Draw the border.
+      this._shape.fillRect((this._viewWidth - this._meterWidth) / 2, this._barY, this._meterWidth, this._viewHeight - this._barY - this._numberHeight, barFillStyle); // Draw the border.
 
 
       this._ctx.beginPath();
@@ -2881,60 +2776,27 @@ function (_BaseComponent) {
   }, {
     key: "drawMin",
     value: function drawMin() {
-      this._ctx.textAlign = 'center';
-      this._ctx.font = '15px Arial';
+      this._shape.fillRect(this._numberStart, this._viewHeight - this._numberHeight - this._lineWidth / 2, this._meterWidth + this._lineWidth, this._numberHeight + this._lineWidth / 2, this._minBgColor);
 
-      this._ctx.beginPath();
-
-      this._ctx.fillStyle = this._minBgColor;
-
-      this._ctx.fillRect(this._numberStart, this._viewHeight - this._numberHeight - this._lineWidth / 2, this._meterWidth + this._lineWidth, this._numberHeight + this._lineWidth / 2);
-
-      this._ctx.fillStyle = this._minFontColor;
-
-      this._ctx.fillText(this._minValue, this._meterWidth, this._meterHeight + this._numberHeight + 15);
-
-      this._ctx.closePath();
+      this._shape.fillText(this._minValue, this._meterWidth, this._meterHeight + this._numberHeight + 15, '15px Arial', 'center', this._minFontColor);
     }
   }, {
     key: "drawMax",
     value: function drawMax() {
-      this._ctx.textAlign = 'center';
-      this._ctx.font = '15px Arial';
+      this._shape.fillRect(this._numberStart, 0, this._meterWidth + this._lineWidth, this._numberHeight + this._lineWidth / 2, this._maxBgColor);
 
-      this._ctx.beginPath();
-
-      this._ctx.fillStyle = this._maxBgColor;
-
-      this._ctx.fillRect(this._numberStart, 0, this._meterWidth + this._lineWidth, this._numberHeight + this._lineWidth / 2);
-
-      this._ctx.fillStyle = this._maxFontColor;
-
-      this._ctx.fillText(this._maxValue, this._meterWidth, this._numberHeight - 4);
-
-      this._ctx.closePath();
+      this._shape.fillText(this._maxValue, this._meterWidth, this._numberHeight - 4, '15px Arial', 'center', this._maxFontColor);
     }
   }, {
     key: "drawMarker",
     value: function drawMarker() {
-      this._ctx.beginPath();
-
-      this._ctx.font = '10px Arial';
-      this._ctx.fillStyle = this._markerBgColor; // Draw value rect.
-
-      this._ctx.fillRect(this._numberStart + this._meterWidth + this._lineWidth, this._barY - 8, this._viewWidth - (this._numberStart + this._meterWidth + this._lineWidth), 16); // Draw value line.
-
-
-      this._ctx.fillRect(0, this._barY - this._lineWidth / 2, this._numberStart + this._meterWidth + this._lineWidth, this._lineWidth);
-
-      this._ctx.fillStyle = this._markerFontColor;
       var text = this._minMax === 'max' || this._minMax === 'min' ? this._actualValue : this._value;
 
-      this._ctx.fillText(text, (this._viewWidth - this._meterWidth) / 4 * 3 + this._meterWidth, this._barY + 4);
+      this._shape.fillRect(this._numberStart + this._meterWidth + this._lineWidth, this._barY - 8, this._viewWidth - (this._numberStart + this._meterWidth + this._lineWidth), 16, this.markerBgColor);
 
-      this._ctx.stroke();
+      this._shape.fillRect(0, this._barY - this._lineWidth / 2, this._numberStart + this._meterWidth + this._lineWidth, this._lineWidth, this.markerBgColor);
 
-      this._ctx.closePath();
+      this._shape.fillText(text, (this._viewWidth - this._meterWidth) / 4 * 3 + this._meterWidth, this._barY + 4, '10px Arial', 'center', this._markerFontColor);
     }
   }, {
     key: "value",
@@ -2955,16 +2817,6 @@ function (_BaseComponent) {
       this._speed = n < this._value ? Math.abs(this._speed) : -Math.abs(this._speed);
       this._nextBarY = this._viewHeight - (n - this._minValue) / (this._maxValue - this._minValue) * this._meterHeight - this._numberHeight;
       this._value = n;
-    }
-  }, {
-    key: "barFillColor",
-    set: function set(s) {
-      this._barFillColor = s;
-    }
-  }, {
-    key: "markerBgColor",
-    set: function set(s) {
-      this._markerBgColor = s;
     }
   }]);
 

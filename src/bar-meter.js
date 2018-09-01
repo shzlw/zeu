@@ -20,26 +20,22 @@ export default class BarMeter extends BaseComponent {
     this._min = options.min || 0;
     this._max = options.max || 100;
     this._value = options.value || 0;
-    this._dashColor = options.dashColor || COLOR.grey;
-    this._barColor = options.barColor || COLOR.green;
-    this._speed = options.speed || 5;
+    this.dashColor = options.dashColor || COLOR.grey;
+    this.barColor = options.barColor || COLOR.green;
+    this.speed = options.speed || 5;
     this._isGradient = options.gradient || false;
     this._space = options.space || 20;
   }
 
   drawObject() {
     this.clear();
-    this._ctx.save();
-    this.scale();
+    this.save();
 
     // Draw the dash.
-    this._ctx.fillStyle = this._dashColor;
     for (let i = 0; i < 10; i++) {
       let y = 5 + i * 20;
 
-      this._ctx.beginPath();
-      this._ctx.fillRect(this._space, y, this._barWidth, this._barHeight);
-      this._ctx.closePath();
+      this._shape.fillRect(this._space, y, this._barWidth, this._barHeight, this.dashColor);
     }
 
     // Draw bars.
@@ -51,9 +47,9 @@ export default class BarMeter extends BaseComponent {
       let colors = [];
 
       if (this._isGradient) {
-        colors = Utility.generateGradientColor(COLOR.white, this._barColor, bar);
+        colors = Utility.generateGradientColor(COLOR.white, this.barColor, bar);
       } else {
-        this._ctx.fillStyle = this._barColor;
+        this._ctx.fillStyle = this.barColor;
       }
 
       for (let i = 0; i < bar; i++) {
@@ -68,7 +64,7 @@ export default class BarMeter extends BaseComponent {
         this._ctx.closePath();
       }
 
-      this._currBar += this._speed;
+      this._currBar += this.speed;
     }
 
     this._ctx.restore();
@@ -82,18 +78,6 @@ export default class BarMeter extends BaseComponent {
 
   get valuePct() {
     return Math.floor((this._value - this._min) / (this._max - this._min) * 100);
-  }
-
-  set dashColor(s) {
-    this._dashColor = s;
-  }
-
-  set barColor(s) {
-    this._barColor = s;
-  }
-
-  set speed(n) {
-    this._speed = n;
   }
 }
 

@@ -13,21 +13,20 @@ export default class RoundFan extends BaseComponent {
   setOptions(options = {}) {
     const center = options.center || {};
 
-    this._fanColor = options.fanColor || COLOR.green;
+    this.fanColor = options.fanColor || COLOR.green;
 
-    this._centerColor = center.color || COLOR.green;
-    this._centerBgColor = center.bgColor || COLOR.white;
+    this.centerColor = center.color || COLOR.green;
+    this.centerBgColor = center.bgColor || COLOR.white;
 
-    this._speed = options.speed || 1;
+    this.speed = options.speed || 1;
   }
 
   drawObject() {
-    this._degree = Utility.getNextAngleByDegree(this._degree, this._speed);
+    this._degree = Utility.getNextAngleByDegree(this._degree, this.speed);
     const angle = Utility.getAngleByDegree(this._degree);
 
     this.clear();
-    this._ctx.save();
-    this.scale();
+    this.save();
     this._ctx.translate(100, 100);
     this._ctx.rotate(angle);
 
@@ -50,45 +49,29 @@ export default class RoundFan extends BaseComponent {
     this._ctx.quadraticCurveTo(-80, 60, -90, 0);
     this._ctx.quadraticCurveTo(-100, -80, 0, 0);
 
-    this._ctx.fillStyle = this._fanColor;
+    this._ctx.fillStyle = this.fanColor;
     this._ctx.fill();
     this._ctx.closePath();
 
     this._ctx.beginPath();
     this._ctx.arc(0, 0, 35, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this._centerBgColor;
+    this._ctx.fillStyle = this.centerBgColor;
     this._ctx.fill();
     this._ctx.closePath();
 
     this._ctx.beginPath();
     this._ctx.arc(0, 0, 30, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this._centerColor;
+    this._ctx.fillStyle = this.centerColor;
     this._ctx.fill();
     this._ctx.closePath();
 
-    this._ctx.strokeStyle = this._centerColor;
+    this._ctx.strokeStyle = this.centerColor;
     this._ctx.beginPath();
     this._ctx.arc(0, 0, 10, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this._centerBgColor;
+    this._ctx.fillStyle = this.centerBgColor;
     this._ctx.fill();
     this._ctx.closePath();
 
     this._ctx.restore();
-  }
-
-  set fanColor(s) {
-    this._fanColor = s;
-  }
-
-  set centerColor(s) {
-    this._centerColor = s;
-  }
-
-  set speed(n) {
-    this._speed = n;
-  }
-
-  set centerBgColor(s) {
-    this._centerBgColor = s;
   }
 }

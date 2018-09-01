@@ -48,8 +48,7 @@ export default class DigitalClock extends BaseComponent {
     let now = Utility.addHour(this._hourOffset);
 
     this.clear();
-    this._ctx.save();
-    this.scale();
+    this.save();
 
     this.drawTwoDigits(this._ds, now.getHours(), this._numberWidth + this._space);
     this._ds.drawColon();

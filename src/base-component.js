@@ -1,5 +1,6 @@
 import { GLOBAL } from './global';
 import Utility from './utility';
+import Shape from './shape';
 
 export default class BaseComponent {
 
@@ -37,6 +38,9 @@ export default class BaseComponent {
 
     // Bind the drawFrame function.
     this.drawFrame = this.drawFrame.bind(this);
+
+    // Init Shape instance.
+    this._shape = new Shape(this._ctx);
 
     // Set options
     this.setOptions(options);
@@ -88,6 +92,11 @@ export default class BaseComponent {
 
   scale() {
     this._ctx.scale(this._scaleX, this._scaleY);
+  }
+
+  save() {
+    this._ctx.save();
+    this.scale();
   }
 
   addToAnimationQueue() {

@@ -26,21 +26,20 @@ export default class TextBox extends BaseComponent {
     const text = options.text || {};
 
     this._textValue = text.value || '';
-    this._textColor = text.fontColor || COLOR.white;
-    this._textBgColor = text.bgColor || COLOR.blue;
+    this.textColor = text.fontColor || COLOR.white;
+    this.textBgColor = text.bgColor || COLOR.blue;
 
-    this._bgColor = options.bgColor || 'rgba(0, 0, 0, 0.01)';
-    this._borderColor = options.borderColor || COLOR.blue;
-    this._waveColor = options.waveColor || COLOR.blue;
+    this.bgColor = options.bgColor || 'rgba(0, 0, 0, 0.01)';
+    this.borderColor = options.borderColor || COLOR.blue;
+    this.waveColor = options.waveColor || COLOR.blue;
   }
 
   drawObject() {
     this._ctx.textAlign = 'center';
 
-    this._ctx.fillStyle = this._bgColor;
+    this._ctx.fillStyle = this.bgColor;
     this._ctx.fillRect(0, 0, this._width, this._height);
-    this._ctx.save();
-    this.scale();
+    this.save();
 
     // Draw wave line
     if (this._isWaveOn) {
@@ -50,7 +49,7 @@ export default class TextBox extends BaseComponent {
         this._waveY = 0;
         this._isWaveOn = false;
       } else {
-        this._ctx.fillStyle = this._waveColor;
+        this._ctx.fillStyle = this.waveColor;
         this._ctx.beginPath();
         this._ctx.fillRect(0, this._waveY, this._viewWidth + waveWidth, waveWidth);
         this._ctx.closePath();
@@ -64,7 +63,7 @@ export default class TextBox extends BaseComponent {
 
     // Draw the border.
     // Top left
-    this._ctx.fillStyle = this._borderColor;
+    this._ctx.fillStyle = this.borderColor;
     this._ctx.fillRect(0, 0, this._borderHeight, this._borderWidth);
     this._ctx.fillRect(0, 0, this._borderWidth, this._borderHeight);
     // Bottom left
@@ -81,18 +80,14 @@ export default class TextBox extends BaseComponent {
       this._borderWidth, this._borderHeight);
 
     // Draw background rect.
-    this._ctx.fillStyle = this._textBgColor;
+    this._ctx.fillStyle = this.textBgColor;
     this._ctx.fillRect(this._borderWidth + this._space, this._borderWidth + this._space,
       this._viewWidth - 2 * (this._borderWidth + this._space),
       this._viewHeight - 2 * (this._borderWidth + this._space));
 
     // Draw text.
-    this._ctx.fillStyle = this._textColor;
-    this._ctx.beginPath();
-    this._ctx.textAlign = 'center';
-    this._ctx.font = '40px Arial';
-    this._ctx.fillText(this._textValue, this._viewWidth / 2, this._viewHeight - 35);
-    this._ctx.closePath();
+    this._shape.fillText(this._textValue, this._viewWidth / 2, this._viewHeight - 35,
+      '40px Arial', 'center', this.textColor);
 
     this._ctx.restore();
   }
@@ -100,25 +95,5 @@ export default class TextBox extends BaseComponent {
   set value(s) {
     this._textValue = s;
     this._isWaveOn = true;
-  }
-
-  set textColor(s) {
-    this._textColor = s;
-  }
-
-  set textBgColor(s) {
-    this._textBgColor = s;
-  }
-
-  set bgColor(s) {
-    this._bgColor = s;
-  }
-
-  set borderColor(s) {
-    this._borderColor = s;
-  }
-
-  set waveColor(s) {
-    this._waveColor = s;
   }
 }

@@ -25,8 +25,7 @@ export default class MessageQueue extends BaseComponent {
 
   drawObject() {
     this.clear();
-    this._ctx.save();
-    this.scale();
+    this.save();
 
     // Bars can be seen in the view
     const bars = Math.floor(this._viewHeight / (this._barHeight + this._space));
@@ -44,10 +43,8 @@ export default class MessageQueue extends BaseComponent {
         q.y = currY;
       }
 
-      this._ctx.beginPath();
-      this._ctx.fillStyle = q.color;
-      this._ctx.fillRect(q.x, q.y, this._viewWidth - 2 * (this._arcWidth + q.space), this._barHeight);
-      this._ctx.closePath();
+      this._shape.fillRect(q.x, q.y, this._viewWidth - 2 * (this._arcWidth + q.space), this._barHeight, q.color);
+
       this._ctx.beginPath();
       this._ctx.moveTo(q.x, q.y);
       this._ctx.quadraticCurveTo(q.x - this._arcWidth, q.y + this._barHeight / 2, q.x, q.y + this._barHeight);

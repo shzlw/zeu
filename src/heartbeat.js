@@ -81,12 +81,10 @@ export default class Heartbeat extends BaseComponent {
     this._ctx.font = '12px Arial';
 
     this.clear();
-    this._ctx.save();
-    this.scale();
+    this.save();
 
     // Draw the horizontal line
-    this._ctx.fillStyle = this._fontColor;
-    this._ctx.fillRect(0, 50, this._viewWidth, 2);
+    this._shape.fillRect(0, 50, this._viewWidth, 2, this._fontColor);
 
     // Draw the pulse
     for (let i = 0; i < this._queue.length; i++) {
@@ -95,10 +93,8 @@ export default class Heartbeat extends BaseComponent {
       if (q.time != null) {
         this._ctx.fillStyle = this._fontColor;
         this._ctx.fillText(q.time, q.x, 90);
-        this._ctx.beginPath();
-        this._ctx.fillStyle = this._fontColor;
-        this._ctx.fillRect(q.x - 1, 45, 2, 12);
-        this._ctx.closePath();
+
+        this._shape.fillRect(q.x - 1, 45, 2, 12, this._fontColor);
       } else {
         this._ctx.fillStyle = q.color;
         this._ctx.beginPath();

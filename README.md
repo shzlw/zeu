@@ -21,7 +21,6 @@ CDN
 <script src="https://cdn.jsdelivr.net/npm/zeu"></script>
 ```
 
-
 ## Quick Start
 
 Let's build our first Zeu component!

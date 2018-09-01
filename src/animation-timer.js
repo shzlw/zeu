@@ -24,8 +24,6 @@ class AnimationTimer {
   }
 
   render() {
-    window.requestAnimationFrame(this.render);
-
     // FPS control
     let now = Date.now();
     let elapsed = now - this._lastFrame;
@@ -47,6 +45,8 @@ class AnimationTimer {
         drawFrameObj.func.call();
       }
     }
+
+    window.requestAnimationFrame(this.render);
   }
 
   setFps(fps) {
