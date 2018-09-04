@@ -29,6 +29,11 @@ export default class DigitalClock extends BaseComponent {
     this._hourOffset = options.hourOffset || 0;
   }
 
+  destroy() {
+    this.stopTick();
+    super.destroy();
+  }
+
   tick() {
     if (this._timer == null) {
       this._timer = setInterval(() => {

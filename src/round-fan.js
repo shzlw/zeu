@@ -53,24 +53,9 @@ export default class RoundFan extends BaseComponent {
     this._ctx.fill();
     this._ctx.closePath();
 
-    this._ctx.beginPath();
-    this._ctx.arc(0, 0, 35, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this.centerBgColor;
-    this._ctx.fill();
-    this._ctx.closePath();
-
-    this._ctx.beginPath();
-    this._ctx.arc(0, 0, 30, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this.centerColor;
-    this._ctx.fill();
-    this._ctx.closePath();
-
-    this._ctx.strokeStyle = this.centerColor;
-    this._ctx.beginPath();
-    this._ctx.arc(0, 0, 10, 0, 2 * Math.PI);
-    this._ctx.fillStyle = this.centerBgColor;
-    this._ctx.fill();
-    this._ctx.closePath();
+    this._shape.fillCircle(0, 0, 35, this.centerBgColor);
+    this._shape.fillCircle(0, 0, 30, this.centerColor);
+    this._shape.fillCircle(0, 0, 10, this.centerBgColor);
 
     this._ctx.restore();
   }

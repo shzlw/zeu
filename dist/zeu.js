@@ -403,6 +403,7 @@ function () {
   }, {
     key: "postConstructor",
     value: function postConstructor() {
+      this.removeFromAnimationQueue();
       this.addToAnimationQueue();
     }
   }, {
@@ -482,29 +483,20 @@ function () {
   }, {
     key: "getAnimationFrameArrayPos",
     value: function getAnimationFrameArrayPos() {
-      var index = -1;
+      var _this = this;
 
-      for (var i = 0; i < _global.GLOBAL.requestAnimationFrameArray.length; i++) {
-        var drawFrameObj = _global.GLOBAL.requestAnimationFrameArray[i];
-
-        if (drawFrameObj.self._canvas.id === this._canvas.id) {
-          index = i;
-          break;
-        }
-      }
-
-      return index;
+      return _global.GLOBAL.requestAnimationFrameArray.findIndex(function (obj) {
+        return obj.self._canvas.id === _this._canvas.id;
+      });
     }
   }, {
-    key: "startAnimation",
+    key: "destroy",
     // ********** EXTERNAL API **********
-    value: function startAnimation() {
-      this.addToAnimationQueue();
-    }
-  }, {
-    key: "stopAnimation",
-    value: function stopAnimation() {
+    value: function destroy() {
       this.removeFromAnimationQueue();
+      this.clear();
+      this._canvas = null;
+      this._ctx = null;
     }
   }, {
     key: "moveTo",
@@ -521,7 +513,6 @@ function () {
           break;
         }
       } // Calculate the speed.
-      // TODO: use the fps intead of 60
 
 
       var speed = duration / 60;
@@ -684,6 +675,12 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -722,6 +719,13 @@ function (_BaseComponent) {
       this._numberColor = options.numberColor || _color.COLOR.red;
       this._dashColor = options.dashColor || _color.COLOR.lightGrey;
       this._hourOffset = options.hourOffset || 0;
+    }
+  }, {
+    key: "destroy",
+    value: function destroy() {
+      this.stopTick();
+
+      _get(DigitalClock.prototype.__proto__ || Object.getPrototypeOf(DigitalClock.prototype), "destroy", this).call(this);
     }
   }, {
     key: "tick",
@@ -1840,37 +1844,11 @@ function (_BaseComponent) {
 
       this._ctx.closePath();
 
-      this._ctx.beginPath();
+      this._shape.fillCircle(0, 0, 35, this.centerBgColor);
 
-      this._ctx.arc(0, 0, 35, 0, 2 * Math.PI);
+      this._shape.fillCircle(0, 0, 30, this.centerColor);
 
-      this._ctx.fillStyle = this.centerBgColor;
-
-      this._ctx.fill();
-
-      this._ctx.closePath();
-
-      this._ctx.beginPath();
-
-      this._ctx.arc(0, 0, 30, 0, 2 * Math.PI);
-
-      this._ctx.fillStyle = this.centerColor;
-
-      this._ctx.fill();
-
-      this._ctx.closePath();
-
-      this._ctx.strokeStyle = this.centerColor;
-
-      this._ctx.beginPath();
-
-      this._ctx.arc(0, 0, 10, 0, 2 * Math.PI);
-
-      this._ctx.fillStyle = this.centerBgColor;
-
-      this._ctx.fill();
-
-      this._ctx.closePath();
+      this._shape.fillCircle(0, 0, 10, this.centerBgColor);
 
       this._ctx.restore();
     }
@@ -2234,21 +2212,13 @@ function (_BaseComponent) {
       this._ctx.rotate(a3); // Draw dot circle 3.
 
 
-      this._ctx.fillStyle = this.color3;
-
       for (var _i = 0; _i < 360; _i = _i + 9) {
         var a = _utility.default.getAngleByDegree(_i);
 
         var x = 64 * Math.cos(a);
         var y = 64 * Math.sin(a);
 
-        this._ctx.beginPath();
-
-        this._ctx.arc(x, y, 3, 0, Math.PI * 2);
-
-        this._ctx.closePath();
-
-        this._ctx.fill();
+        this._shape.fillCircle(x, y, 3, this.color3);
       }
 
       this._ctx.restore();

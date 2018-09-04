@@ -78,17 +78,13 @@ export default class SpeedCircle extends BaseComponent {
     this._ctx.rotate(a3);
 
     // Draw dot circle 3.
-    this._ctx.fillStyle = this.color3;
     for (let i = 0; i < 360; i = i + 9) {
       let a = Utility.getAngleByDegree(i);
 
       let x = 64 * Math.cos(a);
       let y = 64 * Math.sin(a);
 
-      this._ctx.beginPath();
-      this._ctx.arc(x, y, 3, 0, Math.PI * 2);
-      this._ctx.closePath();
-      this._ctx.fill();
+      this._shape.fillCircle(x, y, 3, this.color3);
     }
 
     this._ctx.restore();

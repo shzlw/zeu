@@ -53,6 +53,7 @@ export default class BaseComponent {
   setOptions(options) {}
 
   postConstructor() {
+    this.removeFromAnimationQueue();
     this.addToAnimationQueue();
   }
 
@@ -123,17 +124,7 @@ export default class BaseComponent {
   }
 
   getAnimationFrameArrayPos() {
-    let index = -1;
-
-    for (let i = 0; i < GLOBAL.requestAnimationFrameArray.length; i++) {
-      let drawFrameObj = GLOBAL.requestAnimationFrameArray[i];
-
-      if (drawFrameObj.self._canvas.id === this._canvas.id) {
-        index = i;
-        break;
-      }
-    }
-    return index;
+    return GLOBAL.requestAnimationFrameArray.findIndex(obj => obj.self._canvas.id === this._canvas.id);
   }
 
   get isAnimationOn() {
@@ -141,12 +132,11 @@ export default class BaseComponent {
   }
 
   // ********** EXTERNAL API **********
-  startAnimation() {
-    this.addToAnimationQueue();
-  }
-
-  stopAnimation() {
+  destroy() {
     this.removeFromAnimationQueue();
+    this.clear();
+    this._canvas = null;
+    this._ctx = null;
   }
 
   moveTo(destX, destY, duration) {
@@ -165,7 +155,6 @@ export default class BaseComponent {
     }
 
     // Calculate the speed.
-    // TODO: use the fps intead of 60
     const speed = duration / 60;
     const sX = Math.abs(destX - srcX) / speed;
     const sY = Math.abs(destY - srcY) / speed;
