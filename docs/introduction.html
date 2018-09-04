@@ -99,6 +99,19 @@
             <canvas id="volume-meter" width="100" height="200"></canvas>
           </div>
         </div>
+
+        <div class="row mb-4">
+          <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="network-graph.html" class="text-dark">Network Graph</a></h4>
+            <canvas id="network-graph" width="200" height="200"></canvas>
+          </div>
+
+          <div class="col-lg text-center mb-2">
+          </div>
+
+          <div class="col-lg text-center mb-2">
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -272,6 +285,86 @@
   setInterval(function() {
     messageQueue.pop();
   }, 1200);
+
+  var networkGraph = new zeu.NetworkGraph('network-graph');
+  networkGraph.addNodes([
+    {
+      id: 'a',
+      x: 30,
+      y: 100,
+      color: getRandomColor(),
+      size: 15,
+      text: {
+        value: 'Node A',
+        color: getRandomColor(),
+        font: '16px Arial',
+        xOffset: 0,
+        yOffset: -20
+      },
+      neighbors: [{
+        id: 'b',
+        edge: {
+          width: 1,
+          color: COLOR.blue,
+          dash: [2, 2]
+        }
+      }]
+    },
+    {
+      id: 'b',
+      x: 140,
+      y: 50,
+      color: getRandomColor(),
+      size: 10,
+      text: {
+        value: 'Node B',
+        color: getRandomColor(),
+        font: '10px Arial',
+        xOffset: 30,
+        yOffset: 3
+      }
+    },
+    {
+      id: 'c',
+      x: 140,
+      y: 150,
+      color: getRandomColor(),
+      size: 20,
+      text: {
+        value: 'Node C',
+        color: getRandomColor(),
+        font: '12px Arial',
+        xOffset: 0,
+        yOffset: 32
+      }
+    }
+  ]);
+
+  setInterval(function() {
+    networkGraph.signal({
+        from: 'a',
+        to: 'b',
+        color: getRandomColor(),
+        duration: 1000,
+        size: getRandomInt(3, 5)
+      });
+    
+    networkGraph.signal({
+        from: 'c',
+        to: 'b',
+        color: getRandomColor(),
+        duration: 15000,
+        size: getRandomInt(3, 5)
+      });
+
+    networkGraph.signal({
+        from: 'c',
+        to: 'a',
+        color: getRandomColor(),
+        duration: 25000,
+        size: getRandomInt(5, 7)
+      });
+  }, 500);
 </script>
 </body>
 </html>

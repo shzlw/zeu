@@ -9,6 +9,7 @@ import MessageQueue from './message-queue';
 import TextMeter from './text-meter';
 import SpeedCircle from './speed-circle';
 import TextBox from './text-box';
+import NetworkGraph from './network-graph';
 
 export {
   Settings,
@@ -20,7 +21,8 @@ export {
   SpeedCircle,
   TextMeter,
   RoundFan,
-  TextBox
+  TextBox,
+  NetworkGraph
 };
 
 // Fire up window.requestAnimationFrame()

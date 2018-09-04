@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<title>Network Graph</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+<div class="container-fluid">
+  <script src="menu.js"></script>
+  <div class="content p-3">
+    <div class="container-fluid">
+      <h2>Network Graph</h2>
+      <hr>
+      <canvas id="network-graph" width="200" height="200"></canvas>
+
+      <h5 class="mt-3">Html</h5>
+  <pre><code><!-- Default view dimension 200 x 200. Flexible view width and height. -->
+<canvas id="network-graph" width="100" height="200"></code></pre>
+
+      <h5>JavaScript</h5>
+<pre><code>/* Options */
+var options = {
+  // An array of nodes.
+  nodes: [
+    {
+      // Unique node id.
+      id: 'node-a',
+      // X coordinate on canvas.
+      x: 30,
+      // Y coordinate on canvas.
+      y: 100,
+      // Color of the node circle.
+      color: getRandomColor(),
+      // Radius of the node circle.
+      size: 15,
+      // Text around the node.
+      text: {
+        // Display value.
+        value: 'Node A',
+        // Font color.
+        color: '#007bfb',
+        // Canvas font style. For instance, '12px Arial'. 
+        font: '16px Arial',
+        // X offset from the center of the node.
+        xOffset: 0,
+        // Y offset from the center of the node.
+        yOffset: -20
+      },
+      // Defind adjacent node and edge style. It is used to draw a line from current node to another node without direction. If ignored, no line is drawn.
+      neighbors: [{
+        // Node id.
+        id: 'node-b',
+        // Edge.
+        edge: {
+          // Line width.
+          width: 1,
+          // Line color.
+          color: '#007bfb',
+          // Canvas dash line style. If ignored, a solid line is drawn.
+          dash: [2, 2]
+        }
+      }]
+    }
+  ] 
+};
+
+/* Constructor */
+var networkGraph = new zeu.NetworkGraph('network-graph', options);
+
+/* Function */
+// Add node to the graph.
+networkGraph.addNodes([
+  {
+    // Accept the same node object listed above.
+  }
+]);
+
+// Add neighbor to the graph.
+networkGraph.addNeighbor(
+  // Source node id.
+  'node-a', 
+  // Destination node and edge style.
+  {
+    // Destination node id.
+    id: 'node-b',
+    // Edge style.
+    edge: {
+      // Line width.
+      width: 3,
+      // Line color.
+      color: '#007bfb',
+      // Canvas dash line style. If ignored, a solid line is drawn.
+      dash: [5, 5]
+    }
+  }
+);
+
+// Send a signal from one node to another node.
+networkGraph.signal({
+  // Source node id.
+  from: 'node-a',
+  // Destination node id.
+  to: 'node-b',
+  // Signal color.
+  color: '#007bfb',
+  // Duration.
+  duration: 15000,
+  // Signal radius.
+  size: 3
+});</code></pre>
+
+      <h4>More examples</h4>
+      <p>
+        Distributed system communication.
+      </p>
+      <canvas id="network-graph-2" width="800" height="400"></canvas>
+
+      <p>
+        Use an image as background.
+      </p>
+      <canvas id="network-graph-3" width="1300" height="513" style="background-image: url('map.png'); background-size: 1300px 513px;"></canvas>
+      
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="docs.js"></script>
+<script src="../dist/zeu.js"></script>
+<script type="text/javascript">
+
+var nodes = [
+  {
+    id: 'a',
+    x: 30,
+    y: 100,
+    color: getRandomColor(),
+    size: 15,
+    text: {
+      value: 'Node A',
+      color: getRandomColor(),
+      font: '16px Arial',
+      xOffset: 0,
+      yOffset: -20
+    },
+    neighbors: [{
+      id: 'b',
+      edge: {
+        width: 1,
+        color: COLOR.blue,
+        dash: [2, 2]
+      }
+    }]
+  },
+  {
+    id: 'b',
+    x: 140,
+    y: 50,
+    color: getRandomColor(),
+    size: 10,
+    text: {
+      value: 'Node B',
+      color: getRandomColor(),
+      font: '10px Arial',
+      xOffset: 30,
+      yOffset: 3
+    }
+  }
+];
+
+/* Options */
+var options = {
+  nodes: nodes
+}
+
+/* Constructor */
+var networkGraph = new zeu.NetworkGraph('network-graph', options);
+networkGraph.addNodes([
+  {
+    id: 'c',
+    x: 140,
+    y: 150,
+    color: getRandomColor(),
+    size: 20,
+    text: {
+      value: 'Node C',
+      color: getRandomColor(),
+      font: '12px Arial',
+      xOffset: 0,
+      yOffset: 32
+    }
+  }
+]);
+
+setInterval(function() {
+  networkGraph.signal({
+      from: 'a',
+      to: 'b',
+      color: getRandomColor(),
+      duration: 1000,
+      size: getRandomInt(3, 5)
+    });
+  
+  networkGraph.signal({
+      from: 'c',
+      to: 'b',
+      color: getRandomColor(),
+      duration: 15000,
+      size: getRandomInt(3, 5)
+    });
+
+  networkGraph.signal({
+      from: 'c',
+      to: 'a',
+      color: getRandomColor(),
+      duration: 25000,
+      size: getRandomInt(5, 7)
+    });
+}, 500);
+
+var networkGraph2 = new zeu.NetworkGraph('network-graph-2', {
+  viewWidth: 800,
+  viewHeight: 400
+});
+
+networkGraph2.addNodes([
+  {
+    id: 'load-balancer',
+    x: 50,
+    y: 200,
+    color: COLOR.black,
+    size: 20,
+    text: {
+      value: 'Load Balancer',
+      color: COLOR.black,
+      font: '12px Arial',
+      xOffset: 0,
+      yOffset: 35
+    }
+  }
+]);
+
+for (var i = 1; i <= 5; i++) {
+  var y = i * (400 / 6);
+  networkGraph2.addNodes([
+    {
+      id: 'app-' + i,
+      x: 250,
+      y: y,
+      color: COLOR.cyan,
+      size: 15,
+      text: {
+        value: 'App Server ' + i,
+        color: COLOR.black,
+        font: '12px Arial',
+        xOffset: 0,
+        yOffset: 30
+      }
+    }
+  ]);
+}
+
+networkGraph2.addNodes([
+  {
+    id: 'cache-server',
+    x: 450,
+    y: 100,
+    color: COLOR.grey,
+    size: 22,
+    text: {
+      value: 'Cache Server',
+      color: COLOR.black,
+      font: '12px Arial',
+      xOffset: 0,
+      yOffset: 37
+    }
+  },
+  {
+    id: 'replication-load-balancer',
+    x: 450,
+    y: 200,
+    color: COLOR.yellow,
+    size: 17,
+    text: {
+      value: 'Load Balancer',
+      color: COLOR.black,
+      font: '12px Arial',
+      xOffset: 0,
+      yOffset: 30
+    }
+  },
+  {
+    id: 'master-db',
+    x: 450,
+    y: 300,
+    color: COLOR.green,
+    size: 27,
+    text: {
+      value: 'Master Database',
+      color: COLOR.black,
+      font: '12px Arial',
+      xOffset: 0,
+      yOffset: 44
+    }
+  }
+]);
+
+for (var i = 1; i <= 4; i++) {
+  var y = i * (400 / 8) + 75;
+  networkGraph2.addNodes([
+    {
+      id: 'read-replicas-' + i,
+      x: 600,
+      y: y,
+      color: COLOR.blue,
+      size: 12,
+      text: {
+        value: 'Read Replicas ' + i,
+        color: COLOR.black,
+        font: '12px Arial',
+        xOffset: 0,
+        yOffset: 30
+      }
+    }
+  ]);
+}
+
+var servers = ['cache-server', 'replication-load-balancer', 'master-db'];
+
+setInterval(function() {
+  for (var i = 0; i < 10; i++) {
+    networkGraph2.signal({
+        from: 'load-balancer',
+        to: 'app-' + getRandomInt(1, 5),
+        color: getRandomColor(),
+        duration: 10000,
+        size: getRandomInt(1, 3)
+      });
+  }
+  for (var i = 0; i < 5; i++) {
+    networkGraph2.signal({
+      from: 'app-' + getRandomInt(1, 5),
+      to: servers[getRandomInt(0, 2)],
+      color: getRandomColor(),
+      duration: 7000,
+      size: getRandomInt(2, 3)
+    });
+  }
+  for (var i = 0; i < 3; i++) {
+    networkGraph2.signal({
+      from: 'master-db',
+      to: 'read-replicas-' + getRandomInt(1, 4),
+      color: getRandomColor(),
+      duration: 5000,
+      size: getRandomInt(2, 3)
+    });
+  }
+
+  for (var i = 0; i < 5; i++) {
+    networkGraph2.signal({
+      from: 'replication-load-balancer',
+      to: 'read-replicas-' + getRandomInt(1, 4),
+      color: getRandomColor(),
+      duration: 5000,
+      size: getRandomInt(2, 3)
+    });
+  }
+
+}, 100);
+
+var networkGraph3 = new zeu.NetworkGraph('network-graph-3', {
+  viewWidth: 1300,
+  viewHeight: 513
+});
+
+function createNode3(id, x, y) {
+  return {
+    id: id,
+    x: x,
+    y: y,
+    color: COLOR.red,
+    size: 10,
+    text: {
+      value: id,
+      color: COLOR.black,
+      font: 'bold 12px Arial',
+      xOffset: 0,
+      yOffset: -16
+    }
+  };
+}
+
+function createNeighbor3(to) {
+  return {
+    id: to,
+    edge: {
+      width: 3,
+      color: COLOR.blue,
+      dash: [5, 5]
+    }
+  };
+}
+
+function createSignal3(from, to) {
+  return  {
+    from: from,
+    to: to,
+    color: getRandomColor(),
+    duration: 3000,
+    size: 4
+  };
+}
+
+networkGraph3.addNodes([
+  createNode3('SF', 20, 85),
+  createNode3('NYC', 238, 80),
+  createNode3('PARIS', 600, 30),
+  createNode3('BEIJING', 1140, 80),
+  createNode3('SHANGHAI', 1160, 135),
+  createNode3('TOKYO', 1250, 90),
+  createNode3('CAPE TOWN', 681, 460),
+  createNode3('LIMA', 230, 340),
+  createNode3('SYDNEY', 1300, 450),
+]);
+
+networkGraph3.addNeighbor('SF', createNeighbor3('NYC'));
+networkGraph3.addNeighbor('NYC', createNeighbor3('PARIS'));
+networkGraph3.addNeighbor('NYC', createNeighbor3('LIMA'));
+networkGraph3.addNeighbor('NYC', createNeighbor3('CAPE TOWN'));
+networkGraph3.addNeighbor('PARIS', createNeighbor3('BEIJING'));
+networkGraph3.addNeighbor('BEIJING', createNeighbor3('SHANGHAI'));
+networkGraph3.addNeighbor('BEIJING', createNeighbor3('TOKYO'));
+networkGraph3.addNeighbor('SHANGHAI', createNeighbor3('CAPE TOWN'));
+networkGraph3.addNeighbor('TOKYO', createNeighbor3('SYDNEY'));
+
+setInterval(function() {
+  for (var i = 0; i < 10; i++) {
+    networkGraph3.signal(createSignal3('SF', 'NYC'));
+    networkGraph3.signal(createSignal3('NYC', 'PARIS'));
+    networkGraph3.signal(createSignal3('NYC', 'LIMA'));
+    networkGraph3.signal(createSignal3('NYC', 'CAPE TOWN'));
+    networkGraph3.signal(createSignal3('PARIS', 'BEIJING'));
+    networkGraph3.signal(createSignal3('BEIJING', 'SHANGHAI'));
+    networkGraph3.signal(createSignal3('BEIJING', 'TOKYO'));
+    networkGraph3.signal(createSignal3('SHANGHAI', 'CAPE TOWN'));
+    networkGraph3.signal(createSignal3('TOKYO', 'SYDNEY'));
+  }
+}, 100);
+</script>
+</body>
+</html>
+

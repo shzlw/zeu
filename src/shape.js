@@ -80,4 +80,19 @@ export default class Shape {
     this._ctx.stroke();
     this._ctx.closePath();
   }
+
+  /**
+   * Create a filled circle
+   * @param {number} x
+   * @param {number} y
+   * @param {number} radius
+   * @param {string} fillStyle
+   */
+  fillCircle(x, y, radius, fillStyle) {
+    this._ctx.beginPath();
+    this._ctx.fillStyle = fillStyle;
+    this._ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    this._ctx.fill();
+    this._ctx.closePath();
+  }
 }

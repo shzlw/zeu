@@ -1299,6 +1299,12 @@ Object.defineProperty(exports, "TextBox", {
     return _textBox.default;
   }
 });
+Object.defineProperty(exports, "NetworkGraph", {
+  enumerable: true,
+  get: function get() {
+    return _networkGraph.default;
+  }
+});
 
 var _animationTimer = _interopRequireDefault(__webpack_require__(/*! ./animation-timer */ "./src/animation-timer.js"));
 
@@ -1321,6 +1327,8 @@ var _textMeter = _interopRequireDefault(__webpack_require__(/*! ./text-meter */ 
 var _speedCircle = _interopRequireDefault(__webpack_require__(/*! ./speed-circle */ "./src/speed-circle.js"));
 
 var _textBox = _interopRequireDefault(__webpack_require__(/*! ./text-box */ "./src/text-box.js"));
+
+var _networkGraph = _interopRequireDefault(__webpack_require__(/*! ./network-graph */ "./src/network-graph.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1478,6 +1486,248 @@ function (_BaseComponent) {
 }(_baseComponent.default);
 
 exports.default = MessageQueue;
+module.exports = exports["default"];
+
+/***/ }),
+
+/***/ "./src/network-graph.js":
+/*!******************************!*\
+  !*** ./src/network-graph.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ./base-component */ "./src/base-component.js"));
+
+var _utility = _interopRequireDefault(__webpack_require__(/*! ./utility */ "./src/utility.js"));
+
+var _color = __webpack_require__(/*! ./color */ "./src/color.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var NetworkGraph =
+/*#__PURE__*/
+function (_BaseComponent) {
+  _inherits(NetworkGraph, _BaseComponent);
+
+  function NetworkGraph(canvas) {
+    var _this;
+
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, NetworkGraph);
+
+    var viewWidth = options.viewWidth || 200;
+    var viewHeight = options.viewHeight || 200;
+    _this = _possibleConstructorReturn(this, (NetworkGraph.__proto__ || Object.getPrototypeOf(NetworkGraph)).call(this, canvas, options, viewWidth, viewHeight));
+    _this._signalQueues = [];
+    return _this;
+  }
+
+  _createClass(NetworkGraph, [{
+    key: "setOptions",
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      this._nodes = options.nodes || [];
+    }
+  }, {
+    key: "drawObject",
+    value: function drawObject() {
+      var _this2 = this;
+
+      this.clear();
+      this.save(); // Draw edges
+
+      this._nodes.forEach(function (node) {
+        // Neighbors
+        var neighbors = node.neighbors || [];
+        neighbors.forEach(function (neighbor) {
+          var destNode = _this2.getNodeById(neighbor.id); // Edge options
+
+
+          var edge = neighbor.edge || {};
+          var edgeWidth = edge.width || 1;
+          var edgeColor = edge.color || _color.COLOR.grey;
+          var edgeDash = edge.dash || []; // Draw the neighbor and edge
+
+          _this2._ctx.lineWidth = edgeWidth;
+          _this2._ctx.strokeStyle = edgeColor;
+
+          if (destNode !== null) {
+            _this2._ctx.beginPath();
+
+            if (edgeDash.length !== 0) {
+              _this2._ctx.setLineDash(edgeDash);
+            }
+
+            _this2._ctx.moveTo(node.x, node.y);
+
+            _this2._ctx.lineTo(destNode.x, destNode.y);
+
+            _this2._ctx.stroke();
+
+            _this2._ctx.closePath();
+          }
+        });
+      }); // Draw moving signals
+
+
+      var toDelete = [];
+
+      for (var i = 0; i < this._signalQueues.length; i++) {
+        var signal = this._signalQueues[i];
+        this._signalQueues[i].x = _utility.default.getNextPos(signal.x, signal.destX, signal.speedX);
+        this._signalQueues[i].y = _utility.default.getNextPos(signal.y, signal.destY, signal.speedY);
+
+        if (signal.x === signal.destX && signal.y === signal.destY) {
+          // Append to the deletion queue.
+          toDelete.push(i);
+        } else {
+          this._shape.fillCircle(signal.x, signal.y, signal.size, signal.color);
+        }
+      } // Delete from the signal queue
+
+
+      for (var _i = toDelete.length - 1; _i >= 0; _i--) {
+        this._signalQueues.splice(toDelete[_i], 1);
+      } // Draw nodes
+
+
+      this._nodes.forEach(function (node) {
+        var text = node.text || {};
+        var textValue = text.value || '';
+        var textColor = text.color || _color.COLOR.black;
+        var textFont = text.font || '12px Arial';
+        var xTextOffset = text.xOffset || 0;
+        var yTextOffset = text.yOffset || 0; // Draw the node and text
+
+        _this2._shape.fillCircle(node.x, node.y, node.size, node.color);
+
+        _this2._shape.fillText(textValue, node.x + xTextOffset, node.y + yTextOffset, textFont, 'center', textColor);
+      });
+
+      this._ctx.restore();
+    }
+  }, {
+    key: "getNodeById",
+    value: function getNodeById(nodeId) {
+      return this._nodes.find(function (n) {
+        return n.id === nodeId;
+      });
+    }
+    /**
+     * Add nodes
+     * @param {array} nodes
+     */
+
+  }, {
+    key: "addNodes",
+    value: function addNodes() {
+      var _this$_nodes;
+
+      var nodes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      (_this$_nodes = this._nodes).push.apply(_this$_nodes, _toConsumableArray(nodes));
+    }
+    /**
+     * Add a neighbor to a node
+     * @param {string} from
+     * @param {object} neighbor
+     */
+
+  }, {
+    key: "addNeighbor",
+    value: function addNeighbor(from) {
+      var neighbor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      for (var i = 0; i < this._nodes.length; i++) {
+        if (this._nodes[i].id === from) {
+          this._nodes[i].neighbors = this._nodes[i].neighbors || [];
+
+          this._nodes[i].neighbors.push(neighbor);
+
+          break;
+        }
+      }
+    }
+    /**
+     * Send a signal from source node to destination node
+     * @param {object} params
+     * @property {string} params.from
+     * @property {string} params.to
+     * @property {string} params.color
+     * @property {number} params.duration
+     * @property {number} params.size
+     */
+
+  }, {
+    key: "signal",
+    value: function signal() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var color = params.color || _color.COLOR.black;
+      var duration = params.duration || 2000;
+      var size = params.size || 3;
+      var srcNode = this.getNodeById(params.from);
+      var destNode = this.getNodeById(params.to);
+      var sX = Math.abs(destNode.x - srcNode.x) / (duration / 60);
+      var sY = Math.abs(destNode.y - srcNode.y) / (duration / 60);
+      var speedX = destNode.x > srcNode.x ? sX : -sX;
+      var speedY = destNode.y > srcNode.y ? sY : -sY;
+
+      this._signalQueues.push({
+        x: srcNode.x,
+        y: srcNode.y,
+        destX: destNode.x,
+        destY: destNode.y,
+        speedX: speedX,
+        speedY: speedY,
+        color: color,
+        size: size
+      });
+    }
+  }, {
+    key: "nodes",
+    get: function get() {
+      return this._nodes;
+    }
+  }]);
+
+  return NetworkGraph;
+}(_baseComponent.default);
+
+exports.default = NetworkGraph;
 module.exports = exports["default"];
 
 /***/ }),
@@ -1818,6 +2068,27 @@ function () {
       this._ctx.lineTo(x2, y2);
 
       this._ctx.stroke();
+
+      this._ctx.closePath();
+    }
+    /**
+     * Create a filled circle
+     * @param {number} x
+     * @param {number} y
+     * @param {number} radius
+     * @param {string} fillStyle
+     */
+
+  }, {
+    key: "fillCircle",
+    value: function fillCircle(x, y, radius, fillStyle) {
+      this._ctx.beginPath();
+
+      this._ctx.fillStyle = fillStyle;
+
+      this._ctx.arc(x, y, radius, 0, 2 * Math.PI);
+
+      this._ctx.fill();
 
       this._ctx.closePath();
     }
