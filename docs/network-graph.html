@@ -51,7 +51,7 @@ var options = {
         // Y offset from the center of the node.
         yOffset: -20
       },
-      // Defind adjacent node and edge style. It is used to draw a line from current node to another node without direction. If ignored, no line is drawn.
+      // An array of adjacent nodes and edges. It is used to draw a line from current node to other nodes without direction. If ignored, no line is drawn.
       neighbors: [{
         // Node id.
         id: 'node-b',
@@ -73,14 +73,14 @@ var options = {
 var networkGraph = new zeu.NetworkGraph('network-graph', options);
 
 /* Function */
-// Add node to the graph.
+// Add a list of nodes to the graph.
 networkGraph.addNodes([
   {
     // Accept the same node object listed above.
   }
 ]);
 
-// Add neighbor to the graph.
+// Add one neighbor to the graph.
 networkGraph.addNeighbor(
   // Source node id.
   'node-a', 
@@ -100,7 +100,7 @@ networkGraph.addNeighbor(
   }
 );
 
-// Send a signal from one node to another node.
+// Send one signal from one node to another node.
 networkGraph.signal({
   // Source node id.
   from: 'node-a',
