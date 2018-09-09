@@ -43,10 +43,18 @@ export default class BaseComponent {
     // Init Shape instance.
     this._shape = new Shape(this._ctx);
 
-    this._blink = false;
+    let alert = {
+      on: false,
+      lastCall: 0,
+      dashOffSet: 0,
+      text: '',
+      duration: 1500,
+      fontColor: COLOR.red,
+      bgColor: COLOR.yellow
+    };
 
-    this._lastBlink = 0;
-    this.blinkFunc = this.blinkFunc.bind(this);
+    this._alert = alert;
+    this.alertFunc = this.alertFunc.bind(this);
 
     // Set options
     this.setOptions(options);
@@ -84,14 +92,16 @@ export default class BaseComponent {
     }
 
     this.clear();
-    if (this.isBlink()) {
-      this.save();
-      this._lastBlink = this.nextBlink(this.blinkFunc, this._lastBlink, 1000);
-      this._ctx.restore();
-    }
+
     this.save();
     this.drawObject();
     this._ctx.restore();
+
+    if (this.isAlert()) {
+      this.save();
+      this._alert.lastCall = this.nextAlert(this.alertFunc, this._alert.lastCall, this._alert.duration);
+      this._ctx.restore();
+    }
   }
 
   drawObject() {}
@@ -140,46 +150,70 @@ export default class BaseComponent {
     return this.getAnimationFrameArrayPos() !== -1;
   }
 
-  nextBlink(blinkFunc, lastBlink, duration) {
+  nextAlert(alertFunc, lastAlert, duration) {
     const now = Date.now();
 
-    if (now - lastBlink < duration) {
-      blinkFunc.call();
-      return lastBlink;
-    } else if (now - lastBlink < (duration * 2)) {
-      return lastBlink;
+    if (now - lastAlert < duration) {
+      alertFunc.call();
+      return lastAlert;
+    } else if (now - lastAlert < (duration * 2)) {
+      return lastAlert;
     }
     return now;
   }
 
-  blinkFunc() {
-    this._shape.fillRect(this._x, this._y, this._width, this._height, COLOR.red);
+  alertFunc() {
+    const w = 20;
+
+    this._shape.fillRect(this._x, this._y, this._width, this._height, this._alert.bgColor);
+
+    this._ctx.setLineDash([w, w * 3 / 4]);
+    this._ctx.lineDashOffset = this._alert.dashOffSet;
+    this._shape.line(this._x, this._y, this._x + this._width, this._y, 2 * w, this._alert.fontColor);
+    this._shape.line(this._x + this._width, this._y + this._height, this._x,
+      this._y + this._height, 2 * w, this._alert.fontColor);
+
+    this._alert.dashOffSet--;
+    if (this._alert.dashOffSet > w) {
+      this._alert.dashOffSet = 0;
+    }
+
+    this._shape.fillText(this._alert.text, (this._width - this._x) / 2, (this._height - this._y) / 2 + 10,
+      'Bold 30px Arial', 'center', this._alert.fontColor);
   }
 
   // ********** EXTERNAL API **********
+  /**
+   * Destroy.
+   */
   destroy() {
     this.removeFromAnimationQueue();
     this.clear();
     this._canvas = null;
     this._ctx = null;
+    this._alert = null;
   }
 
   /**
-   * Blink the component.
+   * Turn on alert.
    */
-  blink() {
-    this._blink = true;
+  alertOn(params = {}) {
+    this._alert.text = params.text || 'ALERT';
+    this._alert.duration = params.duration || 1500;
+    this._alert.bgColor = params.bgColor || COLOR.yellow;
+    this._alert.fontColor = params.fontColor || COLOR.red;
+    this._alert.on = true;
   }
 
   /**
-   * Unblink the component.
+   * Turn off alert.
    */
-  unblink() {
-    this._blink = false;
+  alertOff() {
+    this._alert.on = false;
   }
 
-  isBlink() {
-    return this._blink;
+  isAlert() {
+    return this._alert.on;
   }
 
   moveTo(destX, destY, duration) {

@@ -49,9 +49,6 @@ export default class TextMeter extends BaseComponent {
   }
 
   drawObject() {
-    this._ctx.textAlign = 'center';
-
-    this.save();
     this._ctx.globalCompositeOperation = 'destination-over';
 
     // Draw left half text
@@ -59,9 +56,7 @@ export default class TextMeter extends BaseComponent {
     this._ctx.rect(this._arrowWidth, this._pctHeight, this._barX - this._arrowWidth, this._meterHeight);
     this._ctx.clip();
 
-    this._ctx.fillStyle = this.bgColor;
-    this._ctx.font = '30px Arial';
-    this._ctx.fillText(this.displayValue, this._viewWidth / 2, 75);
+    this._shape.fillText(this.displayValue, this._viewWidth / 2, 75, '30px Arial', 'center', this.bgColor);
 
     this._ctx.fillStyle = this.fillColor;
     this._ctx.fillRect(this._arrowWidth, this._pctHeight, this._barX - this._arrowWidth, this._meterHeight);
@@ -75,9 +70,7 @@ export default class TextMeter extends BaseComponent {
     this._ctx.rect(this._barX, this._pctHeight, this._viewWidth - this._barX - this._arrowWidth, this._meterHeight);
     this._ctx.clip();
 
-    this._ctx.fillStyle = this.fillColor;
-    this._ctx.font = '30px Arial';
-    this._ctx.fillText(this.displayValue, this._viewWidth / 2, 75);
+    this._shape.fillText(this.displayValue, this._viewWidth / 2, 75, '30px Arial', 'center', this.fillColor);
 
     this._shape.fillRect(this._barX, this._pctHeight, this._viewWidth - this._barX - this._arrowWidth,
       this._meterHeight, this.bgColor);
@@ -98,9 +91,7 @@ export default class TextMeter extends BaseComponent {
     this._ctx.fillStyle = this.markerBgColor;
 
     this._ctx.fillRect(this._barX - 25, 0, 50, this._actualPctHeight);
-    this._ctx.fillStyle = this.markerFontColor;
-    this._ctx.font = '16px Arial';
-    this._ctx.fillText(this._percentageValue + '%', this._barX, 20);
+    this._shape.fillText(this._percentageValue + '%', this._barX, 20, '16px Arial', 'center', this.markerFontColor);
 
     this._ctx.beginPath();
     this._ctx.fillStyle = this.markerBgColor;
@@ -120,9 +111,6 @@ export default class TextMeter extends BaseComponent {
       // right
       this.drawRightArrow();
     }
-
-    this._ctx.restore();
-
     // Calculate next position barX
     this._barX = Utility.getNextPos(this._barX, this._nextBarX, this.speed);
   }

@@ -388,9 +388,17 @@ function () {
     this.drawFrame = this.drawFrame.bind(this); // Init Shape instance.
 
     this._shape = new _shape.default(this._ctx);
-    this._blink = false;
-    this._lastBlink = 0;
-    this.blinkFunc = this.blinkFunc.bind(this); // Set options
+    var alert = {
+      on: false,
+      lastCall: 0,
+      dashOffSet: 0,
+      text: '',
+      duration: 1500,
+      fontColor: _color.COLOR.red,
+      bgColor: _color.COLOR.yellow
+    };
+    this._alert = alert;
+    this.alertFunc = this.alertFunc.bind(this); // Set options
 
     this.setOptions(options); // Post constructor.
 
@@ -430,18 +438,17 @@ function () {
       }
 
       this.clear();
-
-      if (this.isBlink()) {
-        this.save();
-        this._lastBlink = this.nextBlink(this.blinkFunc, this._lastBlink, 1000);
-
-        this._ctx.restore();
-      }
-
       this.save();
       this.drawObject();
 
       this._ctx.restore();
+
+      if (this.isAlert()) {
+        this.save();
+        this._alert.lastCall = this.nextAlert(this.alertFunc, this._alert.lastCall, this._alert.duration);
+
+        this._ctx.restore();
+      }
     }
   }, {
     key: "drawObject",
@@ -499,24 +506,46 @@ function () {
       });
     }
   }, {
-    key: "nextBlink",
-    value: function nextBlink(blinkFunc, lastBlink, duration) {
+    key: "nextAlert",
+    value: function nextAlert(alertFunc, lastAlert, duration) {
       var now = Date.now();
 
-      if (now - lastBlink < duration) {
-        blinkFunc.call();
-        return lastBlink;
-      } else if (now - lastBlink < duration * 2) {
-        return lastBlink;
+      if (now - lastAlert < duration) {
+        alertFunc.call();
+        return lastAlert;
+      } else if (now - lastAlert < duration * 2) {
+        return lastAlert;
       }
 
       return now;
     }
   }, {
-    key: "blinkFunc",
-    value: function blinkFunc() {
-      this._shape.fillRect(this._x, this._y, this._width, this._height, _color.COLOR.red);
+    key: "alertFunc",
+    value: function alertFunc() {
+      var w = 20;
+
+      this._shape.fillRect(this._x, this._y, this._width, this._height, this._alert.bgColor);
+
+      this._ctx.setLineDash([w, w * 3 / 4]);
+
+      this._ctx.lineDashOffset = this._alert.dashOffSet;
+
+      this._shape.line(this._x, this._y, this._x + this._width, this._y, 2 * w, this._alert.fontColor);
+
+      this._shape.line(this._x + this._width, this._y + this._height, this._x, this._y + this._height, 2 * w, this._alert.fontColor);
+
+      this._alert.dashOffSet--;
+
+      if (this._alert.dashOffSet > w) {
+        this._alert.dashOffSet = 0;
+      }
+
+      this._shape.fillText(this._alert.text, (this._width - this._x) / 2, (this._height - this._y) / 2 + 10, 'Bold 30px Arial', 'center', this._alert.fontColor);
     } // ********** EXTERNAL API **********
+
+    /**
+     * Destroy.
+     */
 
   }, {
     key: "destroy",
@@ -525,29 +554,35 @@ function () {
       this.clear();
       this._canvas = null;
       this._ctx = null;
+      this._alert = null;
     }
     /**
-     * Blink the component.
+     * Turn on alert.
      */
 
   }, {
-    key: "blink",
-    value: function blink() {
-      this._blink = true;
+    key: "alertOn",
+    value: function alertOn() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      this._alert.text = params.text || 'ALERT';
+      this._alert.duration = params.duration || 1500;
+      this._alert.bgColor = params.bgColor || _color.COLOR.yellow;
+      this._alert.fontColor = params.fontColor || _color.COLOR.red;
+      this._alert.on = true;
     }
     /**
-     * Unblink the component.
+     * Turn off alert.
      */
 
   }, {
-    key: "unblink",
-    value: function unblink() {
-      this._blink = false;
+    key: "alertOff",
+    value: function alertOff() {
+      this._alert.on = false;
     }
   }, {
-    key: "isBlink",
-    value: function isBlink() {
-      return this._blink;
+    key: "isAlert",
+    value: function isAlert() {
+      return this._alert.on;
     }
   }, {
     key: "moveTo",
@@ -2561,8 +2596,6 @@ function (_BaseComponent) {
   }, {
     key: "drawObject",
     value: function drawObject() {
-      this._ctx.textAlign = 'center';
-      this.save();
       this._ctx.globalCompositeOperation = 'destination-over'; // Draw left half text
 
       this._ctx.beginPath();
@@ -2571,10 +2604,7 @@ function (_BaseComponent) {
 
       this._ctx.clip();
 
-      this._ctx.fillStyle = this.bgColor;
-      this._ctx.font = '30px Arial';
-
-      this._ctx.fillText(this.displayValue, this._viewWidth / 2, 75);
+      this._shape.fillText(this.displayValue, this._viewWidth / 2, 75, '30px Arial', 'center', this.bgColor);
 
       this._ctx.fillStyle = this.fillColor;
 
@@ -2591,10 +2621,7 @@ function (_BaseComponent) {
 
       this._ctx.clip();
 
-      this._ctx.fillStyle = this.fillColor;
-      this._ctx.font = '30px Arial';
-
-      this._ctx.fillText(this.displayValue, this._viewWidth / 2, 75);
+      this._shape.fillText(this.displayValue, this._viewWidth / 2, 75, '30px Arial', 'center', this.fillColor);
 
       this._shape.fillRect(this._barX, this._pctHeight, this._viewWidth - this._barX - this._arrowWidth, this._meterHeight, this.bgColor);
 
@@ -2619,10 +2646,7 @@ function (_BaseComponent) {
 
       this._ctx.fillRect(this._barX - 25, 0, 50, this._actualPctHeight);
 
-      this._ctx.fillStyle = this.markerFontColor;
-      this._ctx.font = '16px Arial';
-
-      this._ctx.fillText(this._percentageValue + '%', this._barX, 20);
+      this._shape.fillText(this._percentageValue + '%', this._barX, 20, '16px Arial', 'center', this.markerFontColor);
 
       this._ctx.beginPath();
 
@@ -2647,9 +2671,7 @@ function (_BaseComponent) {
       } else {
         // right
         this.drawRightArrow();
-      }
-
-      this._ctx.restore(); // Calculate next position barX
+      } // Calculate next position barX
 
 
       this._barX = _utility.default.getNextPos(this._barX, this._nextBarX, this.speed);

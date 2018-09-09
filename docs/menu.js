@@ -33,7 +33,7 @@ var menu = ''
       + '<ul class="navbar-nav">'
         + componentsHtml
       + '</ul>'
-      + '<h5><a href="configuration.html" class="text-light">Configuration</a></h5>'
+      + '<h5><a href="configuration.html" class="text-light">Config & API</a></h5>'
     +'</nav>'
   + '</div>';
 document.write(title + menu);
