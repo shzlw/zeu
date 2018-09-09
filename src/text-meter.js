@@ -51,7 +51,6 @@ export default class TextMeter extends BaseComponent {
   drawObject() {
     this._ctx.textAlign = 'center';
 
-    this.clear();
     this.save();
     this._ctx.globalCompositeOperation = 'destination-over';
 

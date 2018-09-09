@@ -24,9 +24,6 @@ export default class MessageQueue extends BaseComponent {
   }
 
   drawObject() {
-    this.clear();
-    this.save();
-
     // Bars can be seen in the view
     const bars = Math.floor(this._viewHeight / (this._barHeight + this._space));
     const drawQueueSize = Math.min(this._queue.length, bars);
@@ -57,8 +54,6 @@ export default class MessageQueue extends BaseComponent {
       this._ctx.fill();
       this._ctx.closePath();
     }
-
-    this._ctx.restore();
   }
 
   push(param = {}) {

@@ -34,12 +34,13 @@ export default class TextBox extends BaseComponent {
     this.waveColor = options.waveColor || COLOR.blue;
   }
 
-  drawObject() {
-    this._ctx.textAlign = 'center';
-
+  clear() {
     this._ctx.fillStyle = this.bgColor;
     this._ctx.fillRect(0, 0, this._width, this._height);
-    this.save();
+  }
+
+  drawObject() {
+    this._ctx.textAlign = 'center';
 
     // Draw wave line
     if (this._isWaveOn) {
@@ -88,8 +89,6 @@ export default class TextBox extends BaseComponent {
     // Draw text.
     this._shape.fillText(this._textValue, this._viewWidth / 2, this._viewHeight - 35,
       '40px Arial', 'center', this.textColor);
-
-    this._ctx.restore();
   }
 
   set value(s) {

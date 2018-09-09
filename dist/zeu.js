@@ -263,9 +263,7 @@ function (_BaseComponent) {
   }, {
     key: "drawObject",
     value: function drawObject() {
-      this.clear();
-      this.save(); // Draw the dash.
-
+      // Draw the dash.
       for (var i = 0; i < 10; i++) {
         var y = 5 + i * 20;
 
@@ -301,8 +299,6 @@ function (_BaseComponent) {
 
         this._currBar += this.speed;
       }
-
-      this._ctx.restore();
     }
   }, {
     key: "value",
@@ -347,6 +343,8 @@ var _utility = _interopRequireDefault(__webpack_require__(/*! ./utility */ "./sr
 
 var _shape = _interopRequireDefault(__webpack_require__(/*! ./shape */ "./src/shape.js"));
 
+var _color = __webpack_require__(/*! ./color */ "./src/color.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -389,7 +387,10 @@ function () {
 
     this.drawFrame = this.drawFrame.bind(this); // Init Shape instance.
 
-    this._shape = new _shape.default(this._ctx); // Set options
+    this._shape = new _shape.default(this._ctx);
+    this._blink = false;
+    this._lastBlink = 0;
+    this.blinkFunc = this.blinkFunc.bind(this); // Set options
 
     this.setOptions(options); // Post constructor.
 
@@ -426,13 +427,21 @@ function () {
 
       if (!this.isDisplay()) {
         return;
-      } // Draw the component
-      // this._ctx.save();
-      // Scale the object.
-      // this._ctx.scale(this._scaleX, this._scaleY);
+      }
 
+      this.clear();
 
-      this.drawObject(); // this._ctx.restore();
+      if (this.isBlink()) {
+        this.save();
+        this._lastBlink = this.nextBlink(this.blinkFunc, this._lastBlink, 1000);
+
+        this._ctx.restore();
+      }
+
+      this.save();
+      this.drawObject();
+
+      this._ctx.restore();
     }
   }, {
     key: "drawObject",
@@ -490,13 +499,55 @@ function () {
       });
     }
   }, {
+    key: "nextBlink",
+    value: function nextBlink(blinkFunc, lastBlink, duration) {
+      var now = Date.now();
+
+      if (now - lastBlink < duration) {
+        blinkFunc.call();
+        return lastBlink;
+      } else if (now - lastBlink < duration * 2) {
+        return lastBlink;
+      }
+
+      return now;
+    }
+  }, {
+    key: "blinkFunc",
+    value: function blinkFunc() {
+      this._shape.fillRect(this._x, this._y, this._width, this._height, _color.COLOR.red);
+    } // ********** EXTERNAL API **********
+
+  }, {
     key: "destroy",
-    // ********** EXTERNAL API **********
     value: function destroy() {
       this.removeFromAnimationQueue();
       this.clear();
       this._canvas = null;
       this._ctx = null;
+    }
+    /**
+     * Blink the component.
+     */
+
+  }, {
+    key: "blink",
+    value: function blink() {
+      this._blink = true;
+    }
+    /**
+     * Unblink the component.
+     */
+
+  }, {
+    key: "unblink",
+    value: function unblink() {
+      this._blink = false;
+    }
+  }, {
+    key: "isBlink",
+    value: function isBlink() {
+      return this._blink;
     }
   }, {
     key: "moveTo",
@@ -1183,9 +1234,7 @@ function (_BaseComponent) {
     key: "drawObject",
     value: function drawObject() {
       this._ctx.textAlign = 'center';
-      this._ctx.font = '12px Arial';
-      this.clear();
-      this.save(); // Draw the horizontal line
+      this._ctx.font = '12px Arial'; // Draw the horizontal line
 
       this._shape.fillRect(0, 50, this._viewWidth, 2, this._fontColor); // Draw the pulse
 
@@ -1217,8 +1266,6 @@ function (_BaseComponent) {
 
         q.x += this._speed;
       }
-
-      this._ctx.restore();
     }
   }]);
 
@@ -1413,9 +1460,7 @@ function (_BaseComponent) {
   }, {
     key: "drawObject",
     value: function drawObject() {
-      this.clear();
-      this.save(); // Bars can be seen in the view
-
+      // Bars can be seen in the view
       var bars = Math.floor(this._viewHeight / (this._barHeight + this._space));
       var drawQueueSize = Math.min(this._queue.length, bars);
 
@@ -1451,8 +1496,6 @@ function (_BaseComponent) {
 
         this._ctx.closePath();
       }
-
-      this._ctx.restore();
     }
   }, {
     key: "push",
@@ -1571,9 +1614,7 @@ function (_BaseComponent) {
     value: function drawObject() {
       var _this2 = this;
 
-      this.clear();
-      this.save(); // Draw edges
-
+      // Draw edges
       this._nodes.forEach(function (node) {
         // Neighbors
         var neighbors = node.neighbors || [];
@@ -1586,23 +1627,14 @@ function (_BaseComponent) {
           var edgeColor = edge.color || _color.COLOR.grey;
           var edgeDash = edge.dash || []; // Draw the neighbor and edge
 
-          _this2._ctx.lineWidth = edgeWidth;
-          _this2._ctx.strokeStyle = edgeColor;
-
           if (destNode !== null) {
-            _this2._ctx.beginPath();
-
             if (edgeDash.length !== 0) {
               _this2._ctx.setLineDash(edgeDash);
+            } else {
+              _this2._ctx.setLineDash([]);
             }
 
-            _this2._ctx.moveTo(node.x, node.y);
-
-            _this2._ctx.lineTo(destNode.x, destNode.y);
-
-            _this2._ctx.stroke();
-
-            _this2._ctx.closePath();
+            _this2._shape.line(node.x, node.y, destNode.x, destNode.y, edgeWidth, edgeColor);
           }
         });
       }); // Draw moving signals
@@ -1641,8 +1673,6 @@ function (_BaseComponent) {
 
         _this2._shape.fillText(textValue, node.x + xTextOffset, node.y + yTextOffset, textFont, 'center', textColor);
       });
-
-      this._ctx.restore();
     }
   }, {
     key: "getNodeById",
@@ -1807,9 +1837,6 @@ function (_BaseComponent) {
 
       var angle = _utility.default.getAngleByDegree(this._degree);
 
-      this.clear();
-      this.save();
-
       this._ctx.translate(100, 100);
 
       this._ctx.rotate(angle);
@@ -1849,8 +1876,6 @@ function (_BaseComponent) {
       this._shape.fillCircle(0, 0, 30, this.centerColor);
 
       this._shape.fillCircle(0, 0, 10, this.centerBgColor);
-
-      this._ctx.restore();
     }
   }]);
 
@@ -2174,9 +2199,6 @@ function (_BaseComponent) {
 
       var a4 = _utility.default.getAngleByDegree(this._degree4);
 
-      this.clear();
-      this.save();
-
       this._ctx.translate(100, 100);
 
       this._ctx.rotate(a1); // Draw bar circle 1.
@@ -2274,8 +2296,6 @@ function (_BaseComponent) {
       this.save(); // Draw the text in the middle.
 
       this._shape.fillText(this.textValue, 100, 110, this._font, 'center', this.textColor);
-
-      this._ctx.restore();
     }
   }]);
 
@@ -2366,14 +2386,16 @@ function (_BaseComponent) {
       this.waveColor = options.waveColor || _color.COLOR.blue;
     }
   }, {
-    key: "drawObject",
-    value: function drawObject() {
-      this._ctx.textAlign = 'center';
+    key: "clear",
+    value: function clear() {
       this._ctx.fillStyle = this.bgColor;
 
       this._ctx.fillRect(0, 0, this._width, this._height);
-
-      this.save(); // Draw wave line
+    }
+  }, {
+    key: "drawObject",
+    value: function drawObject() {
+      this._ctx.textAlign = 'center'; // Draw wave line
 
       if (this._isWaveOn) {
         var waveWidth = 1;
@@ -2430,8 +2452,6 @@ function (_BaseComponent) {
 
 
       this._shape.fillText(this._textValue, this._viewWidth / 2, this._viewHeight - 35, '40px Arial', 'center', this.textColor);
-
-      this._ctx.restore();
     }
   }, {
     key: "value",
@@ -2542,7 +2562,6 @@ function (_BaseComponent) {
     key: "drawObject",
     value: function drawObject() {
       this._ctx.textAlign = 'center';
-      this.clear();
       this.save();
       this._ctx.globalCompositeOperation = 'destination-over'; // Draw left half text
 
@@ -2956,9 +2975,7 @@ function (_BaseComponent) {
   }, {
     key: "drawObject",
     value: function drawObject() {
-      this.clear();
-      this.save(); // Handle graident fill color.
-
+      // Handle graident fill color.
       var barFillStyle = this.barFillColor;
 
       if (this._isGraident) {
@@ -2993,9 +3010,7 @@ function (_BaseComponent) {
         this.drawMin();
         this.drawMax();
         this.drawMarker();
-      }
-
-      this._ctx.restore(); // Calculate the Y value.
+      } // Calculate the Y value.
 
 
       this._barY = _utility.default.getNextPos(this._barY, this._nextBarY, this._speed);

@@ -286,12 +286,11 @@
     messageQueue.pop();
   }, 1200);
 
-  var networkGraph = new zeu.NetworkGraph('network-graph');
-  networkGraph.addNodes([
+  var nodes = [
     {
       id: 'a',
-      x: 30,
-      y: 100,
+      x: 40,
+      y: 40,
       color: getRandomColor(),
       size: 15,
       text: {
@@ -308,12 +307,18 @@
           color: COLOR.blue,
           dash: [2, 2]
         }
+      }, {
+        id: 'd',
+        edge: {
+          width: 3,
+          color: COLOR.red,
+        }
       }]
     },
     {
       id: 'b',
       x: 140,
-      y: 50,
+      y: 40,
       color: getRandomColor(),
       size: 10,
       text: {
@@ -323,7 +328,17 @@
         xOffset: 30,
         yOffset: 3
       }
-    },
+    }
+  ];
+
+  /* Options */
+  var options = {
+    nodes: nodes
+  }
+
+  /* Constructor */
+  var networkGraph = new zeu.NetworkGraph('network-graph', options);
+  networkGraph.addNodes([
     {
       id: 'c',
       x: 140,
@@ -336,6 +351,20 @@
         font: '12px Arial',
         xOffset: 0,
         yOffset: 32
+      }
+    },
+    {
+      id: 'd',
+      x: 40,
+      y: 150,
+      color: getRandomColor(),
+      size: 16,
+      text: {
+        value: 'D',
+        color: getRandomColor(),
+        font: '12px Arial',
+        xOffset: 0,
+        yOffset: 5
       }
     }
   ]);
@@ -350,21 +379,28 @@
       });
     
     networkGraph.signal({
-        from: 'c',
-        to: 'b',
+        from: 'b',
+        to: 'c',
         color: getRandomColor(),
-        duration: 15000,
+        duration: 25000,
         size: getRandomInt(3, 5)
       });
 
     networkGraph.signal({
         from: 'c',
+        to: 'd',
+        color: getRandomColor(),
+        duration: 8000,
+        size: getRandomInt(4, 5)
+      });
+    networkGraph.signal({
+        from: 'd',
         to: 'a',
         color: getRandomColor(),
-        duration: 25000,
-        size: getRandomInt(5, 7)
+        duration: 12000,
+        size: getRandomInt(3, 5)
       });
-  }, 500);
+  }, 1000);
 </script>
 </body>
 </html>

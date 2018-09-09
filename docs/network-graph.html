@@ -138,8 +138,8 @@ networkGraph.signal({
 var nodes = [
   {
     id: 'a',
-    x: 30,
-    y: 100,
+    x: 40,
+    y: 40,
     color: getRandomColor(),
     size: 15,
     text: {
@@ -156,12 +156,18 @@ var nodes = [
         color: COLOR.blue,
         dash: [2, 2]
       }
+    }, {
+      id: 'd',
+      edge: {
+        width: 3,
+        color: COLOR.red,
+      }
     }]
   },
   {
     id: 'b',
     x: 140,
-    y: 50,
+    y: 40,
     color: getRandomColor(),
     size: 10,
     text: {
@@ -195,6 +201,20 @@ networkGraph.addNodes([
       xOffset: 0,
       yOffset: 32
     }
+  },
+  {
+    id: 'd',
+    x: 40,
+    y: 150,
+    color: getRandomColor(),
+    size: 16,
+    text: {
+      value: 'D',
+      color: getRandomColor(),
+      font: '12px Arial',
+      xOffset: 0,
+      yOffset: 5
+    }
   }
 ]);
 
@@ -208,21 +228,28 @@ setInterval(function() {
     });
   
   networkGraph.signal({
-      from: 'c',
-      to: 'b',
+      from: 'b',
+      to: 'c',
       color: getRandomColor(),
-      duration: 15000,
+      duration: 25000,
       size: getRandomInt(3, 5)
     });
 
   networkGraph.signal({
       from: 'c',
+      to: 'd',
+      color: getRandomColor(),
+      duration: 8000,
+      size: getRandomInt(4, 5)
+    });
+  networkGraph.signal({
+      from: 'd',
       to: 'a',
       color: getRandomColor(),
-      duration: 25000,
-      size: getRandomInt(5, 7)
+      duration: 12000,
+      size: getRandomInt(3, 5)
     });
-}, 500);
+}, 1000);
 
 var networkGraph2 = new zeu.NetworkGraph('network-graph-2', {
   viewWidth: 800,
@@ -372,7 +399,7 @@ setInterval(function() {
     });
   }
 
-}, 100);
+}, 300);
 
 var networkGraph3 = new zeu.NetworkGraph('network-graph-3', {
   viewWidth: 1300,
@@ -451,7 +478,7 @@ setInterval(function() {
     networkGraph3.signal(createSignal3('SHANGHAI', 'CAPE TOWN'));
     networkGraph3.signal(createSignal3('TOKYO', 'SYDNEY'));
   }
-}, 100);
+}, 300);
 </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 import { GLOBAL } from './global';
 import Utility from './utility';
 import Shape from './shape';
+import { COLOR } from './color';
 
 export default class BaseComponent {
 
@@ -42,6 +43,11 @@ export default class BaseComponent {
     // Init Shape instance.
     this._shape = new Shape(this._ctx);
 
+    this._blink = false;
+
+    this._lastBlink = 0;
+    this.blinkFunc = this.blinkFunc.bind(this);
+
     // Set options
     this.setOptions(options);
 
@@ -77,12 +83,15 @@ export default class BaseComponent {
       return;
     }
 
-    // Draw the component
-    // this._ctx.save();
-    // Scale the object.
-    // this._ctx.scale(this._scaleX, this._scaleY);
+    this.clear();
+    if (this.isBlink()) {
+      this.save();
+      this._lastBlink = this.nextBlink(this.blinkFunc, this._lastBlink, 1000);
+      this._ctx.restore();
+    }
+    this.save();
     this.drawObject();
-    // this._ctx.restore();
+    this._ctx.restore();
   }
 
   drawObject() {}
@@ -131,12 +140,46 @@ export default class BaseComponent {
     return this.getAnimationFrameArrayPos() !== -1;
   }
 
+  nextBlink(blinkFunc, lastBlink, duration) {
+    const now = Date.now();
+
+    if (now - lastBlink < duration) {
+      blinkFunc.call();
+      return lastBlink;
+    } else if (now - lastBlink < (duration * 2)) {
+      return lastBlink;
+    }
+    return now;
+  }
+
+  blinkFunc() {
+    this._shape.fillRect(this._x, this._y, this._width, this._height, COLOR.red);
+  }
+
   // ********** EXTERNAL API **********
   destroy() {
     this.removeFromAnimationQueue();
     this.clear();
     this._canvas = null;
     this._ctx = null;
+  }
+
+  /**
+   * Blink the component.
+   */
+  blink() {
+    this._blink = true;
+  }
+
+  /**
+   * Unblink the component.
+   */
+  unblink() {
+    this._blink = false;
+  }
+
+  isBlink() {
+    return this._blink;
   }
 
   moveTo(destX, destY, duration) {

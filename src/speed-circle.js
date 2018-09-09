@@ -49,8 +49,6 @@ export default class SpeedCircle extends BaseComponent {
     const a3 = Utility.getAngleByDegree(this._degree3);
     const a4 = Utility.getAngleByDegree(this._degree4);
 
-    this.clear();
-    this.save();
     this._ctx.translate(100, 100);
     this._ctx.rotate(a1);
     // Draw bar circle 1.
@@ -129,6 +127,5 @@ export default class SpeedCircle extends BaseComponent {
     this.save();
     // Draw the text in the middle.
     this._shape.fillText(this.textValue, 100, 110, this._font, 'center', this.textColor);
-    this._ctx.restore();
   }
 }

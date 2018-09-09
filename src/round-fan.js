@@ -25,8 +25,6 @@ export default class RoundFan extends BaseComponent {
     this._degree = Utility.getNextAngleByDegree(this._degree, this.speed);
     const angle = Utility.getAngleByDegree(this._degree);
 
-    this.clear();
-    this.save();
     this._ctx.translate(100, 100);
     this._ctx.rotate(angle);
 
@@ -56,7 +54,5 @@ export default class RoundFan extends BaseComponent {
     this._shape.fillCircle(0, 0, 35, this.centerBgColor);
     this._shape.fillCircle(0, 0, 30, this.centerColor);
     this._shape.fillCircle(0, 0, 10, this.centerBgColor);
-
-    this._ctx.restore();
   }
 }

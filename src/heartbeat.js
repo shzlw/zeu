@@ -80,9 +80,6 @@ export default class Heartbeat extends BaseComponent {
     this._ctx.textAlign = 'center';
     this._ctx.font = '12px Arial';
 
-    this.clear();
-    this.save();
-
     // Draw the horizontal line
     this._shape.fillRect(0, 50, this._viewWidth, 2, this._fontColor);
 
@@ -106,8 +103,6 @@ export default class Heartbeat extends BaseComponent {
       }
       q.x += this._speed;
     }
-
-    this._ctx.restore();
   }
 }
 

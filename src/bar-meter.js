@@ -28,9 +28,6 @@ export default class BarMeter extends BaseComponent {
   }
 
   drawObject() {
-    this.clear();
-    this.save();
-
     // Draw the dash.
     for (let i = 0; i < 10; i++) {
       let y = 5 + i * 20;
@@ -66,8 +63,6 @@ export default class BarMeter extends BaseComponent {
 
       this._currBar += this.speed;
     }
-
-    this._ctx.restore();
   }
 
   set value(value) {

@@ -56,9 +56,6 @@ export default class VolumeMeter extends BaseComponent {
   }
 
   drawObject() {
-    this.clear();
-    this.save();
-
     // Handle graident fill color.
     let barFillStyle = this.barFillColor;
 
@@ -93,8 +90,6 @@ export default class VolumeMeter extends BaseComponent {
       this.drawMax();
       this.drawMarker();
     }
-
-    this._ctx.restore();
     // Calculate the Y value.
     this._barY = Utility.getNextPos(this._barY, this._nextBarY, this._speed);
   }

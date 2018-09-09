@@ -18,9 +18,6 @@ export default class NetworkGraph extends BaseComponent {
   }
 
   drawObject() {
-    this.clear();
-    this.save();
-
     // Draw edges
     this._nodes.forEach((node) => {
       // Neighbors
@@ -35,18 +32,13 @@ export default class NetworkGraph extends BaseComponent {
         const edgeDash = edge.dash || [];
 
         // Draw the neighbor and edge
-        this._ctx.lineWidth = edgeWidth;
-        this._ctx.strokeStyle = edgeColor;
-
         if (destNode !== null) {
-          this._ctx.beginPath();
           if (edgeDash.length !== 0) {
             this._ctx.setLineDash(edgeDash);
+          } else {
+            this._ctx.setLineDash([]);
           }
-          this._ctx.moveTo(node.x, node.y);
-          this._ctx.lineTo(destNode.x, destNode.y);
-          this._ctx.stroke();
-          this._ctx.closePath();
+          this._shape.line(node.x, node.y, destNode.x, destNode.y, edgeWidth, edgeColor);
         }
       });
     });
@@ -86,8 +78,6 @@ export default class NetworkGraph extends BaseComponent {
       this._shape.fillCircle(node.x, node.y, node.size, node.color);
       this._shape.fillText(textValue, node.x + xTextOffset, node.y + yTextOffset, textFont, 'center', textColor);
     });
-
-    this._ctx.restore();
   }
 
   getNodeById(nodeId) {
