@@ -10,6 +10,7 @@ var components = [];
 components.push({name: 'Bar Meter', link: 'bar-meter.html'});
 components.push({name: 'Digital Clock', link: 'digital-clock.html'});
 components.push({name: 'Heartbeat', link: 'heartbeat.html'});
+components.push({name: 'Hex Grid', link: 'hex-grid.html'});
 components.push({name: 'Message Queue', link: 'message-queue.html'});
 components.push({name: 'Network Graph', link: 'network-graph.html'});
 components.push({name: 'Round Fan', link: 'round-fan.html'});

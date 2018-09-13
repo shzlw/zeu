@@ -1,11 +1,12 @@
 # Zeu.js
 
 ![Build Status](https://travis-ci.org/shzlw/zeu.svg?branch=master)
-[![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](https://opensource.org/licenses/MIT)
+[![license: MIT](https://img.shields.io/badge/license-MIT-orange.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://img.shields.io/npm/v/zeu.svg)](https://www.npmjs.com/package/zeu)
 
 Zeu.js is JavaScript library featuring a collection of prebuilt visualization components for building real-time TV dashboard, monitoring UI and IoT web interface.
 
-## What's new (v1.1.2)
+## What's New (v1.1.2)
 
 ### [Network Graph](https://shzlw.github.io/zeu/docs/network-graph.html)
 

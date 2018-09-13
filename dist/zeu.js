@@ -394,6 +394,7 @@ function () {
       dashOffSet: 0,
       text: '',
       duration: 1500,
+      lineColor: _color.COLOR.red,
       fontColor: _color.COLOR.red,
       bgColor: _color.COLOR.yellow
     };
@@ -507,13 +508,13 @@ function () {
     }
   }, {
     key: "nextAlert",
-    value: function nextAlert(alertFunc, lastAlert, duration) {
+    value: function nextAlert(alertFunc, lastAlert, interval) {
       var now = Date.now();
 
-      if (now - lastAlert < duration) {
+      if (now - lastAlert < interval) {
         alertFunc.call();
         return lastAlert;
-      } else if (now - lastAlert < duration * 2) {
+      } else if (now - lastAlert < interval * 2) {
         return lastAlert;
       }
 
@@ -530,9 +531,9 @@ function () {
 
       this._ctx.lineDashOffset = this._alert.dashOffSet;
 
-      this._shape.line(this._x, this._y, this._x + this._width, this._y, 2 * w, this._alert.fontColor);
+      this._shape.line(this._x, this._y, this._x + this._width, this._y, 2 * w, this._alert.lineColor);
 
-      this._shape.line(this._x + this._width, this._y + this._height, this._x, this._y + this._height, 2 * w, this._alert.fontColor);
+      this._shape.line(this._x + this._width, this._y + this._height, this._x, this._y + this._height, 2 * w, this._alert.lineColor);
 
       this._alert.dashOffSet--;
 
@@ -565,9 +566,10 @@ function () {
     value: function alertOn() {
       var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       this._alert.text = params.text || 'ALERT';
-      this._alert.duration = params.duration || 1500;
+      this._alert.interval = params.interval || 1500;
       this._alert.bgColor = params.bgColor || _color.COLOR.yellow;
       this._alert.fontColor = params.fontColor || _color.COLOR.red;
+      this._alert.lineColor = params.lineColor || _color.COLOR.red;
       this._alert.on = true;
     }
     /**
@@ -1312,6 +1314,207 @@ module.exports = exports["default"];
 
 /***/ }),
 
+/***/ "./src/hex-grid.js":
+/*!*************************!*\
+  !*** ./src/hex-grid.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ./base-component */ "./src/base-component.js"));
+
+var _color = __webpack_require__(/*! ./color */ "./src/color.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var HexGrid =
+/*#__PURE__*/
+function (_BaseComponent) {
+  _inherits(HexGrid, _BaseComponent);
+
+  function HexGrid(canvas) {
+    var _this;
+
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, HexGrid);
+
+    var viewWidth = options.viewWidth || 200;
+    var viewHeight = options.viewHeight || 200;
+    _this = _possibleConstructorReturn(this, (HexGrid.__proto__ || Object.getPrototypeOf(HexGrid)).call(this, canvas, options, viewWidth, viewHeight));
+    _this._nodes = [];
+    return _this;
+  }
+
+  _createClass(HexGrid, [{
+    key: "setOptions",
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      this._space = options.space || 5;
+      this._radius = options.radius || 20;
+      this._border = options.border || 3;
+    }
+  }, {
+    key: "drawObject",
+    value: function drawObject() {
+      var _this2 = this;
+
+      var s = this._space;
+      var r = this._radius;
+      var w = Math.pow(3, 0.5) * r / 2;
+      this._ctx.lineWidth = this._border;
+      var now = Date.now();
+
+      this._nodes.forEach(function (h) {
+        var xOffset = h.x % 2 === 0 ? s + w : s * 3 / 2 + 2 * w;
+        var y = s + r + (w + s / 2) * Math.pow(3, 0.5) * h.x;
+
+        _this2.drawHex(xOffset + (2 * w + s) * h.y, y, r, h.bgColor, h.borderColor, h.text);
+
+        if (h.blink.on) {
+          var interval = h.blink.interval;
+          var lastCall = h.blink.lastCall;
+
+          if (now - lastCall < interval) {
+            _this2.drawHex(xOffset + (2 * w + s) * h.y, y, r, h.blink.bgColor, h.borderColor, h.text);
+          } else if (now - lastCall < interval * 2) {} else {
+            h.blink.lastCall = now;
+          }
+        }
+      });
+    }
+  }, {
+    key: "drawHex",
+    value: function drawHex(x, y, r, bgColor, lineColor, text) {
+      var w = Math.pow(3, 0.5) * r / 2;
+      this._ctx.strokeStyle = lineColor;
+
+      this._ctx.beginPath();
+
+      this._ctx.moveTo(x, y - r);
+
+      this._ctx.lineTo(x + w, y - r / 2);
+
+      this._ctx.lineTo(x + w, y + r / 2);
+
+      this._ctx.lineTo(x, y + r);
+
+      this._ctx.lineTo(x - w, y + r / 2);
+
+      this._ctx.lineTo(x - w, y - r / 2);
+
+      this._ctx.lineTo(x, y - r);
+
+      this._ctx.closePath();
+
+      this._ctx.stroke();
+
+      this._ctx.fillStyle = bgColor;
+
+      this._ctx.fill();
+
+      this._shape.fillText(text.value, x + text.xOffset, y + text.yOffset, text.font, 'center', text.color);
+    }
+  }, {
+    key: "saveHex",
+    value: function saveHex() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var text = params.text || {};
+      var node = {
+        id: params.id,
+        x: params.x,
+        y: params.y,
+        bgColor: params.bgColor || _color.COLOR.white,
+        borderColor: params.borderColor || _color.COLOR.white,
+        text: {
+          value: text.value || '',
+          color: text.color || _color.COLOR.black,
+          font: text.font || '12px Arial',
+          xOffset: text.xOffset || 0,
+          yOffset: text.yOffset || 0
+        },
+        blink: {
+          bgColor: _color.COLOR.red,
+          interval: 1000,
+          on: false,
+          lastCall: 0
+        }
+      };
+      var isExist = false;
+
+      for (var i = 0; i < this._nodes.length; i++) {
+        if (this._nodes[i].id === node.id) {
+          this._nodes[i] = node;
+          isExist = true;
+          break;
+        }
+      }
+
+      if (!isExist) {
+        this._nodes.push(node);
+      }
+    }
+  }, {
+    key: "blink",
+    value: function blink() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var id = params.id;
+      var bgColor = params.bgColor || _color.COLOR.red;
+      var interval = params.interval || 1000;
+
+      for (var i = 0; i < this._nodes.length; i++) {
+        if (this._nodes[i].id === id) {
+          this._nodes[i].blink.bgColor = bgColor;
+          this._nodes[i].blink.interval = interval;
+          this._nodes[i].blink.on = true;
+          break;
+        }
+      }
+    }
+  }, {
+    key: "unblink",
+    value: function unblink(id) {
+      for (var i = 0; i < this._nodes.length; i++) {
+        if (this._nodes[i].id === id) {
+          this._nodes[i].blink.on = false;
+          break;
+        }
+      }
+    }
+  }]);
+
+  return HexGrid;
+}(_baseComponent.default);
+
+exports.default = HexGrid;
+module.exports = exports["default"];
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -1391,6 +1594,12 @@ Object.defineProperty(exports, "NetworkGraph", {
     return _networkGraph.default;
   }
 });
+Object.defineProperty(exports, "HexGrid", {
+  enumerable: true,
+  get: function get() {
+    return _hexGrid.default;
+  }
+});
 
 var _animationTimer = _interopRequireDefault(__webpack_require__(/*! ./animation-timer */ "./src/animation-timer.js"));
 
@@ -1415,6 +1624,8 @@ var _speedCircle = _interopRequireDefault(__webpack_require__(/*! ./speed-circle
 var _textBox = _interopRequireDefault(__webpack_require__(/*! ./text-box */ "./src/text-box.js"));
 
 var _networkGraph = _interopRequireDefault(__webpack_require__(/*! ./network-graph */ "./src/network-graph.js"));
+
+var _hexGrid = _interopRequireDefault(__webpack_require__(/*! ./hex-grid */ "./src/hex-grid.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2105,9 +2316,9 @@ function () {
 
       this._ctx.lineTo(x2, y2);
 
-      this._ctx.stroke();
-
       this._ctx.closePath();
+
+      this._ctx.stroke();
     }
     /**
      * Create a filled circle

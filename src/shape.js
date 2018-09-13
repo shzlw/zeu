@@ -77,8 +77,8 @@ export default class Shape {
     this._ctx.strokeStyle = strokeStyle;
     this._ctx.moveTo(x1, y1);
     this._ctx.lineTo(x2, y2);
-    this._ctx.stroke();
     this._ctx.closePath();
+    this._ctx.stroke();
   }
 
   /**

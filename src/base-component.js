@@ -49,6 +49,7 @@ export default class BaseComponent {
       dashOffSet: 0,
       text: '',
       duration: 1500,
+      lineColor: COLOR.red,
       fontColor: COLOR.red,
       bgColor: COLOR.yellow
     };
@@ -150,13 +151,13 @@ export default class BaseComponent {
     return this.getAnimationFrameArrayPos() !== -1;
   }
 
-  nextAlert(alertFunc, lastAlert, duration) {
+  nextAlert(alertFunc, lastAlert, interval) {
     const now = Date.now();
 
-    if (now - lastAlert < duration) {
+    if (now - lastAlert < interval) {
       alertFunc.call();
       return lastAlert;
-    } else if (now - lastAlert < (duration * 2)) {
+    } else if (now - lastAlert < (interval * 2)) {
       return lastAlert;
     }
     return now;
@@ -169,9 +170,9 @@ export default class BaseComponent {
 
     this._ctx.setLineDash([w, w * 3 / 4]);
     this._ctx.lineDashOffset = this._alert.dashOffSet;
-    this._shape.line(this._x, this._y, this._x + this._width, this._y, 2 * w, this._alert.fontColor);
+    this._shape.line(this._x, this._y, this._x + this._width, this._y, 2 * w, this._alert.lineColor);
     this._shape.line(this._x + this._width, this._y + this._height, this._x,
-      this._y + this._height, 2 * w, this._alert.fontColor);
+      this._y + this._height, 2 * w, this._alert.lineColor);
 
     this._alert.dashOffSet--;
     if (this._alert.dashOffSet > w) {
@@ -199,9 +200,10 @@ export default class BaseComponent {
    */
   alertOn(params = {}) {
     this._alert.text = params.text || 'ALERT';
-    this._alert.duration = params.duration || 1500;
+    this._alert.interval = params.interval || 1500;
     this._alert.bgColor = params.bgColor || COLOR.yellow;
     this._alert.fontColor = params.fontColor || COLOR.red;
+    this._alert.lineColor = params.lineColor || COLOR.red;
     this._alert.on = true;
   }
 

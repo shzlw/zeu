@@ -82,9 +82,10 @@ var speedCircle = new zeu.SpeedCircle('speed-circle');
 // Turn on the warning
 speedCircle.alertOn({
   text: 'WARNING', 
-  duration: 1000,
+  interval: 1000,
   bgColor: '#000000',
-  fontColor: '#dc3547'
+  fontColor: '#dc3547',
+  lineColor: '#dc3547'
 });</code></pre>
       <canvas id="speed-circle" width="200" height="200"></canvas>
       <!-- Alert -->
@@ -114,9 +115,10 @@ var speedCircle = new zeu.SpeedCircle('speed-circle');
 speedCircle.textValue = 'ZEU';
 speedCircle.alertOn({
   text: 'WARNING', 
-  duration: 1000,
+  interval: 1000,
   bgColor: '#000000',
-  fontColor: '#dc3547'
+  fontColor: '#dc3547',
+  lineColor: '#dc3547'
 });
 
 setInterval(function() {

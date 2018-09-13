@@ -10,6 +10,7 @@ import TextMeter from './text-meter';
 import SpeedCircle from './speed-circle';
 import TextBox from './text-box';
 import NetworkGraph from './network-graph';
+import HexGrid from './hex-grid';
 
 export {
   Settings,
@@ -22,7 +23,8 @@ export {
   TextMeter,
   RoundFan,
   TextBox,
-  NetworkGraph
+  NetworkGraph,
+  HexGrid
 };
 
 // Fire up window.requestAnimationFrame()
