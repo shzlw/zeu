@@ -393,7 +393,7 @@ function () {
       lastCall: 0,
       dashOffSet: 0,
       text: '',
-      duration: 1500,
+      interval: 1500,
       lineColor: _color.COLOR.red,
       fontColor: _color.COLOR.red,
       bgColor: _color.COLOR.yellow
@@ -446,7 +446,7 @@ function () {
 
       if (this.isAlert()) {
         this.save();
-        this._alert.lastCall = this.nextAlert(this.alertFunc, this._alert.lastCall, this._alert.duration);
+        this._alert.lastCall = this.nextAlert(this.alertFunc, this._alert.lastCall, this._alert.interval);
 
         this._ctx.restore();
       }
@@ -523,21 +523,19 @@ function () {
   }, {
     key: "alertFunc",
     value: function alertFunc() {
-      var w = 20;
-
       this._shape.fillRect(this._x, this._y, this._width, this._height, this._alert.bgColor);
 
-      this._ctx.setLineDash([w, w * 3 / 4]);
+      this._ctx.setLineDash([20, 16]);
 
-      this._ctx.lineDashOffset = this._alert.dashOffSet;
+      this._ctx.lineDashOffset = -this._alert.dashOffSet;
+      this._ctx.lineWidth = 20;
+      this._ctx.strokeStyle = this._alert.lineColor;
 
-      this._shape.line(this._x, this._y, this._x + this._width, this._y, 2 * w, this._alert.lineColor);
+      this._ctx.strokeRect(this._x, this._y, this._width, this._height);
 
-      this._shape.line(this._x + this._width, this._y + this._height, this._x, this._y + this._height, 2 * w, this._alert.lineColor);
+      this._alert.dashOffSet++;
 
-      this._alert.dashOffSet--;
-
-      if (this._alert.dashOffSet > w) {
+      if (this._alert.dashOffSet > 32) {
         this._alert.dashOffSet = 0;
       }
 
@@ -1393,14 +1391,14 @@ function (_BaseComponent) {
         var xOffset = h.x % 2 === 0 ? s + w : s * 3 / 2 + 2 * w;
         var y = s + r + (w + s / 2) * Math.pow(3, 0.5) * h.x;
 
-        _this2.drawHex(xOffset + (2 * w + s) * h.y, y, r, h.bgColor, h.borderColor, h.text);
+        _this2.drawHex(xOffset + (2 * w + s) * h.y, y, r, h.bgColor, h.borderColor, h.text, h.text.xOffset, h.text.yOffset);
 
         if (h.blink.on) {
           var interval = h.blink.interval;
           var lastCall = h.blink.lastCall;
 
           if (now - lastCall < interval) {
-            _this2.drawHex(xOffset + (2 * w + s) * h.y, y, r, h.blink.bgColor, h.borderColor, h.text);
+            _this2.drawHex(xOffset + (2 * w + s) * h.y, y, r, h.blink.bgColor, h.blink.borderColor, h.blink.text, h.text.xOffset, h.text.yOffset);
           } else if (now - lastCall < interval * 2) {} else {
             h.blink.lastCall = now;
           }
@@ -1409,7 +1407,7 @@ function (_BaseComponent) {
     }
   }, {
     key: "drawHex",
-    value: function drawHex(x, y, r, bgColor, lineColor, text) {
+    value: function drawHex(x, y, r, bgColor, lineColor, text, xOffset, yOffset) {
       var w = Math.pow(3, 0.5) * r / 2;
       this._ctx.strokeStyle = lineColor;
 
@@ -1437,8 +1435,13 @@ function (_BaseComponent) {
 
       this._ctx.fill();
 
-      this._shape.fillText(text.value, x + text.xOffset, y + text.yOffset, text.font, 'center', text.color);
+      this._shape.fillText(text.value, x + xOffset, y + yOffset, text.font, 'center', text.color);
     }
+    /**
+     * Create or update a hex
+     * @param {object} params
+     */
+
   }, {
     key: "saveHex",
     value: function saveHex() {
@@ -1458,6 +1461,11 @@ function (_BaseComponent) {
           yOffset: text.yOffset || 0
         },
         blink: {
+          text: {
+            value: '',
+            color: _color.COLOR.black
+          },
+          borderColor: params.borderColor || _color.COLOR.white,
           bgColor: _color.COLOR.red,
           interval: 1000,
           on: false,
@@ -1478,26 +1486,37 @@ function (_BaseComponent) {
         this._nodes.push(node);
       }
     }
+    /**
+     * Blink on
+     * @param {object} params
+     */
+
   }, {
-    key: "blink",
-    value: function blink() {
+    key: "blinkOn",
+    value: function blinkOn() {
       var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var id = params.id;
-      var bgColor = params.bgColor || _color.COLOR.red;
-      var interval = params.interval || 1000;
+      var text = params.text || {};
 
       for (var i = 0; i < this._nodes.length; i++) {
-        if (this._nodes[i].id === id) {
-          this._nodes[i].blink.bgColor = bgColor;
-          this._nodes[i].blink.interval = interval;
+        if (this._nodes[i].id === params.id) {
+          this._nodes[i].blink.text.value = text.value || '';
+          this._nodes[i].blink.text.color = text.color || _color.COLOR.black;
+          this._nodes[i].blink.borderColor = params.borderColor || _color.COLOR.white;
+          this._nodes[i].blink.bgColor = params.bgColor || _color.COLOR.red;
+          this._nodes[i].blink.interval = params.interval || 1000;
           this._nodes[i].blink.on = true;
           break;
         }
       }
     }
+    /**
+     * Blink off
+     * @param {string} id
+     */
+
   }, {
-    key: "unblink",
-    value: function unblink(id) {
+    key: "blinkOff",
+    value: function blinkOff(id) {
       for (var i = 0; i < this._nodes.length; i++) {
         if (this._nodes[i].id === id) {
           this._nodes[i].blink.on = false;
@@ -2543,6 +2562,12 @@ function (_BaseComponent) {
 
       this._shape.fillText(this.textValue, 100, 110, this._font, 'center', this.textColor);
     }
+  }, {
+    key: "pulseOn",
+    value: function pulseOn() {}
+  }, {
+    key: "pulseOff",
+    value: function pulseOff() {}
   }]);
 
   return SpeedCircle;

@@ -1,5 +1,4 @@
 import BaseComponent from './base-component';
-// import Utility from './utility';
 import { COLOR } from './color';
 
 export default class HexGrid extends BaseComponent {
@@ -31,14 +30,15 @@ export default class HexGrid extends BaseComponent {
       const xOffset = h.x % 2 === 0 ? s + w : s * 3 / 2 + 2 * w;
       const y = (s + r) + (w + s / 2) * Math.pow(3, 0.5) * h.x;
 
-      this.drawHex(xOffset + (2 * w + s) * h.y, y, r, h.bgColor, h.borderColor, h.text);
+      this.drawHex(xOffset + (2 * w + s) * h.y, y, r, h.bgColor, h.borderColor, h.text, h.text.xOffset, h.text.yOffset);
 
       if (h.blink.on) {
         const interval = h.blink.interval;
         const lastCall = h.blink.lastCall;
 
         if (now - lastCall < interval) {
-          this.drawHex(xOffset + (2 * w + s) * h.y, y, r, h.blink.bgColor, h.borderColor, h.text);
+          this.drawHex(xOffset + (2 * w + s) * h.y, y, r, h.blink.bgColor, h.blink.borderColor, h.blink.text,
+            h.text.xOffset, h.text.yOffset);
         } else if (now - lastCall < (interval * 2)) {
         } else {
           h.blink.lastCall = now;
@@ -47,7 +47,7 @@ export default class HexGrid extends BaseComponent {
     });
   }
 
-  drawHex(x, y, r, bgColor, lineColor, text) {
+  drawHex(x, y, r, bgColor, lineColor, text, xOffset, yOffset) {
     const w = Math.pow(3, 0.5) * r / 2;
 
     this._ctx.strokeStyle = lineColor;
@@ -64,9 +64,13 @@ export default class HexGrid extends BaseComponent {
     this._ctx.fillStyle = bgColor;
     this._ctx.fill();
 
-    this._shape.fillText(text.value, x + text.xOffset, y + text.yOffset, text.font, 'center', text.color);
+    this._shape.fillText(text.value, x + xOffset, y + yOffset, text.font, 'center', text.color);
   }
 
+  /**
+   * Create or update a hex
+   * @param {object} params
+   */
   saveHex(params = {}) {
     const text = params.text || {};
     const node = {
@@ -83,6 +87,11 @@ export default class HexGrid extends BaseComponent {
         yOffset: text.yOffset || 0
       },
       blink: {
+        text: {
+          value: '',
+          color: COLOR.black
+        },
+        borderColor: params.borderColor || COLOR.white,
         bgColor: COLOR.red,
         interval: 1000,
         on: false,
@@ -105,22 +114,31 @@ export default class HexGrid extends BaseComponent {
     }
   }
 
-  blink(params = {}) {
-    const id = params.id;
-    const bgColor = params.bgColor || COLOR.red;
-    const interval = params.interval || 1000;
+  /**
+   * Blink on
+   * @param {object} params
+   */
+  blinkOn(params = {}) {
+    const text = params.text || {};
 
     for (let i = 0; i < this._nodes.length; i++) {
-      if (this._nodes[i].id === id) {
-        this._nodes[i].blink.bgColor = bgColor;
-        this._nodes[i].blink.interval = interval;
+      if (this._nodes[i].id === params.id) {
+        this._nodes[i].blink.text.value = text.value || '';
+        this._nodes[i].blink.text.color = text.color || COLOR.black;
+        this._nodes[i].blink.borderColor = params.borderColor || COLOR.white;
+        this._nodes[i].blink.bgColor = params.bgColor || COLOR.red;
+        this._nodes[i].blink.interval = params.interval || 1000;
         this._nodes[i].blink.on = true;
         break;
       }
     }
   }
 
-  unblink(id) {
+  /**
+   * Blink off
+   * @param {string} id
+   */
+  blinkOff(id) {
     for (let i = 0; i < this._nodes.length; i++) {
       if (this._nodes[i].id === id) {
         this._nodes[i].blink.on = false;

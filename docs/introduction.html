@@ -107,6 +107,8 @@
           </div>
 
           <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="hex-grid.html" class="text-dark">Hex Grid</a></h4>
+            <canvas id="hex-grid" width="200" height="200"></canvas>
           </div>
 
           <div class="col-lg text-center mb-2">
@@ -401,6 +403,54 @@
         size: getRandomInt(3, 5)
       });
   }, 1000);
+
+  var hexGrid = new zeu.HexGrid('hex-grid', {
+    viewWidth: 200,
+    viewHeight: 200,
+    space: 5,
+    radius: 30,
+    border: 1
+  });
+
+  var data = [
+    {x: 0, y: 1}, 
+    {x: 0, y: 2},
+    {x: 1, y: 0},
+    {x: 1, y: 1},
+    {x: 1, y: 2},
+    {x: 2, y: 1},
+    {x: 2, y: 2}
+  ];
+
+  for (var i = 0; i < data.length; i++) {
+    var d = data[i];
+    var id = 'hex-' + d.x + '-' + d.y;
+    hexGrid.saveHex({
+      id: id,
+      x: d.x,
+      y: d.y,
+      bgColor: '#00d7af',
+      borderColor: '#FFFFFF',
+      text: {
+        value: d.x + '-' + d.y,
+        color: '#FFFFFF',
+        font: '16px Arial',
+        xOffset: 0,
+        yOffset: 5
+      }
+    });
+  }
+
+  hexGrid.blinkOn({
+    id: 'hex-1-1',
+    text: {
+      value: 'ZEU',
+      color: '#FFFFFF'
+    },
+    bgColor: '#dc3547',
+    borderColor: '#FFFFFF',
+    interval: 1000
+  });
 </script>
 </body>
 </html>

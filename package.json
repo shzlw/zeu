@@ -1,6 +1,6 @@
 {
   "name": "zeu",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "A JavaScript library for real-time visualization",
   "main": "dist/zeu.js",
   "unpkg": "dist/zeu.js",
@@ -17,7 +17,8 @@
     "zeu",
     "visualization",
     "chart",
-    "animation"
+    "animation",
+    "IoT"
   ],
   "author": "Zhonglu Wang",
   "license": "MIT",

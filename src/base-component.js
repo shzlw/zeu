@@ -48,7 +48,7 @@ export default class BaseComponent {
       lastCall: 0,
       dashOffSet: 0,
       text: '',
-      duration: 1500,
+      interval: 1500,
       lineColor: COLOR.red,
       fontColor: COLOR.red,
       bgColor: COLOR.yellow
@@ -100,7 +100,7 @@ export default class BaseComponent {
 
     if (this.isAlert()) {
       this.save();
-      this._alert.lastCall = this.nextAlert(this.alertFunc, this._alert.lastCall, this._alert.duration);
+      this._alert.lastCall = this.nextAlert(this.alertFunc, this._alert.lastCall, this._alert.interval);
       this._ctx.restore();
     }
   }
@@ -164,18 +164,16 @@ export default class BaseComponent {
   }
 
   alertFunc() {
-    const w = 20;
-
     this._shape.fillRect(this._x, this._y, this._width, this._height, this._alert.bgColor);
 
-    this._ctx.setLineDash([w, w * 3 / 4]);
-    this._ctx.lineDashOffset = this._alert.dashOffSet;
-    this._shape.line(this._x, this._y, this._x + this._width, this._y, 2 * w, this._alert.lineColor);
-    this._shape.line(this._x + this._width, this._y + this._height, this._x,
-      this._y + this._height, 2 * w, this._alert.lineColor);
+    this._ctx.setLineDash([20, 16]);
+    this._ctx.lineDashOffset = -this._alert.dashOffSet;
+    this._ctx.lineWidth = 20;
+    this._ctx.strokeStyle = this._alert.lineColor;
+    this._ctx.strokeRect(this._x, this._y, this._width, this._height);
 
-    this._alert.dashOffSet--;
-    if (this._alert.dashOffSet > w) {
+    this._alert.dashOffSet++;
+    if (this._alert.dashOffSet > 32) {
       this._alert.dashOffSet = 0;
     }
 

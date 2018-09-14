@@ -16,19 +16,82 @@
     <div class="container-fluid">
       <h2>Hex Grid</h2>
       <hr>
-      <canvas id="hex-grid" width="600" height="600"></canvas>
+      <canvas id="hex-grid" width="200" height="200"></canvas>
 
       <h5 class="mt-3">Html</h5>
   <pre><code><!-- Default view dimension 200 x 200. Flexible view width and height. -->
 <canvas id="hex-grid" width="200" height="200"></canvas></code></pre>
 
       <h5>JavaScript</h5>
-<pre><code></code></pre>
+<pre><code>/* Options */
+var options = {
+  // Space between 2 hex nodes.
+  space: 5,
+  // Radius.
+  radius: 30,
+  // Border width. Min = 1. To show no border, set the border color to transparent.
+  border: 1
+}
+
+/* Constructor */
+var hexGrid = new zeu.HexGrid('hex-grid', options);
+
+/* Function */
+// Create or update a hex node.
+hexGrid.saveHex({
+  // Unique node id.
+  id: 'node-1',
+  // X coordinate on canvas.
+  x: 0,
+  // Y coordinate on canvas.
+  y: 0,
+  // Background color.
+  bgColor: '#00d7af',
+  // Border color.
+  borderColor: '#FFFFFF',
+  // Text settings
+  text: {
+    // Display value.
+    value: 'ZEU',
+    // Font color.
+    color: '#FFFFFF',
+    // Canvas font style. For instance, '12px Arial'. 
+    font: '16px Arial',
+    // X offset from the center of the node.
+    xOffset: 0,
+    // Y offset from the center of the node.
+    yOffset: 5
+  }
+});
+
+// Turn on blinking.
+hexGrid.blinkOn({
+  // Node id.
+  id: 'node-1',
+  // Change text settings.
+  text: {
+    // Display value.
+    value: 'YEAH',
+    // Font color.
+    color: '#FFFFFF'
+  },
+  // Change background color.
+  bgColor: '#dc3547',
+  // Change border color.
+  borderColor: '#FFFFFF',
+  // Set blink interval.
+  interval: 1000
+});
+
+// Turn off blinking by node id.
+hexGrid.blinkOff('node-1');
+</code></pre>
 
     <h4>More examples</h4>
     <p>
+      Increase canvas size to 600 x 600. Blink 900 nodes in random color and interval.
     </p>
-    <canvas id="hex-grid-2" width="200" height="200"></canvas>
+    <canvas id="hex-grid-2" width="600" height="600"></canvas>
     </div>
   </div>
 </div>
@@ -38,38 +101,86 @@
 <script src="docs.js"></script>
 <script src="../dist/zeu.js"></script>
 <script type="text/javascript">
-
-var hexGrid = new zeu.HexGrid('hex-grid', {
-  viewWidth: 600,
-  viewHeight: 600,
+/* Options */
+var options = {
+  viewWidth: 200,
+  viewHeight: 200,
   space: 5,
   radius: 30,
   border: 1
+}
+
+/* Constructor */
+var hexGrid = new zeu.HexGrid('hex-grid', options);
+
+var data = [
+  {x: 0, y: 1}, 
+  {x: 0, y: 2},
+  {x: 1, y: 0},
+  {x: 1, y: 1},
+  {x: 1, y: 2},
+  {x: 2, y: 1},
+  {x: 2, y: 2}
+];
+
+for (var i = 0; i < data.length; i++) {
+  var d = data[i];
+  var id = 'hex-' + d.x + '-' + d.y;
+  hexGrid.saveHex({
+    id: id,
+    x: d.x,
+    y: d.y,
+    bgColor: '#00d7af',
+    borderColor: '#FFFFFF',
+    text: {
+      value: d.x + '-' + d.y,
+      color: '#FFFFFF',
+      font: '16px Arial',
+      xOffset: 0,
+      yOffset: 5
+    }
+  });
+}
+
+hexGrid.blinkOn({
+  id: 'hex-1-1',
+  text: {
+    value: 'ZEU',
+    color: '#FFFFFF'
+  },
+  bgColor: '#dc3547',
+  borderColor: '#FFFFFF',
+  interval: 1000
 });
 
-for (var i = 0; i < 10; i++) {
-  for (var j = 0; j < 10; j++) {
-    var id = 'id-' + i + j;
-    hexGrid.saveHex({
+var hexGrid2 = new zeu.HexGrid('hex-grid-2', {
+  viewWidth: 600,
+  viewHeight: 600,
+  space: 1,
+  radius: 10,
+  border: 1
+});
+
+
+for (var i = 0; i < 30; i++) {
+  for (var j = 0; j < 30; j++) {
+    var id = 'hex2-' + i + '-' + j;
+    hexGrid2.saveHex({
       id: id,
       x: j,
       y: i,
-      bgColor: getRandomColor(),
-      text: {
-        value: j + '-' + i,
-        color: 'white',
-        font: '16px Arial',
-        xOffset: 0,
-        yOffset: 5
-      }
+      bgColor: '#E0E0E0',
     });
 
-    hexGrid.blink({
+    hexGrid2.blinkOn({
       id: id,
-      interval: getRandomInt(100, 2000)
-    })
+      bgColor: getRandomColor(),
+      interval: getRandomInt(100, 1000)
+    });
   }
 }
+
+
 
 </script>
 </body>

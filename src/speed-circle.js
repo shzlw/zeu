@@ -128,4 +128,12 @@ export default class SpeedCircle extends BaseComponent {
     // Draw the text in the middle.
     this._shape.fillText(this.textValue, 100, 110, this._font, 'center', this.textColor);
   }
+
+  pulseOn() {
+
+  }
+
+  pulseOff() {
+
+  }
 }
