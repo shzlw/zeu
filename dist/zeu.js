@@ -3199,8 +3199,6 @@ function (_BaseComponent) {
     _this._actualValue = _this._value;
     _this._barY = _this._viewHeight - (_this._value - _this._minValue) / (_this._maxValue - _this._minValue) * _this._meterHeight - _this._numberHeight;
     _this._nextBarY = _this._barY;
-    _this._lastBlink = 0;
-    _this.drawMarker = _this.drawMarker.bind(_this);
     return _this;
   }
   /**
@@ -3260,32 +3258,11 @@ function (_BaseComponent) {
       this._ctx.closePath(); // Draw value.
 
 
-      if (this._minMax === 'min' || this._minMax === 'max') {
-        this.drawMin();
-        this.drawMax();
-        this._lastBlink = this.blink(this.drawMarker, this._lastBlink, 500);
-      } else {
-        this.drawMin();
-        this.drawMax();
-        this.drawMarker();
-      } // Calculate the Y value.
-
+      this.drawMin();
+      this.drawMax();
+      this.drawMarker(); // Calculate the Y value.
 
       this._barY = _utility.default.getNextPos(this._barY, this._nextBarY, this._speed);
-    }
-  }, {
-    key: "blink",
-    value: function blink(blinkFunc, lastBlink, duration) {
-      var now = Date.now();
-
-      if (now - lastBlink < duration) {
-        blinkFunc.call();
-        return lastBlink;
-      } else if (now - lastBlink < duration * 2) {
-        return lastBlink;
-      }
-
-      return now;
     }
   }, {
     key: "drawMin",

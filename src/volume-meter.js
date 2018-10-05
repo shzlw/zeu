@@ -22,9 +22,6 @@ export default class VolumeMeter extends BaseComponent {
     this._barY = this._viewHeight - (((this._value - this._minValue) /
       (this._maxValue - this._minValue)) * this._meterHeight) - this._numberHeight;
     this._nextBarY = this._barY;
-
-    this._lastBlink = 0;
-    this.drawMarker = this.drawMarker.bind(this);
   }
 
   /**
@@ -81,29 +78,12 @@ export default class VolumeMeter extends BaseComponent {
     this._ctx.closePath();
 
     // Draw value.
-    if (this._minMax === 'min' || this._minMax === 'max') {
-      this.drawMin();
-      this.drawMax();
-      this._lastBlink = this.blink(this.drawMarker, this._lastBlink, 500);
-    } else {
-      this.drawMin();
-      this.drawMax();
-      this.drawMarker();
-    }
+    this.drawMin();
+    this.drawMax();
+    this.drawMarker();
+
     // Calculate the Y value.
     this._barY = Utility.getNextPos(this._barY, this._nextBarY, this._speed);
-  }
-
-  blink(blinkFunc, lastBlink, duration) {
-    const now = Date.now();
-
-    if (now - lastBlink < duration) {
-      blinkFunc.call();
-      return lastBlink;
-    } else if (now - lastBlink < (duration * 2)) {
-      return lastBlink;
-    }
-    return now;
   }
 
   drawMin() {
