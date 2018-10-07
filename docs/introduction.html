@@ -112,6 +112,8 @@
           </div>
 
           <div class="col-lg text-center mb-2">
+            <h4 class="p-3 mb-3 bg-grey"><a href="score-board.html" class="text-dark">Score Board</a></h4>
+            <canvas id="score-board" width="200" height="200"></canvas>
           </div>
         </div>
       </div>
@@ -451,6 +453,45 @@
     borderColor: '#FFFFFF',
     interval: 1000
   });
+
+  var scoreBoard = new zeu.ScoreBoard('score-board', {
+    viewWidth: 200,
+    viewHeight: 200,
+    order: 'asc',
+    rowHeight: 40,
+    space: 0,
+    speed: 10,
+    font: '20px Arial'
+  });
+
+  var red = ['#f32617', '#f6665c', '#f98d85', '#fbb3ae', '#fdd9d6'];
+  for (var i = 1; i <= 5; i++) {
+    var score = getRandomInt(1, 100);
+    scoreBoard.add({
+      id: 'p' + i,
+      score: score,
+      bgColor: red[i - 1],
+      text: {
+        value:  'P' + i + '  Score: ' + score,
+        xOffset: 15,
+        yOffset: 28
+      }
+    });
+  }
+
+  setInterval(function() {
+    for (var i = 1; i <= 5; i++) {
+      var score = getRandomInt(1, 100);
+      scoreBoard.update({
+        id: 'p' + i,
+        score: score,
+        text: {
+          value: 'P' + i + '  Score: ' + score
+        }
+      });
+    }
+  }, 1500);
+
 </script>
 </body>
 </html>

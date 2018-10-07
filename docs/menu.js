@@ -14,6 +14,7 @@ components.push({name: 'Hex Grid', link: 'hex-grid.html'});
 components.push({name: 'Message Queue', link: 'message-queue.html'});
 components.push({name: 'Network Graph', link: 'network-graph.html'});
 components.push({name: 'Round Fan', link: 'round-fan.html'});
+components.push({name: 'Score Board', link: 'score-board.html'});
 components.push({name: 'Speed Circle', link: 'speed-circle.html'});
 components.push({name: 'Text Box', link: 'text-box.html'});
 components.push({name: 'Text Meter', link: 'text-meter.html'});

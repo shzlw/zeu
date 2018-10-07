@@ -11,6 +11,7 @@ import SpeedCircle from './speed-circle';
 import TextBox from './text-box';
 import NetworkGraph from './network-graph';
 import HexGrid from './hex-grid';
+import ScoreBoard from './score-board';
 
 export {
   Settings,
@@ -24,7 +25,8 @@ export {
   RoundFan,
   TextBox,
   NetworkGraph,
-  HexGrid
+  HexGrid,
+  ScoreBoard
 };
 
 // Fire up window.requestAnimationFrame()

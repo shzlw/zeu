@@ -1619,6 +1619,12 @@ Object.defineProperty(exports, "HexGrid", {
     return _hexGrid.default;
   }
 });
+Object.defineProperty(exports, "ScoreBoard", {
+  enumerable: true,
+  get: function get() {
+    return _scoreBoard.default;
+  }
+});
 
 var _animationTimer = _interopRequireDefault(__webpack_require__(/*! ./animation-timer */ "./src/animation-timer.js"));
 
@@ -1645,6 +1651,8 @@ var _textBox = _interopRequireDefault(__webpack_require__(/*! ./text-box */ "./s
 var _networkGraph = _interopRequireDefault(__webpack_require__(/*! ./network-graph */ "./src/network-graph.js"));
 
 var _hexGrid = _interopRequireDefault(__webpack_require__(/*! ./hex-grid */ "./src/hex-grid.js"));
+
+var _scoreBoard = _interopRequireDefault(__webpack_require__(/*! ./score-board */ "./src/score-board.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2152,6 +2160,216 @@ module.exports = exports["default"];
 
 /***/ }),
 
+/***/ "./src/score-board.js":
+/*!****************************!*\
+  !*** ./src/score-board.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _baseComponent = _interopRequireDefault(__webpack_require__(/*! ./base-component */ "./src/base-component.js"));
+
+var _utility = _interopRequireDefault(__webpack_require__(/*! ./utility */ "./src/utility.js"));
+
+var _color = __webpack_require__(/*! ./color */ "./src/color.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var ScoreBoard =
+/*#__PURE__*/
+function (_BaseComponent) {
+  _inherits(ScoreBoard, _BaseComponent);
+
+  function ScoreBoard(canvas) {
+    var _this;
+
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, ScoreBoard);
+
+    var viewWidth = options.viewWidth || 200;
+    var viewHeight = options.viewHeight || 200;
+    _this = _possibleConstructorReturn(this, (ScoreBoard.__proto__ || Object.getPrototypeOf(ScoreBoard)).call(this, canvas, options, viewWidth, viewHeight));
+    _this._rows = [];
+    return _this;
+  }
+
+  _createClass(ScoreBoard, [{
+    key: "setOptions",
+    value: function setOptions() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      this._rowHeight = options.rowHeight || 20;
+      this._space = options.space || 0;
+      this._font = options.font || '10px Arial';
+      this._speed = options.speed || 5;
+      this._order = options.order || 'asc';
+    }
+  }, {
+    key: "sort",
+    value: function sort() {
+      if (this._order === 'asc') {
+        this._rows.sort(function (a, b) {
+          return a.score - b.score;
+        });
+      } else {
+        this._rows.sort(function (a, b) {
+          return b.score - a.score;
+        });
+      }
+    }
+  }, {
+    key: "drawObject",
+    value: function drawObject() {
+      for (var i = 0; i < this._rows.length; i++) {
+        var row = this._rows[i];
+
+        this._shape.fillRect(row.x, row.y, this._viewWidth, this._rowHeight, row.bgColor);
+
+        this._shape.fillText(row.text.value, row.x + row.text.xOffset, row.y + row.text.yOffset, this._font, 'left', row.text.fontColor);
+
+        if (row.moveType === 'move') {
+          var destY = i * (this._rowHeight + this._space);
+          var speedY = destY > row.y ? this._speed : -this._speed;
+          this._rows[i].y = _utility.default.getNextPos(row.y, destY, speedY);
+        } else if (row.moveType === 'remove') {
+          if (row.destX < 0 && row.x === row.destX) {
+            this._rows[i].speedX = this._speed * 2;
+            this._rows[i].destX = this._viewWidth + 10;
+          }
+
+          this._rows[i].x = _utility.default.getNextPos(row.x, this._rows[i].destX, this._rows[i].speedX);
+        }
+      } // Delete the row.
+
+
+      for (var _i = this._rows.length - 1; _i >= 0; _i--) {
+        var _row = this._rows[_i];
+
+        if (_row.moveType === 'remove' && _row.destX > 0 && _row.x === _row.destX) {
+          this._rows.splice(_i, 1);
+        }
+      }
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var id = params.id;
+      var text = params.text || {};
+      var isSort = false;
+
+      for (var i = 0; i < this._rows.length; i++) {
+        if (this._rows[i].id === id) {
+          if (this._rows[i].score !== params.score) {
+            isSort = true;
+          }
+
+          this._rows[i].moveType = 'move';
+          this._rows[i].score = params.score || this._rows[i].score;
+          this._rows[i].bgColor = params.bgColor || this._rows[i].bgColor;
+          this._rows[i].text.value = text.value || this._rows[i].text.value;
+          this._rows[i].text.fontColor = text.fontColor || this._rows[i].text.fontColor;
+          break;
+        }
+      }
+
+      if (isSort) {
+        this.sort();
+      }
+    }
+  }, {
+    key: "remove",
+    value: function remove(id) {
+      var isFound = false;
+
+      for (var i = 0; i < this._rows.length; i++) {
+        if (this._rows[i].id === id && this._rows[i].moveType !== 'remove') {
+          this._rows[i].moveType = 'remove';
+          this._rows[i].speedX = -this._speed;
+          this._rows[i].destX = -40;
+          isFound = true;
+          break;
+        }
+      }
+
+      if (isFound) {
+        this.sort();
+      }
+    }
+  }, {
+    key: "add",
+    value: function add() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      for (var i = 0; i < this._rows.length; i++) {
+        if (this._rows.id === params.id) {
+          return;
+        }
+      }
+
+      var text = params.text || {};
+      var row = {
+        id: params.id,
+        score: params.score || 0,
+        bgColor: params.bgColor || _color.COLOR.blue,
+        text: {
+          value: text.value || '',
+          fontColor: text.fontColor || _color.COLOR.white,
+          xOffset: text.xOffset || 0,
+          yOffset: text.yOffset || 0
+        }
+      };
+      row.x = 0;
+      row.y = 0;
+      row.destX = 0;
+      row.destY = 0;
+      row.speedX = 0;
+      row.speedY = 0;
+      row.moveType = 'move';
+
+      this._rows.push(row);
+
+      this.sort();
+    }
+  }, {
+    key: "rows",
+    get: function get() {
+      return this._rows;
+    }
+  }]);
+
+  return ScoreBoard;
+}(_baseComponent.default);
+
+exports.default = ScoreBoard;
+module.exports = exports["default"];
+
+/***/ }),
+
 /***/ "./src/settings.js":
 /*!*************************!*\
   !*** ./src/settings.js ***!
@@ -2562,12 +2780,6 @@ function (_BaseComponent) {
 
       this._shape.fillText(this.textValue, 100, 110, this._font, 'center', this.textColor);
     }
-  }, {
-    key: "pulseOn",
-    value: function pulseOn() {}
-  }, {
-    key: "pulseOff",
-    value: function pulseOff() {}
   }]);
 
   return SpeedCircle;
