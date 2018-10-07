@@ -2249,7 +2249,7 @@ function (_BaseComponent) {
 
         this._shape.fillRect(row.x, row.y, this._viewWidth, this._rowHeight, row.bgColor);
 
-        this._shape.fillText(row.text.value, row.x + row.text.xOffset, row.y + row.text.yOffset, this._font, 'left', row.text.fontColor);
+        this._shape.fillText(row.text.value, row.x + row.text.xOffset, row.y + row.text.yOffset, this._font, 'left', row.text.color);
 
         if (row.moveType === 'move') {
           var destY = i * (this._rowHeight + this._space);
@@ -2292,7 +2292,7 @@ function (_BaseComponent) {
           this._rows[i].score = params.score || this._rows[i].score;
           this._rows[i].bgColor = params.bgColor || this._rows[i].bgColor;
           this._rows[i].text.value = text.value || this._rows[i].text.value;
-          this._rows[i].text.fontColor = text.fontColor || this._rows[i].text.fontColor;
+          this._rows[i].text.color = text.color || this._rows[i].text.color;
           break;
         }
       }
@@ -2338,7 +2338,7 @@ function (_BaseComponent) {
         bgColor: params.bgColor || _color.COLOR.blue,
         text: {
           value: text.value || '',
-          fontColor: text.fontColor || _color.COLOR.white,
+          color: text.color || _color.COLOR.white,
           xOffset: text.xOffset || 0,
           yOffset: text.yOffset || 0
         }

@@ -6,7 +6,7 @@
 
 Zeu.js is JavaScript library featuring a collection of prebuilt visualization components for building real-time TV dashboard, monitoring UI and IoT web interface.
 
-## What's New (v1.3.0)
+## What's New (v1.3.1)
 
 ### [Score Board](https://shzlw.github.io/zeu/docs/score-board.html)
 
