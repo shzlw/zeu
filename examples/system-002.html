@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<meta name="description" content="JavaScript UI library for building real-time TV dashboard, monitoring UI and IoT web interface">
+<meta name="keywords" content="JavaScript,chart,dashboard,monitoring,IoT,real-time,free">
+<meta name="robots" content="index,follow">
+<meta name="subject" content="JavaScript UI library for building real-time TV dashboard, monitoring UI and IoT web interface">
+<title>System 002</title>
+<style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #343a42;
+  background-image: radial-gradient(rgb(63, 93, 131) 10%, transparent 10%);
+  background-size: 18px 18px;
+  font-family: Tahoma, Geneva, sans-serif;
+  box-sizing: border-box;
+}
+
+#page {
+  width: 860px;
+  height: 600px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -300px;
+  margin-left: -430px;
+}
+
+.message-queue {
+  transform: rotate(90deg);
+  transform-origin: 0px 120px;
+  margin-top: -30px;
+}
+
+.sys-title {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.7);
+  z-index: 3;
+}
+
+</style>
+<div id="page">
+  
+  <div class="sys-title" style="top: 40px; left: 30px; font-size: 30px;">System 002</div>
+  <div class="sys-title" style="top: 54px; left: 190px; font-size: 15px;">
+    by <a href="https://github.com/shzlw/zeu" style="color: rgba(255, 255, 255, 0.5);">Zeu.js</a>
+  </div>
+  <canvas id="digital-clock" width="120" height="30" style="position: absolute; top: 84px; left: 130px; z-index: 3;"></canvas>
+
+  <div class="sys-title" style="top: 420px; left: 92px; font-size: 26px;">System Status</div>
+  <canvas id="system-status" width="200" height="120" style="position: absolute; top: 460px; left: 92px; z-index: 3;"></canvas>
+
+
+  <canvas id="network-graph" width="860" height="600" style="position: absolute; top: 0px; left: 0px; z-index: 2;"></canvas>
+
+  
+  <div class="sys-title" style="top: 224px; left: 10px;">Load Balancers</div>
+  <canvas id="load-balancer" width="120" height="100" style="position: absolute; top: 250px; left: 0px; z-index: 3;"></canvas>
+
+  <div class="sys-title" style="top: 194px; left: 166px;">Web Servers</div>
+  <canvas id="web-server" width="200" height="200" style="position: absolute; top: 220px; left: 180px; z-index: 3;"></canvas>
+  <div class="sys-title" style="top: 410px; left: 350px;">API Servers</div>
+  <canvas id="api-server" width="180" height="360" style="position: absolute; top: 170px; left: 330px; z-index: 3;"></canvas>
+
+  <div class="sys-title" style="top: 560px; left: 546px;">Queues</div>
+  <canvas id="message-queue-1" class="message-queue" width="30" height="120" style="position: absolute; top: 350px; left: 510px; z-index: 3;"></canvas>
+  <canvas id="message-queue-2" class="message-queue" width="30" height="120" style="position: absolute; top: 380px; left: 510px; z-index: 3;"></canvas>
+  <canvas id="message-queue-3" class="message-queue" width="30" height="120" style="position: absolute; top: 410px; left: 510px; z-index: 23;"></canvas>
+  <canvas id="message-queue-4" class="message-queue" width="30" height="120" style="position: absolute; top: 440px; left: 510px; z-index: 3;"></canvas>
+  
+  <div class="sys-title" style="top: 36px; left: 630px;">Cache</div>
+  <canvas id="cache" width="120" height="80" style="position: absolute; top: 60px; left: 600px; z-index: 3;"></canvas>
+  <div class="sys-title" style="top: 164px; left: 705px;">Read Replicas</div>
+  <canvas id="read-replicas" width="100" height="100" style="position: absolute; top: 190px; left: 710px; z-index: 3;"></canvas>
+  <div class="sys-title" style="top: 428px; left: 740px; z-index: 3;">Master</div>
+  <canvas id="master" width="180" height="80" style="position: absolute; bottom: 160px; left: 680px; z-index: 3;"></canvas>
+
+  <div class="sys-title" style="top: 24px; left: 370px;">Schedulers</div>
+  <canvas id="scheduler-1" width="60" height="60" style="position: absolute; top: 50px; left: 320px; z-index: 3;"></canvas>
+  <canvas id="scheduler-2" width="60" height="60" style="position: absolute; top: 50px; left: 380px; z-index: 3;"></canvas>
+  <canvas id="scheduler-3" width="60" height="60" style="position: absolute; top: 50px; left: 440px; z-index: 3;"></canvas>
+
+  
+
+</div>
+
+<script src="../dist/zeu.js"></script>
+<script>
+  // lightGreen
+  var orange = '#ff5722';
+  var lightGreen = '#00d7af';
+  var HEX_BG = 'rgba(255, 255, 255, 0.5)';
+  var lightBlack = '#343a42';
+
+  var yellow = '#ecdf6c';
+  var blue = '#0c87eb';
+
+  var SIGNAL_COLORS = ['#b7fff8', '#6efff1', '#26ffe9', '#00dcc6', '#008578', '#00766a', '#00685d'];
+  function getSignalColor() {
+    return SIGNAL_COLORS[getRandomInt(0, SIGNAL_COLORS.length - 1)];
+  }
+
+  var COLOR = {
+    lightGreen: '#00d7af',
+    lightWhite: '#F8F8FF',
+    lightGrey: '#E0E0E0',
+    lightBlack: '#343a42',
+    black: '#000000',
+    white: '#ffffff',
+    red: '#dc3547',
+    blue: '#007bfb',
+    yellow: '#ffc108',
+    cyan: '#17a2b9',
+    grey: '#6c757e',
+    green: '#28a748',
+    orange: '#ffa500',
+    transparent: 'rgba(255, 255, 255, 0)'
+  };
+
+  zeu.Settings.fps = 120;
+  
+  var messageQueues = [];
+  for (var i = 1; i <= 4; i++) {
+    var messageQueue = new zeu.MessageQueue('message-queue-' + i, {
+      viewWidth: 30,
+      viewHeight: 120,
+      barHeight: 8,
+      space: 2,
+      speed: 8,
+      maxQueueCapacity: 10
+    });
+    messageQueues.push(messageQueue);
+  }
+
+  setInterval(function() {
+    for (var i = 0; i < 4; i++) {
+      var mq = messageQueues[getRandomInt(0, 3)];
+      mq.push({
+        color: HEX_BG,
+        space: getRandomInt(0, 2),
+      });
+    }
+  }, 500);
+
+  setInterval(function() {
+    for (var i = 0; i < 2; i++) {
+      var mq = messageQueues[getRandomInt(0, 3)];
+      mq.pop();
+    }
+  }, 300);
+  
+  var digitalClock = new zeu.DigitalClock('digital-clock', {
+    numberColor: orange,
+    dashColor: COLOR.transparent,
+  });
+  digitalClock.scaleByHeight(30);
+
+  var allHex = [];
+  
+  var loadBalancer = new zeu.HexGrid('load-balancer', {
+    viewWidth: 120,
+    viewHeight: 100,
+    space: 3,
+    radius: 15,
+    border: 1
+  });
+
+  var sevenHex = [
+    {x: 0, y: 1}, 
+    {x: 0, y: 2},
+    {x: 1, y: 0},
+    {x: 1, y: 2},
+    {x: 2, y: 1},
+    {x: 2, y: 2}
+  ];
+
+  for (var i = 0; i < sevenHex.length; i++) {
+    var d = sevenHex[i];
+    var id = 'load-balancer-' + d.x + '-' + d.y;
+    loadBalancer.saveHex({
+      id: id,
+      x: d.x,
+      y: d.y,
+      bgColor: 'rgb(255, 255, 255, 0.5)',
+      borderColor: COLOR.transparent
+    });
+  }
+  
+  var webServer = new zeu.HexGrid('web-server', {
+    viewWidth: 200,
+    viewHeight: 200,
+    space: 3,
+    radius: 16,
+    border: 1
+  });
+
+  for (var i = 0; i < 5; i++) {
+    var col = i % 2 == 0 ? 2 : 1;
+    for (var j = 0; j < col; j++) {
+      var id = 'web-server-' + i + '-' + j;
+      webServer.saveHex({
+        id: id,
+        x: i,
+        y: j,
+        bgColor: 'rgb(255, 255, 255, 0.5)',
+        borderColor: COLOR.transparent
+      });
+    }
+  }
+
+  var apiServer = new zeu.HexGrid('api-server', {
+    viewWidth: 180,
+    viewHeight: 360,
+    space: 3,
+    radius: 15,
+    border: 1
+  });
+
+
+  for (var i = 0; i < 9; i++) {
+    var col = i % 2 == 0 ? 4 : 3;
+    for (var j = 0; j < col; j++) {
+      var id = 'api-server-' + i + '-' + j;
+      apiServer.saveHex({
+        id: id,
+        x: i,
+        y: j,
+        bgColor: HEX_BG,
+        borderColor: COLOR.transparent
+      });
+    }
+  }
+
+var readReplicas = new zeu.HexGrid('read-replicas', {
+  viewWidth: 100,
+  viewHeight: 100,
+  space: 3,
+  radius: 16,
+  border: 1
+});
+
+
+for (var i = 0; i < 3; i++) {
+  var col = i % 2 == 0 ? 3 : 2;
+  for (var j = 0; j < col; j++) {
+    var id = 'read-replicas-' + i + '-' + j;
+    readReplicas.saveHex({
+      id: id,
+      x: i,
+      y: j,
+      bgColor: HEX_BG,
+      borderColor: 'rgba(255, 255, 255, 0)'
+    });
+  }
+}
+
+var master = new zeu.HexGrid('master', {
+  viewWidth: 180,
+  viewHeight: 80,
+  space: 3,
+  radius: 30,
+  border: 1,
+});
+
+for (var i = 0; i < 3; i++) {
+  var id = 'master-' + i;
+  master.saveHex({
+    id: id,
+    x: 0,
+    y: i,
+    bgColor: HEX_BG,
+    borderColor: COLOR.transparent
+  });
+}
+
+var cache = new zeu.HexGrid('cache', {
+  viewWidth: 120,
+  viewHeight: 80,
+  space: 3,
+  radius: 28,
+  border: 1
+});
+
+for (var i = 0; i < 2; i++) {
+  var id = 'cache-' + i;
+  cache.saveHex({
+    id: id,
+    x: 0,
+    y: i,
+    bgColor: HEX_BG,
+    borderColor: COLOR.transparent
+  });
+}
+
+var systemStatus = new zeu.ScoreBoard('system-status', {
+    viewWidth: 200,
+    viewHeight: 120,
+    order: 'desc',
+    rowHeight: 20,
+    speed: 10,
+    font: '10px Arial'
+  });
+
+  
+  for (var i = 1; i <= 5; i++) {
+    var score = getRandomInt(50, 99);
+    systemStatus.add({
+      id: 'p' + i,
+      score: score,
+      bgColor: HEX_BG,
+      text: {
+        value:  'NODE-' + getRandomInt(1, 9) + '    CPU: ' + score + '%' + '    MEMORY: ' + getRandomInt(1, 50) + '%',
+        color: orange,
+        xOffset: 8,
+        yOffset: 14
+      }
+    });
+  }
+
+  
+  setInterval(function() {
+    for (var i = 1; i <= 5; i++) {
+      var score = getRandomInt(50, 99);
+      systemStatus.update({
+        id: 'p' + i,
+        score: score,
+        text: {
+          value: 'NODE-' + getRandomInt(1, 9) + '    CPU: ' + score + '%' + '    MEMORY: ' + getRandomInt(1, 50) + '%',
+        }
+      });
+    }
+  }, 3000);
+  
+
+
+  var networkGraph = new zeu.NetworkGraph('network-graph', {
+    viewWidth: 860,
+    viewHeight: 600
+  });
+
+  networkGraph.addNodes([
+    {
+      id: 'load-balancer',
+      x: 100,
+      y: 295,
+      color: COLOR.lightBlack,
+      size: 1
+    }
+  ]);
+
+  for (var i = 1; i <= 3; i++) {
+    var y = i * 53 + 186;
+    networkGraph.addNodes([
+      {
+        id: 'web-server-in-' + i,
+        x: 183,
+        y: y,
+        color: COLOR.lightBlack,
+        size: 1,
+      }
+    ]);
+  }
+
+  for (var i = 1; i <= 3; i++) {
+    var y = i * 53 + 186;
+    networkGraph.addNodes([
+      {
+        id: 'web-server-out-' + i,
+        x: 240,
+        y: y,
+        color: COLOR.lightBlack,
+        size: 1,
+      }
+    ]);
+  }
+
+  for (var i = 1; i <= 5; i++) {
+    var y = i * 50 + 140;
+    networkGraph.addNodes([
+      {
+        id: 'api-server-in-' + i,
+        x: 333,
+        y: y,
+        color: COLOR.lightBlack,
+        size: 1,
+      }
+    ]);
+  }
+
+  for (var i = 1; i <= 5; i++) {
+    var y = i * 50 + 140;
+    networkGraph.addNodes([
+      {
+        id: 'api-server-out-' + i,
+        x: 445,
+        y: y,
+        color: COLOR.lightBlack,
+        size: 1,
+      }
+    ]);
+  }
+
+  for (var i = 1; i <= 4; i++) {
+    var y = i * 30 + 426;
+    networkGraph.addNodes([
+      {
+        id: 'queue-in-' + i,
+        x: 504,
+        y: y,
+        color: HEX_BG,
+        size: 2,
+      }
+    ]);
+  }
+
+
+  for (var i = 1; i <= 4; i++) {
+    var y = i * 30 + 426;
+    networkGraph.addNodes([
+      {
+        id: 'queue-out-' + i,
+        x: 636,
+        y: y,
+        color: HEX_BG,
+        size: 2,
+      }
+    ]);
+  }
+
+  networkGraph.addNodes([
+    {
+      id: 'master-in-1',
+      x: 684,
+      y: 394,
+      color: COLOR.lightBlack,
+      size: 1,
+    }
+  ]);
+
+  for (var i = 1; i <= 3; i++) {
+    var x = i * 55 + 655;
+    networkGraph.addNodes([
+      {
+        id: 'master-out-' + i,
+        x: x,
+        y: 366,
+        color: COLOR.lightBlack,
+        size: 1,
+      }
+    ]);
+  }
+
+  for (var i = 1; i <= 3; i++) {
+    var x = i * 55 + 655;
+    networkGraph.addNodes([
+      {
+        id: 'master-in-mid-' + i,
+        x: x,
+        y: 422,
+        color: COLOR.lightBlack,
+        size: 1,
+      }
+    ]);
+  }
+
+
+  for (var i = 1; i <= 3; i++) {
+    var x = i * 31 + 696;
+    networkGraph.addNodes([
+      {
+        id: 'replica-in-' + i,
+        x: x,
+        y: 277,
+        color: COLOR.lightBlack,
+        size: 1,
+      }
+    ]);
+  }
+
+  for (var i = 4; i <= 5; i++) {
+    var y = i * 52 + 2;
+    networkGraph.addNodes([
+      {
+        id: 'replica-in-' + i,
+        x: 714,
+        y: y,
+        color: COLOR.lightBlack,
+        size: 1,
+      }
+    ]);
+  }
+
+  networkGraph.addNodes([
+    {
+      id: 'cache-in-1',
+      x: 604,
+      y: 92,
+      color: COLOR.lightBlack,
+      size: 1,
+    }
+  ]);
+
+  for (var i = 1; i <= 3; i++) {
+    var x = i * 60 + 290;
+    networkGraph.addNodes([
+      {
+        id: 'scheduler-out-' + i,
+        x: x,
+        y: 108,
+        color: COLOR.lightBlack,
+        size: 1,
+      }
+    ]);
+  }
+
+  for (var i = 1; i <= 2; i++) {
+    var x = i * 30 + 345;
+    networkGraph.addNodes([
+      {
+        id: 'api-server-mid-' + i,
+        x: x,
+        y: 175,
+        color: COLOR.lightBlack,
+        size: 1,
+      }
+    ]);
+  }
+
+
+  networkGraph.alertOn({
+    text: 'WARNING', 
+    interval: 1200,
+    bgColor: HEX_BG,
+    fontColor: COLOR.red,
+    lineColor: COLOR.red
+  });
+
+  networkGraph.alertOff();
+
+
+  var servers = ['cache-server', 'replication-load-balancer', 'master-db'];
+
+  setInterval(function() {
+    for (var i = 0; i < 5; i++) {
+      networkGraph.signal({
+          from: 'load-balancer',
+          to: 'web-server-in-' + getRandomInt(1, 3),
+          color: getSignalColor(),
+          duration: 10000,
+          size: getRandomInt(1, 2)
+        });
+    }
+    for (var i = 0; i < 10; i++) {
+      networkGraph.signal({
+        from: 'web-server-out-' + getRandomInt(1, 3),
+        to: 'api-server-in-' + getRandomInt(1, 5),
+        color: getSignalColor(),
+        duration: 6000,
+        size: getRandomInt(1, 2)
+      });
+    }
+
+    for (var i = 0; i < 5; i++) {
+      networkGraph.signal({
+        from: 'api-server-out-' + getRandomInt(1, 5),
+        to: 'queue-in-' + getRandomInt(1, 4),
+        color: getSignalColor(),
+        duration: 5000,
+        size: getRandomInt(1, 2)
+      });
+    }
+
+    for (var i = 0; i < 10; i++) {
+      networkGraph.signal({
+        from: 'api-server-out-' + getRandomInt(1, 5),
+        to: 'master-in-1',
+        color: getSignalColor(),
+        duration: 10000,
+        size: getRandomInt(1, 2)
+      });
+    }
+
+    for (var i = 0; i < 5; i++) {
+      networkGraph.signal({
+        from: 'api-server-out-' + getRandomInt(1, 5),
+        to: 'cache-in-1',
+        color: getSignalColor(),
+        duration: 10000,
+        size: getRandomInt(1, 2)
+      });
+    }
+
+    for (var i = 0; i < 5; i++) {
+      networkGraph.signal({
+        from: 'api-server-out-' + getRandomInt(1, 5),
+        to: 'replica-in-' + getRandomInt(4, 5),
+        color: getSignalColor(),
+        duration: 10000,
+        size: getRandomInt(1, 2)
+      });
+    }
+
+    for (var i = 0; i < 5; i++) {
+      networkGraph.signal({
+        from: 'queue-out-' + getRandomInt(1, 4),
+        to: 'master-in-mid-' + getRandomInt(1, 3),
+        color: getSignalColor(),
+        duration: 12000,
+        size: getRandomInt(1, 2)
+      });
+    }
+
+    for (var i = 0; i < 5; i++) {
+      networkGraph.signal({
+        from: 'master-out-' + getRandomInt(1, 3),
+        to: 'replica-in-' + getRandomInt(1, 3),
+        color: getSignalColor(),
+        duration: 10000,
+        size: getRandomInt(1, 2)
+      });
+    }
+
+    for (var i = 0; i < 3; i++) {
+      networkGraph.signal({
+        from: 'scheduler-out-' + getRandomInt(1, 3),
+        to: 'api-server-mid-' + getRandomInt(1, 2),
+        color: getSignalColor(),
+        duration: 10000,
+        size: getRandomInt(1, 2)
+      });
+    }
+  }, 300);
+
+  for (var i = 1; i <=3; i++) {
+    var scheduler = new zeu.SpeedCircle('scheduler-' + i, {
+      text: {
+        value: 'ON',
+        color: HEX_BG
+      },
+      circle1: {
+        speed: getRandomInt(-2, 2),
+        color: HEX_BG
+      },
+      circle2: {
+        speed: getRandomInt(-2, 2),
+        color: HEX_BG
+      },
+      circle3: {
+        speed: getRandomInt(-2, 2),
+        color: HEX_BG
+      },
+      circle4: {
+        speed: getRandomInt(-2, 2),
+        color: HEX_BG
+      }
+    });
+    scheduler.scaleByHeight(60);
+  }
+
+  setInterval(function() {
+
+  }, 1000);
+
+
+  function getRandomColor() {
+    return '#' + ((1 << 24) * Math.random() | 0).toString(16);
+  }
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function shuffleArray(a) {
+    var j = 0;
+    var temp = 0;
+
+    for (var i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      temp = a[i];
+      a[i] = a[j];
+      a[j] = temp;
+    }
+    return a;
+  }
+</script>
+</body>
+</html>
