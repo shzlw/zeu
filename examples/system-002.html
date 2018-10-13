@@ -39,7 +39,7 @@ body {
 
 .sys-title {
   position: absolute;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.5);
   z-index: 3;
 }
 
@@ -94,7 +94,7 @@ body {
   // lightGreen
   var orange = '#ff5722';
   var lightGreen = '#00d7af';
-  var HEX_BG = 'rgba(255, 255, 255, 0.5)';
+  var HEX_BG = 'rgba(255, 255, 255, 0.45)';
   var lightBlack = '#343a42';
 
   var yellow = '#ecdf6c';
@@ -103,6 +103,11 @@ body {
   var SIGNAL_COLORS = ['#b7fff8', '#6efff1', '#26ffe9', '#00dcc6', '#008578', '#00766a', '#00685d'];
   function getSignalColor() {
     return SIGNAL_COLORS[getRandomInt(0, SIGNAL_COLORS.length - 1)];
+  }
+
+  var BLINK_COLORS = ['#ff5722', '#ff6a3c', '#ff7e55', '#ff916f', HEX_BG];
+  function getBlinkColor() {
+    return BLINK_COLORS[getRandomInt(0, BLINK_COLORS.length - 1)]
   }
 
   var COLOR = {
@@ -141,7 +146,7 @@ body {
     for (var i = 0; i < 4; i++) {
       var mq = messageQueues[getRandomInt(0, 3)];
       mq.push({
-        color: HEX_BG,
+        color: getBlinkColor(),
         space: getRandomInt(0, 2),
       });
     }
@@ -160,8 +165,6 @@ body {
   });
   digitalClock.scaleByHeight(30);
 
-  var allHex = [];
-  
   var loadBalancer = new zeu.HexGrid('load-balancer', {
     viewWidth: 120,
     viewHeight: 100,
@@ -179,6 +182,7 @@ body {
     {x: 2, y: 2}
   ];
 
+  var loadBalancerNodes = [];
   for (var i = 0; i < sevenHex.length; i++) {
     var d = sevenHex[i];
     var id = 'load-balancer-' + d.x + '-' + d.y;
@@ -186,9 +190,11 @@ body {
       id: id,
       x: d.x,
       y: d.y,
-      bgColor: 'rgb(255, 255, 255, 0.5)',
+      bgColor: HEX_BG,
       borderColor: COLOR.transparent
     });
+
+    loadBalancerNodes.push(id);
   }
   
   var webServer = new zeu.HexGrid('web-server', {
@@ -199,6 +205,7 @@ body {
     border: 1
   });
 
+  var webServerNodes = [];
   for (var i = 0; i < 5; i++) {
     var col = i % 2 == 0 ? 2 : 1;
     for (var j = 0; j < col; j++) {
@@ -207,12 +214,15 @@ body {
         id: id,
         x: i,
         y: j,
-        bgColor: 'rgb(255, 255, 255, 0.5)',
+        bgColor: HEX_BG,
         borderColor: COLOR.transparent
       });
+
+      webServerNodes.push(id);
     }
   }
 
+  
   var apiServer = new zeu.HexGrid('api-server', {
     viewWidth: 180,
     viewHeight: 360,
@@ -221,7 +231,7 @@ body {
     border: 1
   });
 
-
+  var apiServerNodes = [];
   for (var i = 0; i < 9; i++) {
     var col = i % 2 == 0 ? 4 : 3;
     for (var j = 0; j < col; j++) {
@@ -233,71 +243,79 @@ body {
         bgColor: HEX_BG,
         borderColor: COLOR.transparent
       });
+
+      apiServerNodes.push(id);
     }
   }
 
-var readReplicas = new zeu.HexGrid('read-replicas', {
-  viewWidth: 100,
-  viewHeight: 100,
-  space: 3,
-  radius: 16,
-  border: 1
-});
+  var readReplicas = new zeu.HexGrid('read-replicas', {
+    viewWidth: 100,
+    viewHeight: 100,
+    space: 3,
+    radius: 16,
+    border: 1
+  });
 
+  var readReplicasNodes = [];
+  for (var i = 0; i < 3; i++) {
+    var col = i % 2 == 0 ? 3 : 2;
+    for (var j = 0; j < col; j++) {
+      var id = 'read-replicas-' + i + '-' + j;
+      readReplicas.saveHex({
+        id: id,
+        x: i,
+        y: j,
+        bgColor: HEX_BG,
+        borderColor: COLOR.transparent
+      });
 
-for (var i = 0; i < 3; i++) {
-  var col = i % 2 == 0 ? 3 : 2;
-  for (var j = 0; j < col; j++) {
-    var id = 'read-replicas-' + i + '-' + j;
-    readReplicas.saveHex({
-      id: id,
-      x: i,
-      y: j,
-      bgColor: HEX_BG,
-      borderColor: 'rgba(255, 255, 255, 0)'
-    });
+      readReplicasNodes.push(id);
+    }
   }
-}
 
-var master = new zeu.HexGrid('master', {
-  viewWidth: 180,
-  viewHeight: 80,
-  space: 3,
-  radius: 30,
-  border: 1,
-});
-
-for (var i = 0; i < 3; i++) {
-  var id = 'master-' + i;
-  master.saveHex({
-    id: id,
-    x: 0,
-    y: i,
-    bgColor: HEX_BG,
-    borderColor: COLOR.transparent
+  var master = new zeu.HexGrid('master', {
+    viewWidth: 180,
+    viewHeight: 80,
+    space: 3,
+    radius: 30,
+    border: 1,
   });
-}
 
-var cache = new zeu.HexGrid('cache', {
-  viewWidth: 120,
-  viewHeight: 80,
-  space: 3,
-  radius: 28,
-  border: 1
-});
+  var masterNodes = []
+  for (var i = 0; i < 3; i++) {
+    var id = 'master-' + i;
+    master.saveHex({
+      id: id,
+      x: 0,
+      y: i,
+      bgColor: HEX_BG,
+      borderColor: COLOR.transparent
+    });
+    masterNodes.push(id);
+  }
 
-for (var i = 0; i < 2; i++) {
-  var id = 'cache-' + i;
-  cache.saveHex({
-    id: id,
-    x: 0,
-    y: i,
-    bgColor: HEX_BG,
-    borderColor: COLOR.transparent
+  var cacheNodes = [];
+  var cache = new zeu.HexGrid('cache', {
+    viewWidth: 120,
+    viewHeight: 80,
+    space: 3,
+    radius: 28,
+    border: 1
   });
-}
 
-var systemStatus = new zeu.ScoreBoard('system-status', {
+  for (var i = 0; i < 2; i++) {
+    var id = 'cache-' + i;
+    cache.saveHex({
+      id: id,
+      x: 0,
+      y: i,
+      bgColor: HEX_BG,
+      borderColor: COLOR.transparent
+    });
+    cacheNodes.push(id);
+  }
+
+  var systemStatus = new zeu.ScoreBoard('system-status', {
     viewWidth: 200,
     viewHeight: 120,
     order: 'desc',
@@ -306,23 +324,21 @@ var systemStatus = new zeu.ScoreBoard('system-status', {
     font: '10px Arial'
   });
 
-  
   for (var i = 1; i <= 5; i++) {
     var score = getRandomInt(50, 99);
     systemStatus.add({
       id: 'p' + i,
       score: score,
-      bgColor: HEX_BG,
+      bgColor: getBlinkColor(),
       text: {
         value:  'NODE-' + getRandomInt(1, 9) + '    CPU: ' + score + '%' + '    MEMORY: ' + getRandomInt(1, 50) + '%',
-        color: orange,
+        color: 'rgba(255, 255, 255, 0.7)',
         xOffset: 8,
         yOffset: 14
       }
     });
   }
 
-  
   setInterval(function() {
     for (var i = 1; i <= 5; i++) {
       var score = getRandomInt(50, 99);
@@ -330,13 +346,13 @@ var systemStatus = new zeu.ScoreBoard('system-status', {
         id: 'p' + i,
         score: score,
         text: {
+          color: 'rgba(255, 255, 255, 0.7)',
           value: 'NODE-' + getRandomInt(1, 9) + '    CPU: ' + score + '%' + '    MEMORY: ' + getRandomInt(1, 50) + '%',
         }
       });
     }
   }, 3000);
   
-
 
   var networkGraph = new zeu.NetworkGraph('network-graph', {
     viewWidth: 860,
@@ -531,20 +547,6 @@ var systemStatus = new zeu.ScoreBoard('system-status', {
     ]);
   }
 
-
-  networkGraph.alertOn({
-    text: 'WARNING', 
-    interval: 1200,
-    bgColor: HEX_BG,
-    fontColor: COLOR.red,
-    lineColor: COLOR.red
-  });
-
-  networkGraph.alertOff();
-
-
-  var servers = ['cache-server', 'replication-load-balancer', 'master-db'];
-
   setInterval(function() {
     for (var i = 0; i < 5; i++) {
       networkGraph.signal({
@@ -636,6 +638,7 @@ var systemStatus = new zeu.ScoreBoard('system-status', {
     }
   }, 300);
 
+  var schedulers = [];
   for (var i = 1; i <=3; i++) {
     var scheduler = new zeu.SpeedCircle('scheduler-' + i, {
       text: {
@@ -648,7 +651,7 @@ var systemStatus = new zeu.ScoreBoard('system-status', {
       },
       circle2: {
         speed: getRandomInt(-2, 2),
-        color: HEX_BG
+        color: getBlinkColor()
       },
       circle3: {
         speed: getRandomInt(-2, 2),
@@ -656,16 +659,63 @@ var systemStatus = new zeu.ScoreBoard('system-status', {
       },
       circle4: {
         speed: getRandomInt(-2, 2),
-        color: HEX_BG
+        color: getBlinkColor()
       }
     });
     scheduler.scaleByHeight(60);
+    schedulers.push(scheduler);
   }
 
   setInterval(function() {
+    for (var i = 0; i < schedulers.length; i++) {
+      schedulers[i].speed1 = getRandomInt(-2, 2);
+      schedulers[i].speed2 = getRandomInt(-2, 2);
+      schedulers[i].speed3 = getRandomInt(-2, 2);
+      schedulers[i].speed4 = getRandomInt(-2, 2);
 
-  }, 1000);
+      schedulers[i].color2 = getBlinkColor();
+      schedulers[i].color4 = getBlinkColor();
+    }
+  }, 2000);
 
+  function blinkNode(hexGrid, nodeIds) {
+    for (var i = 0; i < nodeIds.length; i++) {
+      var a = getRandomInt(1, 10);
+      if (a <= 2) {
+        hexGrid.blinkOn({
+          id: nodeIds[i],
+          bgColor: getBlinkColor(),
+          borderColor: COLOR.transparent,
+          interval: 500
+        });
+      } else {
+        hexGrid.blinkOff(nodeIds[i]);
+      }
+    }
+  }
+
+  setInterval(function() {
+    blinkNode(apiServer, apiServerNodes);
+    blinkNode(webServer, webServerNodes);
+    blinkNode(loadBalancer, loadBalancerNodes);
+    blinkNode(readReplicas, readReplicasNodes);
+    blinkNode(master, masterNodes);
+    blinkNode(cache, cacheNodes);    
+  }, 5000);
+
+  setInterval(function() {
+    networkGraph.alertOff();
+    var a = getRandomInt(0, 1);
+    if (a == 0) {
+      networkGraph.alertOn({
+        text: 'WARNING', 
+        interval: 2000,
+        bgColor: HEX_BG,
+        fontColor: orange,
+        lineColor: orange
+      });
+    }
+  }, 10000);
 
   function getRandomColor() {
     return '#' + ((1 << 24) * Math.random() | 0).toString(16);

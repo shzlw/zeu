@@ -8,17 +8,9 @@ Zeu.js is JavaScript library featuring a collection of prebuilt visualization co
 
 ## What's New (v1.3.1)
 
-### [Score Board](https://shzlw.github.io/zeu/docs/score-board.html)
+### [System 002](https://shzlw.github.io/zeu/examples/system-002.html)
 
-![score-board](https://github.com/shzlw/zeu/blob/master/examples/score-board.gif)
-
-### [Hex Grid](https://shzlw.github.io/zeu/docs/hex-grid.html)
-
-![hex-grid](https://github.com/shzlw/zeu/blob/master/examples/hex-grid.gif)
-
-### [Network Graph](https://shzlw.github.io/zeu/docs/network-graph.html)
-
-![network-graph](https://github.com/shzlw/zeu/blob/master/examples/network-graph.gif)
+![System 002](http://66.228.42.235:8080/system-002.gif)
 
 ## Installation
 
@@ -55,13 +47,13 @@ Let's build our first Zeu component!
 </script>
 ```
 
-![text-meter](https://github.com/shzlw/zeu/blob/master/examples/text-meter.gif)
+![text-meter](http://66.228.42.235:8080/text-meter.gif)
 
 Done! Explore the [Introduction](https://shzlw.github.io/zeu/docs/introduction.html) page to get started.
 
 ## v1.0.0
 
-![Components](https://github.com/shzlw/zeu/blob/master/examples/my-command-center.v1.0.0.gif)
+![Components](http://66.228.42.235:8080/my-command-center.v1.0.0.gif)
 
 [My Command Center](https://shzlw.github.io/zeu/examples/my-command-center.html)
 
