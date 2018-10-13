@@ -36,6 +36,7 @@ var menu = ''
         + componentsHtml
       + '</ul>'
       + '<h5><a href="configuration.html" class="text-light">Config & API</a></h5>'
+      + '<h5><a href="vue.html" class="text-light">Vue Integration</a></h5>'
     +'</nav>'
   + '</div>';
 document.write(title + menu);

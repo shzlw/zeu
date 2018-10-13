@@ -8,9 +8,9 @@ Zeu.js is JavaScript library featuring a collection of prebuilt visualization co
 
 ## What's New (v1.3.1)
 
-### [System 002](https://shzlw.github.io/zeu/examples/system-002.html)
+### [System 002](https://github.com/shzlw/zeu/blob/master/examples/system-002.html)
 
-![System 002](http://66.228.42.235:8080/system-002.gif)
+![system-002](https://github.com/shzlw/zeu/blob/master/examples/system-002.gif)
 
 ## Installation
 
@@ -47,13 +47,13 @@ Let's build our first Zeu component!
 </script>
 ```
 
-![text-meter](http://66.228.42.235:8080/text-meter.gif)
+![text-meter](https://github.com/shzlw/zeu/blob/master/examples/text-meter.gif)
 
 Done! Explore the [Introduction](https://shzlw.github.io/zeu/docs/introduction.html) page to get started.
 
 ## v1.0.0
 
-![Components](http://66.228.42.235:8080/my-command-center.v1.0.0.gif)
+![Components](https://github.com/shzlw/zeu/blob/master/examples/my-command-center.v1.0.0.gif)
 
 [My Command Center](https://shzlw.github.io/zeu/examples/my-command-center.html)
 
