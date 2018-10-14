@@ -320,7 +320,8 @@ body {
     viewHeight: 120,
     order: 'desc',
     rowHeight: 20,
-    speed: 10,
+    space: 2,
+    speed: 4,
     font: '10px Arial'
   });
 
@@ -723,19 +724,6 @@ body {
 
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  function shuffleArray(a) {
-    var j = 0;
-    var temp = 0;
-
-    for (var i = a.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      temp = a[i];
-      a[i] = a[j];
-      a[j] = temp;
-    }
-    return a;
   }
 </script>
 </body>
