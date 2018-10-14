@@ -8,7 +8,7 @@ Zeu.js is JavaScript library featuring a collection of prebuilt visualization co
 
 ## What's New (v1.3.1)
 
-### [System 002](https://github.com/shzlw/zeu/blob/master/examples/system-002.html)
+### [System 002](https://shzlw.github.io/zeu/examples/system-002.html)
 
 ![system-002](https://github.com/shzlw/zeu/blob/master/examples/system-002.gif)
 
