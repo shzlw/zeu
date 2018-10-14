@@ -3317,11 +3317,15 @@ function () {
   }, {
     key: "getNextPos",
     value: function getNextPos(curr, dest, speed) {
-      if (speed > 0 && curr < dest || speed < 0 && curr > dest) {
-        return curr + speed;
+      if (speed > 0 && curr + speed >= dest) {
+        return dest;
       }
 
-      return dest;
+      if (speed < 0 && curr + speed <= dest) {
+        return dest;
+      }
+
+      return curr + speed;
     }
   }, {
     key: "shuffleArray",
